@@ -25,9 +25,16 @@ export async function GET(request: NextRequest) {
     profile: "medicos",
     convenios: "convenios",
     rules: "regras_repasse",
-    rows: "atendimentos_calculados",
+    rows: "atendimentos_importados_calculados",
     summaries: "repasses_competencia",
     goals: "metas",
+    locations: "locais_atendimento",
+    fees: "honorarios_pessoais",
+    production: "producao_pessoal_calculada",
+    receipts: "recebimentos_pessoais",
+    personalSummaries: "controle_pessoal_competencia",
+    locationSummaries: "controle_pessoal_locais",
+    reconciliation: "resumo_competencia",
   }))
     result[k] = (
       await conn.query<Record<string, unknown>>(`select * from ${t}`)
@@ -35,9 +42,13 @@ export async function GET(request: NextRequest) {
       Object.fromEntries(
         Object.entries(row).map(([column, value]) => [
           column,
-          ["data_atendimento", "vigencia_ini", "vigencia_fim"].includes(
-            column,
-          ) && value instanceof Date
+          [
+            "data_atendimento",
+            "vigencia_ini",
+            "vigencia_fim",
+            "data_producao",
+            "data_recebimento",
+          ].includes(column) && value instanceof Date
             ? value.toISOString().slice(0, 10)
             : value,
         ]),
@@ -58,8 +69,27 @@ export async function POST(request: NextRequest) {
   try {
     const { table, action, values, id } = await request.json();
     const columns: Record<string, string[]> = {
+      locais_atendimento: ["id", "nome"],
+      convenios: ["id", "nome"],
+      honorarios_pessoais: ["local_id", "convenio_id", "valor_unitario"],
+      producoes_pessoais: [
+        "id",
+        "local_id",
+        "convenio_id",
+        "data_producao",
+        "quantidade",
+      ],
+      recebimentos_pessoais: [
+        "id",
+        "local_id",
+        "convenio_id",
+        "competencia",
+        "data_recebimento",
+        "valor",
+      ],
       regras_repasse: [
         "convenio_id",
+        "local_id",
         "tipo_procedimento",
         "modo",
         "valor_consulta",
@@ -101,6 +131,10 @@ export async function POST(request: NextRequest) {
         return;
       }
       for (const value of list) {
+        if (value.origem === "confirmado_hospital")
+          throw new Error(
+            "Uma informação pessoal não pode ser confirmada pelo hospital por este formulário.",
+          );
         const keys = Object.keys(value).filter((k) =>
           columns[table].includes(k),
         );

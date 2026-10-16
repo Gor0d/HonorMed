@@ -23,6 +23,8 @@ import {
 import Papa from "papaparse";
 import readXlsxFile from "read-excel-file";
 import { Button } from "@/components/ui/button";
+import PersonalControl from "@/components/personal-control";
+import { PRODUCT_NAME } from "@/lib/brand";
 import { money } from "@/lib/utils";
 import {
   fetchData,
@@ -82,7 +84,11 @@ const nextDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 const nextMonth = `${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, "0")}`;
 const date = (s: string) => s.split("-").reverse().join("/");
 
-export default function App() {
+export default function App({
+  mode = "personal",
+}: {
+  mode?: "personal" | "imported";
+}) {
   const [signed, setSigned] = useState(false),
     [ready, setReady] = useState(false),
     [data, setData] = useState<Dataset | null>(null),
@@ -262,7 +268,7 @@ export default function App() {
   if (!ready)
     return (
       <main className="loading" aria-busy="true">
-        Carregando Repasse MED…
+        Carregando {PRODUCT_NAME}…
       </main>
     );
   if (!signed)
@@ -270,7 +276,7 @@ export default function App() {
       <main className="login">
         <div className="login-story">
           <div className="brand">
-            <Activity /> Repasse <b>MED</b>
+            <Activity /> {PRODUCT_NAME}
           </div>
           <span className="eyebrow">MAIS CLAREZA. MAIS TRANQUILIDADE.</span>
           <h1>
@@ -288,10 +294,10 @@ export default function App() {
           </div>
         </div>
         <section className="card login-form">
-          <span className="eyebrow">BEM-VINDO AO REPASSE MED</span>
+          <span className="eyebrow">BEM-VINDO AO {PRODUCT_NAME}</span>
           <h2>Vamos cuidar dos seus números?</h2>
           <p className="muted">
-            Entre na sua conta para acompanhar seus repasses.
+            Entre para registrar suas consultas e acompanhar seus recebimentos.
           </p>
           {message}
           <form onSubmit={login}>
@@ -347,8 +353,7 @@ export default function App() {
       <main className="onboarding card">
         <h1>Complete seu perfil</h1>
         <p>
-          O código de prestador será validado pelo hospital antes da integração
-          MV.
+          Seu controle é pessoal. Para começar, basta informar seu nome e CRM.
         </p>
         {message}
         <form
@@ -360,14 +365,12 @@ export default function App() {
                 data: { user },
               } = await supabase!.auth.getUser();
               if (!user) throw new Error("Entre novamente.");
-              const { error } = await supabase!
-                .from("medicos")
-                .insert({
-                  medico_id: user.id,
-                  nome: f.get("nome"),
-                  crm: f.get("crm"),
-                  cd_prestador_mv: f.get("codigo"),
-                });
+              const { error } = await supabase!.from("medicos").insert({
+                medico_id: user.id,
+                nome: f.get("nome"),
+                crm: f.get("crm"),
+                cd_prestador_mv: f.get("codigo") || null,
+              });
               if (error) throw error;
             });
           }}
@@ -381,8 +384,8 @@ export default function App() {
             <input name="crm" required placeholder="CRM-SP 123456" />
           </label>
           <label>
-            Código de prestador MV
-            <input name="codigo" required pattern="[0-9]+" />
+            Código de prestador MV (opcional)
+            <input name="codigo" pattern="[0-9]+" />
           </label>
           <Button disabled={busy}>Concluir cadastro</Button>
         </form>
@@ -397,6 +400,21 @@ export default function App() {
           Tentar novamente
         </Button>
       </main>
+    );
+  if (mode === "personal")
+    return (
+      <PersonalControl
+        data={data}
+        onRefresh={refresh}
+        dark={dark}
+        onTheme={theme}
+        onLogout={async () => {
+          if (supabase) await supabase.auth.signOut();
+          sessionStorage.removeItem("repasse-demo");
+          setSigned(false);
+          setData(null);
+        }}
+      />
     );
   const rows = data.rows.filter((r) => r.competencia === month),
     summary = data.summaries.find((s) => s.competencia === month),
@@ -521,13 +539,11 @@ export default function App() {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <a className="brand" href="/" aria-label="Repasse MED início">
+        <a className="brand" href="/" aria-label={`${PRODUCT_NAME} início`}>
           <span className="brand-icon">
             <Activity size={22} />
           </span>
-          <span>
-            Repasse <b>MED</b>
-          </span>
+          <span>{PRODUCT_NAME}</span>
         </a>
         <p className="nav-caption">SEU CONSULTÓRIO, EM NÚMEROS</p>
         <nav>
@@ -872,6 +888,13 @@ export default function App() {
                       <small>
                         {r.convenio_nome} · {date(r.data_atendimento)}
                       </small>
+                      <small>
+                        {r.origem === "importado"
+                          ? "Importado"
+                          : r.origem === "confirmado_hospital"
+                            ? "Confirmado pelo hospital"
+                            : "Informado por você"}
+                      </small>
                     </div>
                     <span className={"badge " + r.status}>
                       {labels[r.status]}
@@ -1170,7 +1193,7 @@ export default function App() {
                         data_atendimento: d,
                         competencia: d.slice(0, 7),
                         status,
-                        origem: "import",
+                        origem: "importado",
                         procedimento: "Consulta",
                         valor_consulta: amount,
                       };
@@ -1256,7 +1279,7 @@ export default function App() {
         )}
         <footer className="footer">
           <span>
-            <Activity size={14} /> Repasse MED
+            <Activity size={14} /> {PRODUCT_NAME}
           </span>
           <span>Previsão sujeita à conferência financeira do hospital.</span>
         </footer>
@@ -1315,7 +1338,11 @@ export default function App() {
                   await mutate(
                     "regras_repasse",
                     editing === "new" ? "insert" : "update",
-                    { ...values, vigencia_fim: values.vigencia_fim || null },
+                    {
+                      ...values,
+                      local_id: values.local_id || null,
+                      vigencia_fim: values.vigencia_fim || null,
+                    },
                     editing === "new" ? undefined : editing.id,
                   );
                   setEditing(null);
@@ -1323,6 +1350,22 @@ export default function App() {
               }}
             >
               <div className="form-grid">
+                <label>
+                  Local (opcional)
+                  <select
+                    name="local_id"
+                    defaultValue={
+                      editing === "new" ? "" : editing.local_id || ""
+                    }
+                  >
+                    <option value="">Todos os locais</option>
+                    {data.locations.map((l) => (
+                      <option key={l.id} value={l.id}>
+                        {l.nome}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <label>
                   Convênio
                   <select

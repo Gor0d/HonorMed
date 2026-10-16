@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { PRODUCT_NAME, PRODUCT_TAGLINE } from "@/lib/brand";
 export const metadata: Metadata = {
-  title: "Repasse MED · Sua produção, com clareza",
-  description: "Previsão de repasse médico por competência.",
+  title: `${PRODUCT_NAME} · Seu controle pessoal`,
+  description: PRODUCT_TAGLINE,
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: "Repasse MED" },
+  appleWebApp: { capable: true, title: PRODUCT_NAME },
   icons: { icon: "/icon-192.png", apple: "/icon-192.png" },
 };
 export const viewport: Viewport = {

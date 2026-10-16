@@ -27,6 +27,7 @@ export type Row = {
   deducao_pct: number | string;
 };
 export type Rule = {
+  local_id: string | null;
   id: string;
   convenio_id: string;
   tipo_procedimento: string;
@@ -39,6 +40,23 @@ export type Rule = {
   vigencia_fim: string | null;
 };
 export type Dataset = {
+  locations: { id: string; nome: string }[];
+  fees: {
+    id: string;
+    local_id: string;
+    convenio_id: string;
+    valor_unitario: string | number;
+  }[];
+  production: PersonalProduction[];
+  receipts: PersonalReceipt[];
+  personalSummaries: PersonalSummary[];
+  locationSummaries: (PersonalSummary & { local_id: string })[];
+  reconciliation: (PersonalSummary & {
+    local_id: string;
+    convenio_id: string | null;
+    diferenca: string | number;
+    conferir_diferenca: boolean;
+  })[];
   profile: {
     medico_id: string;
     nome: string;
@@ -59,6 +77,37 @@ export type Dataset = {
   }[];
   goals: { competencia: string; valor: number | string }[];
 };
+export type PersonalProduction = {
+  created_at: string;
+  id: string;
+  local_id: string;
+  convenio_id: string;
+  local_nome: string;
+  convenio_nome: string;
+  data_producao: string;
+  competencia: string;
+  quantidade: number;
+  valor_unitario: number | string | null;
+  valor_previsto: number | string | null;
+  fonte: string;
+};
+export type PersonalReceipt = {
+  id: string;
+  local_id: string;
+  convenio_id: string | null;
+  competencia: string;
+  data_recebimento: string;
+  valor: number | string;
+};
+export type PersonalSummary = {
+  competencia: string;
+  quantidade: number | string;
+  produzido: number | string;
+  sem_valor: number | string;
+  recebido: number | string;
+  a_receber: number | string;
+  acima_previsto: number | string;
+};
 export async function fetchData(): Promise<Dataset> {
   if (!supabase) {
     const response = await fetch("/api/demo");
@@ -70,21 +119,56 @@ export async function fetchData(): Promise<Dataset> {
     profile: "medicos",
     convenios: "convenios",
     rules: "regras_repasse",
-    rows: "atendimentos_calculados",
+    rows: "atendimentos_importados_calculados",
     summaries: "repasses_competencia",
     goals: "metas",
+    locations: "locais_atendimento",
+    fees: "honorarios_pessoais",
+    production: "producao_pessoal_calculada",
+    receipts: "recebimentos_pessoais",
+    personalSummaries: "controle_pessoal_competencia",
+    locationSummaries: "controle_pessoal_locais",
+    reconciliation: "resumo_competencia",
   };
   const results = await Promise.all(
     Object.entries(tables).map(async ([k, t]) => {
-      const { data, error } = await supabase.from(t).select("*");
-      if (error) throw error;
-      return [k, data];
+      const collected: unknown[] = [];
+      for (let offset = 0; ; offset += 1000) {
+        let query = supabase!.from(t).select("*");
+        if (k === "profile") query = query.order("medico_id");
+        else if (
+          [
+            "summaries",
+            "personalSummaries",
+            "locationSummaries",
+            "reconciliation",
+          ].includes(k)
+        ) {
+          query = query.order("competencia");
+          if (k === "locationSummaries" || k === "reconciliation")
+            query = query.order("local_id");
+          if (k === "reconciliation") query = query.order("convenio_id");
+        } else query = query.order("id");
+        const { data, error } = await query.range(offset, offset + 999);
+        if (error) throw error;
+        collected.push(...data);
+        if (data.length < 1000) break;
+      }
+      return [k, collected];
     }),
   );
   return Object.fromEntries(results) as Dataset;
 }
 export async function mutate(
-  table: "regras_repasse" | "atendimentos" | "metas",
+  table:
+    | "regras_repasse"
+    | "atendimentos"
+    | "metas"
+    | "locais_atendimento"
+    | "convenios"
+    | "honorarios_pessoais"
+    | "producoes_pessoais"
+    | "recebimentos_pessoais",
   action: "insert" | "update" | "delete" | "upsert",
   values: Record<string, unknown> | Record<string, unknown>[],
   id?: string,
