@@ -1,5 +1,17 @@
 # Validação
 
+## Piloto publicado — 16/10/2026
+
+- Cloudflare: https://honormed.emersongsguimaraes.workers.dev, versão inicial 773cc958-c0af-4a93-a9da-7fe5bc0fc067. Build Next/OpenNext passou após excluir PGlite da produção. Pacote 1,35 MiB gzip. Runtime publicado validado; Miniflare local falha neste Windows.
+- Supabase exclusivo tsommjqsqtktijiutovj em São Paulo; cinco migrations sem seed, 14 tabelas com RLS. Security Advisors sem avisos/erros após fixar search_path. `supabase/tests/launch-rls.sql` validou cálculo e RLS no PostgreSQL real com rollback.
+- Auth/API reais com dois usuários temporários: login, onboarding, perfil Laudos, produção/recebimento, saldo R$ 60, troca de competência e persistência em 390px e 1280px. Consultas também testadas pela API, saldo R$ 130, alternância Ambos no navegador sem compensar módulos. Acesso A/B bloqueado em SELECT/INSERT/UPDATE/DELETE; sem service role. Usuários, sessões e registros técnicos removidos ao final.
+- Login público 200 com campos vazios, sem demo, sem erro JS/overflow; demo API 403; manifest/recuperação/offline 200; headers de segurança presentes.
+- 27 testes SQL/RLS locais e 12 Playwright passaram novamente. Build E2E e servidor agora forçam configuração demo vazia, evitando acesso ao Supabase real. GitHub Actions configurado, ainda sem execução remota.
+- SMTP Resend aplicado, domínio cforod.com verificado, confirmação habilitada, remetente acesso@cforod.com, redirects exatos. Entrega de confirmação e recuperação e conclusão da troca de senha ainda precisam de teste com a conta do usuário; não foi enviado e-mail a terceiros.
+- Rejeição automática de primeiro upload evitou expor token Vercel incluído pelo OpenNext em next-env.mjs. Credencial removida do ambiente web, artefato reconstruído e verificado antes do upload autorizado. Build/deploy agora verificam credenciais locais conhecidas. Credenciais operacionais nunca entram no frontend.
+
+As seções abaixo são o histórico anterior ao piloto; pendências de infraestrutura já atendidas são substituídas pelo resultado acima. Dispositivo físico/PWA instalado, carga, restauração de backup e contratação comercial continuam pendentes. Detalhes em `LANCAMENTO.md`.
+
 ## Laudos e perfis — 16/10/2026
 
 - Build de produção aprovado. **27 testes SQL/RLS** e **12 testes Playwright** passaram (390 × 844 e 1280 × 900), incluindo os fluxos anteriores.
