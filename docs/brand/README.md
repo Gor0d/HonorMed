@@ -1,6 +1,6 @@
-# HonorMed — identidade visual proposta
+# HonorMed — identidade visual
 
-Conceito: **o valor do seu trabalho, à vista**. Um monograma H com duas colunas e uma ligação ascendente faz referência à produção e ao acompanhamento dos honorários. O topo em ouro marca o valor desse trabalho. A palavra HonorMed recebe pesos distintos e um ponto de assinatura. É uma direção visual original para avaliação; não representa pesquisa de disponibilidade ou registro de marca.
+Conceito: **o valor do seu trabalho, à vista**. Um monograma H com duas colunas e uma ligação ascendente faz referência à produção e ao acompanhamento dos honorários. O topo em ouro marca o valor desse trabalho. A palavra HonorMed recebe pesos distintos e um ponto de assinatura. Identidade aprovada pelo usuário em 16/10/2026; não representa pesquisa de disponibilidade ou registro de marca.
 
 ## Arquivos
 
@@ -35,4 +35,4 @@ No produto: componente `web/src/components/brand.tsx`, tokens em globals.css, co
 
 Para regenerar ativos, em `/web`, com Chromium instalado e PLAYWRIGHT_BROWSERS_PATH configurado se necessário: `node scripts/generate-brand.mjs`. O JSON de curvas já é versionado; não é necessário baixar a fonte para cada build. Para mudar as letras: instalar fonttools num ambiente de ferramentas, executar `python docs/brand/vetorizar_wordmark.py caminho/bricolage.ttf` na raiz e regenerar. O build normal do app não executa geração nem baixa fontes para a logo.
 
-Escopo desta entrega: proposta e aplicação local. O site publicado e os slides comerciais anteriores ainda usam a identidade anterior até a próxima atualização autorizada. O PDF deste diretório apresenta a nova identidade, não substitui a apresentação comercial.
+Identidade aprovada para publicação em https://honormed.emersongsguimaraes.workers.dev e integrada à main. Os slides comerciais anteriores ainda precisam receber a nova identidade. O PDF deste diretório apresenta a identidade visual, não substitui a apresentação comercial.

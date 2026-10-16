@@ -1,5 +1,11 @@
 # Validação
 
+## Identidade visual publicada — 16/10/2026
+
+- Aprovação do usuário e integração fast-forward de `design/honormed-identity` na main, código 7819384. GitHub Actions da proposta concluído com sucesso: https://github.com/Gor0d/HonorMed/actions/runs/38955176388 (inclui SQL/RLS, build e 12 testes de navegador).
+- Build OpenNext e verificação de credenciais aprovados; Cloudflare versão a0f5bc2b-e51c-4e71-87e4-65f9afdb9a11. Sem migrations ou acesso a dados financeiros nesta publicação.
+- Verificação pública do novo login em 390px/1280px e claro/escuro: HTTP 200, sem erro JavaScript, sem overflow e sem credenciais demonstrativas. Ícones 192/512 e símbolo SVG idênticos aos arquivos aprovados; cores do manifest e versão pública do service worker conferidas. Demo API 403.
+
 ## Piloto publicado — 16/10/2026
 
 - Cloudflare: https://honormed.emersongsguimaraes.workers.dev, versão inicial 773cc958-c0af-4a93-a9da-7fe5bc0fc067. Build Next/OpenNext passou após excluir PGlite da produção. Pacote 1,35 MiB gzip. Runtime publicado validado; Miniflare local falha neste Windows.
