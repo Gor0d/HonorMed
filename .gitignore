@@ -1,0 +1,12 @@
+node_modules/
+.npm-cache/
+.playwright/
+*.tsbuildinfo
+.next/
+.env*
+!.env.example.disabled
+playwright-report/
+test-results/
+*.log
+.supabase/
+supabase/.temp/
