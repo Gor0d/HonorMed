@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { database, physician } from "../../../../scripts/database.mjs";
+import { database, physician } from "@/lib/demo-database";
 export const runtime = "nodejs";
 let pending: ReturnType<typeof database> | undefined;
 const allowed = (r: NextRequest) =>

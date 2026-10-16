@@ -25,7 +25,16 @@ if (process.env.VERCEL || process.env.HONORMED_REQUIRE_SUPABASE === "true") {
 }
 const config: NextConfig = {
   poweredByHeader: false,
-  serverExternalPackages: ["@electric-sql/pglite"],
+  serverExternalPackages: process.env.NEXT_PUBLIC_SUPABASE_URL
+    ? []
+    : ["@electric-sql/pglite"],
+  turbopack: {
+    resolveAlias: process.env.NEXT_PUBLIC_SUPABASE_URL
+      ? {
+          "@/lib/demo-database": "./src/lib/demo-database-disabled.ts",
+        }
+      : {},
+  },
   devIndicators: false,
   async headers() {
     return [

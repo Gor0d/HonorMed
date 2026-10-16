@@ -6,6 +6,12 @@ export default defineConfig({
   workers: 1,
   use: { baseURL: `http://127.0.0.1:${port}`, trace: "retain-on-failure" },
   webServer: {
+    env: {
+      NEXT_PUBLIC_SUPABASE_URL: "",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "",
+      HONORMED_REQUIRE_SUPABASE: "false",
+      VERCEL: "",
+    },
     command: `npm run start -- --port ${port}`,
     url: `http://127.0.0.1:${port}`,
     reuseExistingServer: false,

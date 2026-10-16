@@ -11,4 +11,11 @@ const result = spawnSync(
   },
 );
 if (result.error) throw result.error;
-process.exit(result.status ?? 1);
+if (result.status !== 0) process.exit(result.status ?? 1);
+const check = spawnSync(
+  process.execPath,
+  ["scripts/check-cloudflare-artifacts.mjs"],
+  { stdio: "inherit" },
+);
+if (check.error) throw check.error;
+process.exit(check.status ?? 1);
