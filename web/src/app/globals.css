@@ -9,29 +9,32 @@
   --color-border: var(--line);
 }
 :root {
-  --bg: #eff4f2;
+  --bg: #f8f5ed;
   --surface: #fff;
-  --surface-2: #e6eeeb;
-  --ink: #0e1f1b;
-  --muted: #52655f;
-  --line: #d5e0dc;
-  --accent: #0b7a66;
+  --surface-2: #eeeae0;
+  --ink: #183b38;
+  --muted: #596c66;
+  --line: #dedfd5;
+  --accent: #1c6860;
   --accent-ink: #fff;
-  --accent-soft: #d3ebe4;
+  --accent-soft: #e0eee7;
+  --brand-deep: #123c3a;
+  --brand-paper: #f8f5ed;
+  --brand-gold: #dfb86c;
   --display: "Bricolage Grotesque", sans-serif;
   --body: "Manrope", sans-serif;
   color-scheme: light;
 }
 :root[data-theme="dark"] {
-  --bg: #0b1513;
-  --surface: #12211e;
-  --surface-2: #192c28;
-  --ink: #e7f1ee;
-  --muted: #a4b9b2;
-  --line: #29443b;
-  --accent: #3dc9a8;
-  --accent-ink: #06211b;
-  --accent-soft: #17382f;
+  --bg: #102523;
+  --surface: #18322f;
+  --surface-2: #203e39;
+  --ink: #f5f2e9;
+  --muted: #b1c4bc;
+  --line: #345049;
+  --accent: #99d8ba;
+  --accent-ink: #123c3a;
+  --accent-soft: #274b3e;
   color-scheme: dark;
 }
 * {
@@ -247,7 +250,7 @@ small {
 }
 .hero {
   padding: 25px 23px;
-  background: #0b7a66;
+  background: var(--brand-deep);
   border-radius: 20px;
   color: white;
   position: relative;
@@ -1526,5 +1529,204 @@ summary > strong {
 @media (min-width: 1100px) {
   .personal-columns {
     grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+}
+
+/* HonorMed identity: value made visible. */
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  white-space: nowrap;
+}
+.honormed-mark {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+}
+.brand-wordmark {
+  font: 700 25px/1 var(--display);
+  letter-spacing: -1.1px;
+  color: var(--ink);
+}
+.brand-wordmark > span {
+  font-weight: 500;
+}
+.brand-wordmark > i {
+  font-style: normal;
+  color: var(--brand-gold);
+}
+.brand-compact .brand-wordmark {
+  display: none;
+}
+.honormed-mark.footer-mark {
+  width: 18px;
+  height: 18px;
+}
+.module-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mobile-brand {
+  display: inline-flex;
+}
+.login {
+  max-width: 1240px;
+  padding: 24px 20px;
+  gap: 28px;
+}
+.login-story {
+  min-width: 0;
+}
+.login-story .brand {
+  margin-bottom: 28px;
+}
+.login-story .honormed-mark {
+  width: 46px;
+  height: 46px;
+}
+.login-story .brand-wordmark {
+  font-size: 32px;
+}
+.login-story h1 {
+  font-size: clamp(33px, 4.3vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -1.7px;
+}
+.login-story > .eyebrow {
+  font-size: 9px;
+  letter-spacing: 1.35px;
+}
+.login-form {
+  border-radius: 24px;
+  box-shadow: 0 16px 60px #123c3a08;
+  padding: 28px;
+}
+.login-form .button {
+  min-height: 48px;
+}
+.login-stat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 22px;
+  font-size: 10px;
+  letter-spacing: 0.1px;
+  color: var(--muted);
+}
+.brand-composition {
+  display: none;
+}
+@media (min-width: 600px) and (max-width: 959px) {
+  .login {
+    max-width: 600px;
+    grid-template-columns: 1fr;
+    padding: 36px;
+  }
+}
+@media (min-width: 960px) {
+  .mobile-brand {
+    display: none;
+  }
+  .login {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 62px;
+    padding: 32px;
+    align-items: center;
+  }
+  .login-story {
+    position: relative;
+    overflow: hidden;
+    background: var(--brand-deep);
+    color: var(--brand-paper);
+    padding: 40px;
+    border-radius: 32px;
+  }
+  .login-story .brand {
+    margin-bottom: 42px;
+  }
+  .login-story .brand-wordmark {
+    color: var(--brand-paper);
+  }
+  .login-story > .eyebrow {
+    color: var(--brand-gold);
+  }
+  .login-story h1 {
+    margin: 18px 0;
+  }
+  .login-story em {
+    color: #b8d6c6;
+  }
+  .login-story > p {
+    color: #cedbd2;
+    font-size: 13px;
+    max-width: 360px;
+  }
+  .login-stat {
+    color: #cedbd2;
+    gap: 24px;
+    margin-top: 26px;
+  }
+  .login-form {
+    padding: 34px;
+  }
+  .brand-composition {
+    display: flex;
+    position: relative;
+    height: 158px;
+    margin-top: 28px;
+    border-top: 1px solid #ffffff26;
+    align-items: center;
+    gap: 24px;
+  }
+  .brand-composition .honormed-mark {
+    width: 106px;
+    height: 106px;
+    z-index: 1;
+  }
+  .composition-orbit {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 1px solid #f8f5ed17;
+    border-radius: 50%;
+    right: -110px;
+    top: -24px;
+  }
+  .composition-orbit::after {
+    content: "";
+    position: absolute;
+    inset: 24px;
+    border: 1px solid #f8f5ed17;
+    border-radius: 50%;
+  }
+  .composition-line {
+    display: flex;
+    gap: 7px;
+    align-items: flex-end;
+    height: 52px;
+  }
+  .composition-line span {
+    width: 25px;
+    height: 26px;
+    background: #8fae9d;
+    border-radius: 4px 4px 0 0;
+  }
+  .composition-line span:nth-child(2) {
+    height: 39px;
+    background: #b8d6c6;
+  }
+  .composition-line span:nth-child(3) {
+    height: 52px;
+    background: var(--brand-gold);
+  }
+  .brand-composition small {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #b8d6c6;
+    font-size: 8px;
+    letter-spacing: 2px;
   }
 }

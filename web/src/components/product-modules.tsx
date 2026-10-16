@@ -6,6 +6,7 @@ import PersonalControl from "@/components/personal-control";
 import RadiologyControl from "@/components/radiology-control";
 import PlansPreview from "@/components/plans-preview";
 import { mutate, type Dataset } from "@/lib/data";
+import { Brand } from "@/components/brand";
 type Profile = "consultas" | "laudos" | "ambos";
 export default function ProductModules(props: {
   data: Dataset;
@@ -48,7 +49,10 @@ export default function ProductModules(props: {
   return (
     <>
       <div className="module-toolbar">
-        <div>
+        <div className="module-identity">
+          <span className="mobile-brand">
+            <Brand compact />
+          </span>
           {profile === "ambos" ? (
             <div className="seg" aria-label="Módulo de trabalho">
               <button

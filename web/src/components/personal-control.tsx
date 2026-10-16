@@ -8,7 +8,6 @@ import {
 } from "react";
 import Link from "next/link";
 import {
-  Activity,
   Home,
   List,
   Wallet,
@@ -28,6 +27,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PRODUCT_NAME } from "@/lib/brand";
+import { Brand, BrandMark } from "@/components/brand";
 import { money } from "@/lib/utils";
 import {
   mutate,
@@ -322,10 +322,7 @@ export default function PersonalControl({
     <div className="app-shell personal-shell">
       <aside className="sidebar">
         <Link className="brand" href="/">
-          <span className="brand-icon">
-            <Activity size={22} />
-          </span>
-          <span>{PRODUCT_NAME}</span>
+          <Brand />
         </Link>
         <p className="nav-caption">SEU TRABALHO. SEU CONTROLE.</p>
         <nav aria-label="Menu do controle pessoal">
@@ -1001,7 +998,7 @@ export default function PersonalControl({
         )}
         <footer className="footer">
           <span>
-            <Activity size={14} />
+            <BrandMark className="footer-mark" />
             {PRODUCT_NAME}
           </span>
           <span>Seu controle pessoal. Sem confirmação hospitalar.</span>

@@ -27,6 +27,7 @@ import {
 import { Dialog } from "@/components/personal-control";
 import { Button } from "@/components/ui/button";
 import { PRODUCT_NAME } from "@/lib/brand";
+import { Brand } from "@/components/brand";
 import { money } from "@/lib/utils";
 import {
   mutate,
@@ -202,10 +203,7 @@ export default function RadiologyControl({
     <div className="app-shell personal-shell radiology-shell">
       <aside className="sidebar">
         <div className="brand">
-          <span className="brand-icon">
-            <Activity size={22} />
-          </span>
-          {PRODUCT_NAME}
+          <Brand />
         </div>
         <p className="nav-caption">LAUDOS RADIOLÓGICOS</p>
         <nav aria-label="Menu de laudos">

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { PRODUCT_NAME, PRODUCT_TAGLINE } from "@/lib/brand";
+import { PRODUCT_NAME, PRODUCT_TAGLINE, BRAND_COLORS } from "@/lib/brand";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#eff4f2",
-    theme_color: "#0b7a66",
+    background_color: BRAND_COLORS.paper,
+    theme_color: BRAND_COLORS.deep,
     icons: [
       {
         src: "/icon-192.png",

@@ -2,7 +2,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import {
-  Activity,
   LayoutDashboard,
   Building2,
   List,
@@ -26,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import ProductModules from "@/components/product-modules";
 import PlansPreview from "@/components/plans-preview";
 import { PRODUCT_NAME } from "@/lib/brand";
+import { Brand, BrandMark } from "@/components/brand";
 import { money } from "@/lib/utils";
 import {
   fetchData,
@@ -277,21 +277,30 @@ export default function App({
       <main className="login">
         <div className="login-story">
           <div className="brand">
-            <Activity /> {PRODUCT_NAME}
+            <Brand />
           </div>
-          <span className="eyebrow">MAIS CLAREZA. MAIS TRANQUILIDADE.</span>
+          <span className="eyebrow">O VALOR DO SEU TRABALHO, À VISTA.</span>
           <h1>
-            Seu cuidado faz a diferença.
+            Sua rotina tem valor.
             <br />
-            <em>Seu repasse também.</em>
+            <em>Tenha clareza sobre ele.</em>
           </h1>
           <p>
-            Acompanhe sua produção, entenda seus números e planeje o próximo
-            mês.
+            Consultas ou laudos. Registre o que você realizou e acompanhe seus
+            honorários com autonomia.
           </p>
           <div className="login-stat">
-            Sua produção, em um só lugar.
-            <ArrowUpRight />
+            <span>01 · Registre</span>
+            <span>02 · Acompanhe</span>
+            <span>03 · Confira</span>
+          </div>
+          <div className="brand-composition" aria-hidden="true">
+            <div className="composition-orbit" />
+            <BrandMark />
+            <div className="composition-line">
+              <span /> <span /> <span />
+            </div>
+            <small>SEU TRABALHO TEM VALOR.</small>
           </div>
         </div>
         <section className="card login-form">
@@ -546,10 +555,7 @@ export default function App({
     <div className="app-shell">
       <aside className="sidebar">
         <a className="brand" href="/" aria-label={`${PRODUCT_NAME} início`}>
-          <span className="brand-icon">
-            <Activity size={22} />
-          </span>
-          <span>{PRODUCT_NAME}</span>
+          <Brand />
         </a>
         <p className="nav-caption">SEU CONSULTÓRIO, EM NÚMEROS</p>
         <nav>
@@ -1229,7 +1235,7 @@ export default function App({
         {page === "Planos" && <PlansPreview />}
         <footer className="footer">
           <span>
-            <Activity size={14} /> {PRODUCT_NAME}
+            <BrandMark className="footer-mark" /> {PRODUCT_NAME}
           </span>
           <span>Previsão sujeita à conferência financeira do hospital.</span>
         </footer>

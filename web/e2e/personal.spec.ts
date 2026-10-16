@@ -1,5 +1,32 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 import type { Dataset } from "../src/lib/data";
+
+async function expectReadableButton(button: Locator) {
+  await expect
+    .poll(() =>
+      button.evaluate((element) => {
+        const style = getComputedStyle(element);
+        const luminance = (color: string) => {
+          const channels = (color.match(/[\d.]+/g) || [])
+            .slice(0, 3)
+            .map(Number)
+            .map((value) => {
+              const channel = value / 255;
+              return channel <= 0.04045
+                ? channel / 12.92
+                : ((channel + 0.055) / 1.055) ** 2.4;
+            });
+          return (
+            channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
+          );
+        };
+        const a = luminance(style.color),
+          b = luminance(style.backgroundColor);
+        return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+      }),
+    )
+    .toBeGreaterThanOrEqual(4.5);
+}
 
 test("controle pessoal simples, mês de produção e tema em celular e desktop", async ({
   page,
@@ -11,9 +38,9 @@ test("controle pessoal simples, mês de produção e tema em celular e desktop",
   });
   await expect(page.getByText("24 consultas registradas no mês")).toBeVisible();
   await expect(page.getByText("4 consultas aguardam valor")).toBeVisible();
-  await expect(
+  await expectReadableButton(
     page.getByRole("button", { name: "Registrar consultas", exact: true }),
-  ).toHaveCSS("color", "rgb(255, 255, 255)");
+  );
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
@@ -33,12 +60,12 @@ test("controle pessoal simples, mês de produção e tema em celular e desktop",
   await page.getByLabel("Mês da produção", { exact: true }).fill("2026-10");
   await page.getByRole("button", { name: "Ativar tema escuro" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(
+  await expectReadableButton(
     page.getByRole("button", { name: "Registrar consultas", exact: true }),
-  ).toHaveCSS("color", "rgb(6, 33, 27)");
-  await expect(
+  );
+  await expectReadableButton(
     page.getByRole("button", { name: "Registrar recebimento", exact: true }),
-  ).toHaveCSS("background-color", "rgb(18, 33, 30)");
+  );
   await page.screenshot({
     path: `test-results/personal-dark-${info.project.name}.png`,
     fullPage: true,
