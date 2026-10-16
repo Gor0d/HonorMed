@@ -1,0 +1,22 @@
+project_id = "honormed-production"
+
+[auth]
+enabled = true
+site_url = "https://honormed.emersongsguimaraes.workers.dev"
+additional_redirect_urls = ["https://honormed.emersongsguimaraes.workers.dev/recuperar-senha"]
+enable_signup = true
+minimum_password_length = 8
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+secure_password_change = true
+
+[auth.email.smtp]
+enabled = true
+host = "smtp.resend.com"
+port = 465
+user = "resend"
+pass = "env(RESEND_API_KEY)"
+admin_email = "acesso@cforod.com"
+sender_name = "HonorMed"
