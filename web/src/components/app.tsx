@@ -339,6 +339,11 @@ export default function App({
               </Button>
             )}
           </form>
+          {supabase && (
+            <p>
+              <a href="/recuperar-senha">Esqueci minha senha</a>
+            </p>
+          )}
           {!supabase && (
             <p className="demo-note">
               Ambiente demonstrativo local · dados fictícios de outubro e

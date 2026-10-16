@@ -3,6 +3,8 @@ import { database, physician } from "../../../../scripts/database.mjs";
 export const runtime = "nodejs";
 let pending: ReturnType<typeof database> | undefined;
 const allowed = (r: NextRequest) =>
+  !process.env.VERCEL &&
+  process.env.HONORMED_REQUIRE_SUPABASE !== "true" &&
   !process.env.NEXT_PUBLIC_SUPABASE_URL &&
   ["localhost", "127.0.0.1"].includes(
     (r.headers.get("host") || "").split(":")[0],
