@@ -1,6 +1,8 @@
 node_modules/
 .npm-cache/
 .playwright/
+.tools/
+docs/apresentacao/preview/
 *.tsbuildinfo
 .next/
 .env*
