@@ -25,6 +25,18 @@ Equipe/Clínica/Institucional são roadmap: faltam organizações, membros, conv
 
 ## Hospedagem recomendada
 
+### Avaliação Cloudflare solicitada após a primeira revisão
+
+O usuário preferiu avaliar Workers antes de contratar Vercel Pro. Instalados OpenNext Cloudflare 1.20.12 e Wrangler 4.151.1, com `open-next.config.ts`, `wrangler.jsonc` e scripts `build:cloudflare`/`preview:cloudflare`. Configuração é candidata, não homologada. Sem R2, D1, imagens ou serviço adicional provisionado. Sem deploy automático: falta validar o bundle e as dependências da rota local de demonstração.
+
+O primeiro teste local compilou Next.js 16.4.2, mas falhou no empacotamento OpenNext com EPERM ao criar symlink de PGlite no Windows. Repetir em Linux/WSL; não afirmar que Workers já foi validado. O script final exige Supabase configurado para construir artefato publicável, e a configuração de runtime desabilita a demo. O artefato parcial do teste inicial não deve ser publicado. Antes de um deploy, confirmar que PGlite/seed não são necessários ao worker e que a rota demo retorna 403.
+
+A cadeia de ferramentas introduziu alerta de glob transitivo; override restrito a `@node-minify/core` usa glob ^10.5.0 e nova instalação retornou zero vulnerabilidades no npm audit. Revisar esse override ao atualizar OpenNext.
+
+Supabase CLI 2.121.0 autenticou, mas a criação `honormed` em São Paulo foi recusada pelo limite de dois projetos gratuitos ativos dos membros da organização. Usuário autorizou pausar exclusivamente `cforod` (`azcdwgebslqulvgkkufu`). Esta CLI não oferece comando de pausa; solicitado ao usuário pausar no painel. Pausa ainda não confirmada, nenhum banco criado ou modificado. Senha aleatória para a tentativa está em arquivo local ignorado; não é credencial de banco provisionado. Wrangler autenticado na conta do usuário, sem recursos publicados.
+
+Workers Paid parte de US$ 5/mês conforme tabela oficial; Supabase Pro parte de US$ 25/mês. US$ 30/mês é apenas referência de assinaturas básicas combinadas, sem câmbio, impostos, excedentes, SMTP, suporte e extras. Homologação técnica e custos reais decidem a hospedagem.
+
 Primeiro deploy: Vercel para Next.js, Supabase gerenciado para Postgres/Auth, Cloudflare opcional para DNS. Escolher região do banco e da aplicação conscientemente e testar latência. Não é necessário migrar o aplicativo para Cloudflare para lançar.
 
 Cloudflare Workers é uma alternativa com adaptador OpenNext; exige adaptação e homologação próprias. A rota local de demonstração depende de PGlite, filesystem e migrations fora de /web; não é backend de produção e não deve ser disponibilizada externamente. Na Vercel ela fica bloqueada mesmo que o Host seja manipulado. Build Vercel sem Supabase HTTPS falha explicitamente.
@@ -82,5 +94,6 @@ Preços públicos dos provedores não representam custo total do HonorMed. Confi
 - https://supabase.com/docs/guides/auth/auth-smtp
 - https://supabase.com/pricing
 - https://opennext.js.org/cloudflare
+- https://developers.cloudflare.com/workers/platform/pricing/
 
 Nenhum Oracle é necessário para esta publicação. Conector continua fora do escopo e bloqueado pelo mapeamento em HML.

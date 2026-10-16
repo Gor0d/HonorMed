@@ -14,4 +14,7 @@ test-results/
 *.log
 .supabase/
 .vercel/
+.open-next/
+.wrangler/
+.dev.vars*
 supabase/.temp/

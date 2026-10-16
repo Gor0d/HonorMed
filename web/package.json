@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build:cloudflare": "node scripts/build-cloudflare.mjs",
+    "preview:cloudflare": "opennextjs-cloudflare preview",
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
@@ -10,6 +12,11 @@
     "test:e2e": "playwright test",
     "pretest:e2e": "npm run build",
     "seed:demo": "node scripts/seed-demo.mjs"
+  },
+  "overrides": {
+    "@node-minify/core": {
+      "glob": "^10.5.0"
+    }
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.0",
@@ -27,6 +34,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.12",
     "@playwright/test": "^1.56.0",
     "@tailwindcss/postcss": "^4.1.0",
     "@types/node": "^22.0.0",
@@ -36,6 +44,7 @@
     "prettier": "^3.9.10",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.9.0",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "wrangler": "^4.151.1"
   }
 }

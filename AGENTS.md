@@ -32,3 +32,5 @@ Features futuras e plano para cirurgias, internações e demais produções do m
 
 ## Publicação
 Leia `docs/LANCAMENTO.md`: Vercel CLI vinculada a `gor0ds-tavern/honormed` em `/web`, sem deploy até configurar Supabase real. Em PowerShell com scripts bloqueados use `npm.cmd`/`npx.cmd`. `.vercel/` e `.env*` nunca entram no Git. Build na Vercel exige Supabase HTTPS e chave pública; a demo local não é backend de produção. Não carregar seed nem executar db reset em banco remoto. Validar autenticação/SMTP, recuperação de senha e RLS no Supabase real antes de clientes reais. Plano Hobby da Vercel não atende lançamento comercial.
+
+Alternativa Cloudflare em avaliação: `npm.cmd run build:cloudflare` exige Supabase; `npm.cmd run preview:cloudflare` usa artefato já construído. OpenNext falhou com symlink EPERM neste Windows; homologar em Linux/WSL antes de deploy. `.open-next/`, `.wrangler/` e `.dev.vars*` ignorados. Supabase CLI e Wrangler autenticados; criação HonorMed depende da vaga gratuita. Usuário autorizou pausar somente cforod, mas a pausa pelo painel ainda aguarda confirmação.
