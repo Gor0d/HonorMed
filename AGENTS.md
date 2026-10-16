@@ -29,3 +29,6 @@ Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de 
 Laudos radiológicos foram antecipados por pedido explícito: leia revisão v3. Perfil Somente laudos não exige consultas/convênios. Produção e recebimentos dos módulos não se compensam. Nenhuma imagem, DICOM, texto de laudo ou dado de paciente. Preços propostos em `web/src/lib/plans.ts`, sem cobrança ativa.
 
 Features futuras e plano para cirurgias, internações e demais produções do médico: `docs/ROADMAP.md`.
+
+## Publicação
+Leia `docs/LANCAMENTO.md`: Vercel CLI vinculada a `gor0ds-tavern/honormed` em `/web`, sem deploy até configurar Supabase real. Em PowerShell com scripts bloqueados use `npm.cmd`/`npx.cmd`. `.vercel/` e `.env*` nunca entram no Git. Build na Vercel exige Supabase HTTPS e chave pública; a demo local não é backend de produção. Não carregar seed nem executar db reset em banco remoto. Validar autenticação/SMTP, recuperação de senha e RLS no Supabase real antes de clientes reais. Plano Hobby da Vercel não atende lançamento comercial.
