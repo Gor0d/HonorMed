@@ -124,7 +124,7 @@ def main():
     text(s,'Base: plano, regras e registro de validação do projeto · versão de 16/10/2026.',.65,6.2,11.9,.5,15,MUTED)
     notes(s,'Nenhuma integração MV foi implementada ou consultada. Registros pessoais não confirmam faturamento, glosa ou pagamento oficial. A futura integração precisa de reconciliação explícita para evitar duplicidades. Consulte docs/REGRAS.md e GUIA-APRESENTADOR.md.')
 
-    target=OUT/'Repasse_MED_Apresentacao_Medicos.pptx'
+    target=OUT/f'{BRAND}_Apresentacao_Medicos.pptx'
     prs.core_properties.title=f'{BRAND} — controle pessoal do médico'
     prs.core_properties.subject='Produção por quantidade e recebimentos informados pelo médico'
     prs.core_properties.author=BRAND

@@ -1,5 +1,7 @@
 # HonorMed
 
+Apresentação do produto: [PowerPoint](docs/apresentacao/HonorMed_Apresentacao_Medicos.pptx), [PDF](docs/apresentacao/HonorMed_Apresentacao_Medicos.pdf) e [guia do apresentador](docs/apresentacao/GUIA-APRESENTADOR.md).
+
 Controle pessoal de produção e recebimentos do médico. Registre as consultas por quantidade, mesmo sem saber o honorário, e acompanhe sua própria previsão. Next.js App Router, Supabase, cálculo em PostgreSQL e dados fictícios. **Sem conector e sem acesso ao Oracle.** Marca central em `web/src/lib/brand.ts`, usada na interface, metadata, manifest, página offline e gerador da apresentação. Não existem templates de e-mail customizados no repositório; configure o nome/remetente no projeto Supabase ao preparar o Auth hospedado.
 
 ## Fluxo principal

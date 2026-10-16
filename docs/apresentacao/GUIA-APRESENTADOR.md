@@ -10,8 +10,8 @@ O registro atualizado contém build aprovado, 19 testes SQL/RLS e 8 testes Playw
 
 ## Material
 
-- `Repasse_MED_Apresentacao_Medicos.pptx`: 16 slides editáveis e notas de fala. Slides 1–12 para médicos; 13–16 como apêndices para gestão/TI e negociação.
-- `Repasse_MED_Apresentacao_Medicos.pdf`: versão para compartilhar sem depender de fontes/PowerPoint, quando disponível.
+- `HonorMed_Apresentacao_Medicos.pptx`: 16 slides editáveis e notas de fala. Slides 1–12 para médicos; 13–16 como apêndices para gestão/TI e negociação.
+- `HonorMed_Apresentacao_Medicos.pdf`: versão para compartilhar sem depender de fontes/PowerPoint.
 - As fontes visuais são Bricolage Grotesque e Manrope. Se o computador da apresentação não as tiver, o PowerPoint poderá substituí-las. Prefira o PDF para preservar a aparência.
 - Preços são hipóteses propostas, sem aprovação, contrato ativo ou cobrança implementada. A apresentação não altera os planos na aplicação.
 
@@ -44,7 +44,7 @@ Sugestão de piloto: 5–10 médicos, 30 dias gratuitos de uso controlado após 
 
 ## Por que esse preço?
 
-R$ 49,90 é uma hipótese inicial para um produto focado na visibilidade do repasse; não resulta de pesquisa comprovada de disposição a pagar. É necessário testar com médicos e levantar custo de operação/suporte. A oferta pública de [gestão financeira do iClinic](https://site.iclinic.com.br/funcionalidades/gestao-financeira/) confirma que repasses são uma funcionalidade de sistemas médicos mais amplos; isso é apenas contexto de categoria, não comparação equivalente nem prova de preço para o Repasse MED. Referência consultada em 16/10/2026.
+R$ 49,90 é uma hipótese inicial para um produto focado na visibilidade do repasse; não resulta de pesquisa comprovada de disposição a pagar. É necessário testar com médicos e levantar custo de operação/suporte. A oferta pública de [gestão financeira do iClinic](https://site.iclinic.com.br/funcionalidades/gestao-financeira/) confirma que repasses são uma funcionalidade de sistemas médicos mais amplos; isso é apenas contexto de categoria, não comparação equivalente nem prova de preço para o HonorMed. Referência consultada em 16/10/2026.
 
 Exemplo aritmético: 100 assinantes Pro geram R$ 4.990/mês de receita **bruta**, antes de hospedagem, suporte, aquisição, tributos e manutenção. Não é previsão de vendas, margem ou lucro. Os valores institucionais também são sugestões próprias e dependem de escopo e custos.
 
