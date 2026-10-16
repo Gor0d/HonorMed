@@ -41,3 +41,20 @@ from (values(1,1,'2026-10-15',8),(1,4,'2026-10-15',3),(1,5,'2026-10-15',4),
 (2,1,'2026-10-16',5),(1,2,'2026-10-14',4),(1,1,'2026-11-02',6)) v(local,conv,d,q);
 insert into recebimentos_pessoais(medico_id,local_id,convenio_id,competencia,data_recebimento,valor) values
 ('11111111-1111-4111-8111-111111111111','44444444-4444-4444-8444-000000000001','22222222-2222-4222-8222-000000000001','2026-10','2026-11-05',500);
+
+insert into preferencias_produto(medico_id,perfil_uso) values('11111111-1111-4111-8111-111111111111','consultas');
+insert into laudos_tipos(id,medico_id,nome) values
+('66666666-6666-4666-8666-000000000001','11111111-1111-4111-8111-111111111111','Radiografia'),
+('66666666-6666-4666-8666-000000000002','11111111-1111-4111-8111-111111111111','Tomografia'),
+('66666666-6666-4666-8666-000000000003','11111111-1111-4111-8111-111111111111','Ressonância'),
+('66666666-6666-4666-8666-000000000004','11111111-1111-4111-8111-111111111111','Ultrassonografia');
+insert into laudos_valores(medico_id,local_id,tipo_id,valor_unitario)
+select '11111111-1111-4111-8111-111111111111',l.id,t.id,
+case t.nome when 'Radiografia' then case when l.nome like 'Clínica%' then 12 else 15 end when 'Tomografia' then 35 else 55 end
+from locais l cross join laudos_tipos t where t.nome<>'Ultrassonografia';
+insert into laudos_producao(medico_id,local_id,tipo_id,data_producao,quantidade)
+select '11111111-1111-4111-8111-111111111111',('44444444-4444-4444-8444-'||lpad(l::text,12,'0'))::uuid,
+('66666666-6666-4666-8666-'||lpad(t::text,12,'0'))::uuid,d::date,q
+from(values(1,1,'2026-10-15',30),(1,2,'2026-10-15',12),(2,1,'2026-10-16',20),(2,3,'2026-10-16',8),(1,4,'2026-10-16',5),(1,2,'2026-11-02',10))v(l,t,d,q);
+insert into laudos_recebimentos(medico_id,local_id,competencia,data_recebimento,valor)
+values('11111111-1111-4111-8111-111111111111','44444444-4444-4444-8444-000000000001','2026-10','2026-11-05',300);

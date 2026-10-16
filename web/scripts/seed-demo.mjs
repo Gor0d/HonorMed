@@ -3,6 +3,14 @@ import { writeFile } from "node:fs/promises";
 const db = await database();
 const result = {};
 for (const [key, table] of Object.entries({
+  preferences: "preferencias_produto",
+  radiologyTypes: "laudos_tipos",
+  radiologyFees: "laudos_valores",
+  radiologyProduction: "laudos_calculados",
+  radiologyReceipts: "laudos_recebimentos",
+  radiologySummaries: "laudos_resumo_competencia",
+  radiologyLocations: "laudos_resumo_locais",
+  radiologyTypeSummaries: "laudos_resumo_tipos",
   profile: "medicos",
   convenios: "convenios",
   rules: "regras_repasse",
