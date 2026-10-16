@@ -64,7 +64,7 @@ type Editor =
     }
   | { kind: "receipt"; record?: PersonalReceipt };
 
-function Dialog({
+export function Dialog({
   title,
   children,
   onClose,

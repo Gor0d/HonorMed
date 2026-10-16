@@ -1133,6 +1133,43 @@ summary > strong {
 }
 
 /* Personal physician workflow: four destinations, two daily actions. */
+.module-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 18px;
+}
+.module-toolbar > div > strong {
+  color: var(--accent);
+  font-family: var(--display);
+  font-size: 16px;
+}
+.module-toolbar .button {
+  padding: 8px 12px;
+  font-size: 11px;
+  min-height: 37px;
+}
+.radiology-breakdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.radiology-breakdown small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.radiology-shell .personal-kpis strong {
+  font-size: clamp(22px, 4vw, 30px);
+}
 .quantity-stepper {
   display: flex;
   gap: 5px;

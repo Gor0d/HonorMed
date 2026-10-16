@@ -40,6 +40,34 @@ export type Rule = {
   vigencia_fim: string | null;
 };
 export type Dataset = {
+  preferences: { id: string; perfil_uso: "consultas" | "laudos" | "ambos" }[];
+  radiologyTypes: { id: string; nome: string }[];
+  radiologyFees: {
+    id: string;
+    local_id: string;
+    tipo_id: string;
+    valor_unitario: string | number;
+  }[];
+  radiologyProduction: RadiologyProduction[];
+  radiologyReceipts: {
+    id: string;
+    local_id: string;
+    competencia: string;
+    data_recebimento: string;
+    valor: string | number;
+  }[];
+  radiologySummaries: PersonalSummary[];
+  radiologyLocations: (PersonalSummary & {
+    local_id: string;
+    diferenca: string | number;
+  })[];
+  radiologyTypeSummaries: {
+    competencia: string;
+    tipo_id: string;
+    tipo_nome: string;
+    quantidade: string | number;
+    produzido: string | number;
+  }[];
   locations: { id: string; nome: string }[];
   fees: {
     id: string;
@@ -76,6 +104,20 @@ export type Dataset = {
     quantidade: number | string;
   }[];
   goals: { competencia: string; valor: number | string }[];
+};
+export type RadiologyProduction = {
+  id: string;
+  local_id: string;
+  tipo_id: string;
+  local_nome: string;
+  tipo_nome: string;
+  data_producao: string;
+  competencia: string;
+  quantidade: number;
+  valor_unitario: string | number | null;
+  valor_previsto: string | number | null;
+  fonte: string;
+  created_at: string;
 };
 export type PersonalProduction = {
   created_at: string;
@@ -116,6 +158,14 @@ export async function fetchData(): Promise<Dataset> {
     return response.json();
   }
   const tables = {
+    preferences: "preferencias_produto",
+    radiologyTypes: "laudos_tipos",
+    radiologyFees: "laudos_valores",
+    radiologyProduction: "laudos_calculados",
+    radiologyReceipts: "laudos_recebimentos",
+    radiologySummaries: "laudos_resumo_competencia",
+    radiologyLocations: "laudos_resumo_locais",
+    radiologyTypeSummaries: "laudos_resumo_tipos",
     profile: "medicos",
     convenios: "convenios",
     rules: "regras_repasse",
@@ -142,11 +192,19 @@ export async function fetchData(): Promise<Dataset> {
             "personalSummaries",
             "locationSummaries",
             "reconciliation",
+            "radiologySummaries",
+            "radiologyLocations",
+            "radiologyTypeSummaries",
           ].includes(k)
         ) {
           query = query.order("competencia");
-          if (k === "locationSummaries" || k === "reconciliation")
+          if (
+            k === "locationSummaries" ||
+            k === "reconciliation" ||
+            k === "radiologyLocations"
+          )
             query = query.order("local_id");
+          if (k === "radiologyTypeSummaries") query = query.order("tipo_id");
           if (k === "reconciliation") query = query.order("convenio_id");
         } else query = query.order("id");
         const { data, error } = await query.range(offset, offset + 999);
@@ -168,7 +226,12 @@ export async function mutate(
     | "convenios"
     | "honorarios_pessoais"
     | "producoes_pessoais"
-    | "recebimentos_pessoais",
+    | "recebimentos_pessoais"
+    | "preferencias_produto"
+    | "laudos_tipos"
+    | "laudos_valores"
+    | "laudos_producao"
+    | "laudos_recebimentos",
   action: "insert" | "update" | "delete" | "upsert",
   values: Record<string, unknown> | Record<string, unknown>[],
   id?: string,

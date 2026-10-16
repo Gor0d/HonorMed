@@ -23,7 +23,8 @@ import {
 import Papa from "papaparse";
 import readXlsxFile from "read-excel-file";
 import { Button } from "@/components/ui/button";
-import PersonalControl from "@/components/personal-control";
+import ProductModules from "@/components/product-modules";
+import PlansPreview from "@/components/plans-preview";
 import { PRODUCT_NAME } from "@/lib/brand";
 import { money } from "@/lib/utils";
 import {
@@ -297,7 +298,7 @@ export default function App({
           <span className="eyebrow">BEM-VINDO AO {PRODUCT_NAME}</span>
           <h2>Vamos cuidar dos seus números?</h2>
           <p className="muted">
-            Entre para registrar suas consultas e acompanhar seus recebimentos.
+            Entre para registrar sua produção e acompanhar seus recebimentos.
           </p>
           {message}
           <form onSubmit={login}>
@@ -403,7 +404,7 @@ export default function App({
     );
   if (mode === "personal")
     return (
-      <PersonalControl
+      <ProductModules
         data={data}
         onRefresh={refresh}
         dark={dark}
@@ -1220,63 +1221,7 @@ export default function App({
             )}
           </section>
         )}
-        {page === "Planos" && (
-          <section>
-            <div className="plans-intro">
-              <span className="eyebrow">ESPAÇO PARA CRESCER</span>
-              <h2>Mais clareza em cada fase.</h2>
-              <p className="muted">
-                Prévia dos planos. Todos os recursos estão liberados neste MVP;
-                não há cobrança ou contratação.
-              </p>
-            </div>
-            <div className="plan-grid">
-              {[
-                [
-                  "Free",
-                  "Para começar",
-                  "R$ 0",
-                  ["1 convênio", "Competência atual", "Visão da produção"],
-                ],
-                [
-                  "Pro",
-                  "Para planejar o próximo passo",
-                  "Em breve",
-                  [
-                    "Convênios ilimitados",
-                    "Histórico de competências",
-                    "Metas e importação",
-                  ],
-                ],
-              ].map(([name, subtitle, price, features]) => (
-                <article
-                  className={"card plan " + (name === "Pro" ? "featured" : "")}
-                  key={String(name)}
-                >
-                  <span className="eyebrow">{name}</span>
-                  <h2>{subtitle}</h2>
-                  <strong>{price}</strong>
-                  <ul>
-                    {(features as string[]).map((f) => (
-                      <li key={f}>
-                        <CheckCircle2 size={16} />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button
-                    disabled
-                    variant={name === "Pro" ? "default" : "outline"}
-                  >
-                    {name === "Pro"
-                      ? "Em breve · sem cobrança"
-                      : "MVP com acesso completo"}
-                  </Button>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
+        {page === "Planos" && <PlansPreview />}
         <footer className="footer">
           <span>
             <Activity size={14} /> {PRODUCT_NAME}

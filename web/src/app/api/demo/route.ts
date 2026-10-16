@@ -22,6 +22,14 @@ export async function GET(request: NextRequest) {
   const conn = await db();
   const result: Record<string, unknown> = {};
   for (const [k, t] of Object.entries({
+    preferences: "preferencias_produto",
+    radiologyTypes: "laudos_tipos",
+    radiologyFees: "laudos_valores",
+    radiologyProduction: "laudos_calculados",
+    radiologyReceipts: "laudos_recebimentos",
+    radiologySummaries: "laudos_resumo_competencia",
+    radiologyLocations: "laudos_resumo_locais",
+    radiologyTypeSummaries: "laudos_resumo_tipos",
     profile: "medicos",
     convenios: "convenios",
     rules: "regras_repasse",
@@ -69,6 +77,23 @@ export async function POST(request: NextRequest) {
   try {
     const { table, action, values, id } = await request.json();
     const columns: Record<string, string[]> = {
+      preferencias_produto: ["perfil_uso"],
+      laudos_tipos: ["id", "nome"],
+      laudos_valores: ["local_id", "tipo_id", "valor_unitario"],
+      laudos_producao: [
+        "id",
+        "local_id",
+        "tipo_id",
+        "data_producao",
+        "quantidade",
+      ],
+      laudos_recebimentos: [
+        "id",
+        "local_id",
+        "competencia",
+        "data_recebimento",
+        "valor",
+      ],
       locais_atendimento: ["id", "nome"],
       convenios: ["id", "nome"],
       honorarios_pessoais: ["local_id", "convenio_id", "valor_unitario"],
