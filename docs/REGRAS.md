@@ -1,5 +1,16 @@
 # Regras do MVP
 
+## Laudos Radiológicos e perfil de uso
+
+- `preferencias_produto` salva Consultas, Laudos ou Ambos por médico. Só muda a navegação; não cria permissão administrativa, verificação de especialidade ou cobrança. Não apaga dados ao trocar perfil. Sem preferência e sem produção, o primeiro acesso apresenta a escolha.
+- `laudos_tipos` é o catálogo próprio de tipos de exame. `laudos_valores` associa uma tarifa líquida a instituição + tipo. `laudos_producao` guarda data, quantidade (1–10.000) e tarifa conhecida no lançamento. Sem identificação de pacientes ou conteúdo clínico.
+- Triggers preenchem a tarifa na criação. Editar quantidade/data preserva o preço; alterar instituição/tipo usa a tarifa do novo par. Preço desconhecido é NULL; zero explícito é conhecido. Salvar uma tarifa preenche registros ainda sem valor e preserva os que já tinham preço.
+- `laudos_calculados` calcula quantidade × valor unitário, arredondado em centavos. Resumos por instituição/tipo/competência usam `security_invoker`.
+- `laudos_recebimentos` é independente de Consultas. Mês da produção e data de pagamento são distintos; pagamentos da instituição podem reunir vários tipos de exame.
+- Saldo por instituição/mês = máximo(produção conhecida − recebido, 0). Saldos são somados por módulo; excesso de uma instituição não compensa outra nem Consultas. Pendências e excessos são pontos para conferir, nunca pagamento/glosa hospitalar confirmados.
+- RLS por `medico_id = auth.uid()` em todas as cinco novas tabelas, com referências compostas para impedir instituições/tipos de outro médico.
+- Perfil não é assinatura: Pro R$ 79,90 é proposta por médico para escolher os módulos; Free/institucional também são apenas prévia. Cobrança, limites comerciais e integração hospitalar não foram ativados.
+
 ## Controle pessoal (fluxo principal)
 
 - Dados consolidados em `locais`, `atendimentos` (com quantidade e local) e `recebimentos`. `honorarios_pessoais` é o cadastro simplificado de valor líquido. Todas as tabelas têm RLS `medico_id = auth.uid()` e referências compostas. `locais_atendimento`, `producoes_pessoais` e `recebimentos_pessoais` são views de compatibilidade com `security_invoker`; suas escritas respeitam RLS das tabelas base.

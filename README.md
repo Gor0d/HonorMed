@@ -1,5 +1,17 @@
 # HonorMed
 
+## Consultas, Laudos ou ambos
+
+Em **Meu perfil de uso**, escolha **Somente consultas**, **Somente laudos radiológicos** ou **Consultas e laudos**. A escolha é salva por médico. O radiologista pode usar somente Laudos, sem cadastrar consultas ou convênios. O perfil controla a experiência, não é uma autorização clínica nem uma cobrança; mudar de perfil não apaga registros.
+
+**Laudos:** cadastre a instituição, os tipos de exame e o valor líquido por laudo para cada par instituição/tipo. Registre a quantidade diária; acompanhe dashboard, produção por modalidade e por instituição, honorários pendentes e recebimentos. Tipos são personalizáveis (ex.: tomografia de crânio, urgência ou revisão quando mudarem o valor). Sem imagens, DICOM, texto de laudo ou identificação de pacientes; não é PACS/RIS nem sistema de emissão de laudos.
+
+Recebimentos de Laudos são por instituição e mês da produção, podendo reunir várias modalidades. Não quitam Consultas nem outra instituição. Honorário conhecido é preservado no lançamento; cadastrar um preço preenche os registros ainda sem valor. Todo cálculo financeiro fica em SQL, com RLS por médico.
+
+Aplique também a migration `202610160004_laudos.sql` em bases existentes pelo fluxo de migrations. Não faça reset em banco com dados reais. Seed radiológico fictício: outubro tem 75 laudos, 5 sem honorário, R$ 1.520,00 produzidos, R$ 300,00 recebidos e R$ 1.220,00 de saldo; novembro tem 10 laudos/R$ 350,00. O perfil inicial da demo continua Consultas para preservar o roteiro original; use Meu perfil de uso para demonstrar Laudos.
+
+**Preços propostos atualizados** em `web/src/lib/plans.ts`: Free R$ 0; Pro **R$ 79,90/médico/mês**, com escolha de Consultas, Laudos ou ambos; institucional de referência **R$ 1.990/mês** para até 50 médicos e implantação inicial R$ 4.900 sujeita ao escopo. Substituem a proposta anterior de R$ 49,90/R$ 1.490. Sem cobrança ativa, contratação ou restrições de plano no MVP; integração hospitalar não incluída automaticamente. Preços são hipóteses comerciais a validar, não tarifas de exames.
+
 Apresentação do produto: [PowerPoint](docs/apresentacao/HonorMed_Apresentacao_Medicos.pptx), [PDF](docs/apresentacao/HonorMed_Apresentacao_Medicos.pdf) e [guia do apresentador](docs/apresentacao/GUIA-APRESENTADOR.md).
 
 Controle pessoal de produção e recebimentos do médico. Registre as consultas por quantidade, mesmo sem saber o honorário, e acompanhe sua própria previsão. Next.js App Router, Supabase, cálculo em PostgreSQL e dados fictícios. **Sem conector e sem acesso ao Oracle.** Marca central em `web/src/lib/brand.ts`, usada na interface, metadata, manifest, página offline e gerador da apresentação. Não existem templates de e-mail customizados no repositório; configure o nome/remetente no projeto Supabase ao preparar o Auth hospedado.

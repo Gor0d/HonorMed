@@ -1,5 +1,13 @@
 # Validação
 
+## Laudos e perfis — 16/10/2026
+
+- Build de produção aprovado. **27 testes SQL/RLS** e **12 testes Playwright** passaram (390 × 844 e 1280 × 900), incluindo os fluxos anteriores.
+- Testes de Laudos: preço diferente do mesmo exame por instituição; snapshots; troca de instituição; honorário pendente; recebimento parcial em outro mês; separação de Consultas; RLS das tabelas/views e perfil próprio de outro médico.
+- Navegador: escolher Somente laudos; recarregar e permanecer no módulo; dashboard e mês seguinte; Planos com R$ 79,90; alternar Ambos sem misturar saldos; cadastrar instituição/tipo; registrar sem tarifa; configurar valor; lançar/corrigir/excluir produção e recebimentos.
+- Capturas: `web/test-results/radiology-dashboard-mobile.png` e `radiology-dashboard-desktop.png`, conferidas visualmente.
+- Para validar localmente no stack Supabase, aplique a migration 004 e repita esses passos com duas contas reais do Auth, incluindo um novo médico sem nenhum convênio/consulta. O stack Supabase completo e o dispositivo físico continuam pendentes; os testes atuais usam PostgreSQL PGlite e entrada demonstrativa local.
+
 ## Controle pessoal — atualização de 16/10/2026
 
 - Migrations `202610160002_controle_pessoal.sql` e `202610160003_unificar_producao.sql` aplicadas pelos testes PostgreSQL junto à fundação. A terceira consolida produção no núcleo de atendimentos e recebimentos por local/convênio. Nenhuma conexão com Oracle.

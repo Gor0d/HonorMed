@@ -4,18 +4,33 @@
 
 **Sim, para demonstração guiada, descoberta comercial e recrutamento de um piloto.** A interface, o fluxo financeiro e os cálculos podem ser demonstrados com dados fictícios. Ainda não está validado para uso operacional com dados reais ou como documento oficial de pagamento.
 
-O registro atualizado contém build aprovado, 19 testes SQL/RLS e 8 testes Playwright em celular e desktop. São evidências do MVP, não homologação hospitalar. Auth/Supabase completo, implantação e instalação em dispositivo físico ainda precisam ser validados. Integração MV e conciliação hospitalar são futuras e não bloqueiam a utilidade do registro pessoal.
+O registro atualizado contém build aprovado, 27 testes SQL/RLS e 12 testes Playwright em celular e desktop. São evidências do MVP, não homologação hospitalar. Auth/Supabase completo, implantação e instalação em dispositivo físico ainda precisam ser validados. Integração MV e conciliação hospitalar são futuras e não bloqueiam a utilidade do registro pessoal.
 
 **Posicionamento atual:** autonomia do médico. Ele informa quantidade de consultas, por local/data/convênio, e os recebimentos. Código de prestador é opcional; honorário desconhecido não bloqueia registro. Tudo é identificado como informação pessoal, sem confirmação do hospital. HonorMed vem da revisão v2 e está centralizado em `brand.ts`; disponibilidade de marca/domínio não foi validada.
 
 ## Material
 
-- `HonorMed_Apresentacao_Medicos.pptx`: 16 slides editáveis e notas de fala. Slides 1–12 para médicos; 13–16 como apêndices para gestão/TI e negociação.
+- `HonorMed_Apresentacao_Medicos.pptx`: 18 slides editáveis e notas de fala. Slides 1–14 para médicos; 15–18 como apêndices para gestão/TI e negociação.
 - `HonorMed_Apresentacao_Medicos.pdf`: versão para compartilhar sem depender de fontes/PowerPoint.
-- As fontes visuais são Bricolage Grotesque e Manrope. Se o computador da apresentação não as tiver, o PowerPoint poderá substituí-las. Prefira o PDF para preservar a aparência.
+- A fonte é Segoe UI (já instalada no Windows e no Office), então o PPTX e o PDF ficam iguais. Em Mac, prefira o PDF.
 - Preços são hipóteses propostas, sem aprovação, contrato ativo ou cobrança implementada. A apresentação não altera os planos na aplicação.
 
 ## Roteiro de 10 minutos
+
+Escolha o roteiro conforme o médico. Em **Meu perfil de uso**, selecione Somente consultas, Somente laudos radiológicos ou Ambos. A opção fica salva por usuário. O radiologista não precisa cadastrar consultas ou convênios; abre direto o dashboard de Laudos no próximo acesso.
+
+### Para radiologistas
+
+1. Em Ajustes de Laudos, cadastre uma instituição e um tipo de exame (modalidade/região/urgência quando isso mudar o honorário).
+2. Informe a tarifa líquida por laudo para aquele par instituição/tipo. O mesmo exame pode ter valores diferentes em outra clínica.
+3. Clique **Registrar laudos** e informe data e quantidade. Mostre que, sem tarifa conhecida, os registros ficam salvos com valor pendente.
+4. Confira dashboard e detalhamento por tipo de exame e instituição. Filtre a Produção por instituição, exame e dia.
+5. Registre um pagamento parcial da instituição, indicando mês da produção e data do recebimento. Os valores não quitam consultas ou outras instituições.
+6. Explique que é controle financeiro dos laudos realizados, sem imagens, texto clínico ou pacientes; não é emissão de laudos ou PACS/RIS.
+
+Seed fictício radiológico: outubro tem 75 laudos, 5 sem honorário, R$ 1.520,00 conhecidos, R$ 300,00 recebidos e R$ 1.220,00 previstos. Novembro tem 10 laudos/R$ 350,00. A demo começa em Consultas; altere o perfil para demonstrar Laudos.
+
+### Para médicos que fazem consultas
 
 1. **Contexto (1 min):** “A ideia é o senhor ter o próprio controle, sem depender de pedir relatório ao administrativo. Hoje vamos usar dados fictícios.”
 2. **Configuração (1 min):** conta/perfil → local e convênio → honorário quando souber. Código MV não é obrigatório.
@@ -33,20 +48,22 @@ O banco demonstrativo reinicia ao encerrar e reiniciar o servidor. Mudanças dur
 
 | Opção | Preço sugerido | Proposta de escopo | Condição |
 |---|---:|---|---|
-| Free | R$ 0 | 1 convênio, competência atual e visão básica | Limites ainda não implementados |
-| Pro individual | R$ 49,90/médico/mês | Múltiplos locais/convênios e histórico pessoal com os meses registrados | Sem integração MV automaticamente incluída; cobrança futura |
-| Institucional | Referência de R$ 1.490/mês | Até 50 médicos de uma instituição | Licenciamento institucional, suporte e integrações sujeitos à descoberta e contrato |
+| Free | R$ 0 | Um local, mês atual e controle básico no módulo escolhido | Limites ainda não implementados |
+| Pro individual | R$ 79,90/médico/mês | Consultas, Laudos ou ambos; múltiplas instituições e histórico registrado | Sem integração MV automaticamente incluída; cobrança futura |
+| Institucional | Referência de R$ 1.990/mês | Até 50 médicos de uma instituição | Licenciamento institucional, suporte e integrações sujeitos à descoberta e contrato |
 | Implantação institucional | Referência inicial de R$ 4.900 | Configuração, capacitação e escopo inicial acordado | Estimar esforço antes de fechar; customizações e integração fora do escopo devem ser orçadas |
 
-Escolher quem paga: médico **ou** hospital para os acessos cobertos, evitando cobrança duplicada. Não prometer painel administrativo institucional, SLA, múltiplos hospitais, fechamento contábil, exportação ou recuperação automática de glosas: esses recursos não foram entregues neste MVP.
+Escolher quem paga: médico **ou** hospital para os acessos cobertos, evitando cobrança duplicada. Não prometer painel administrativo institucional, SLA, integração com múltiplos hospitais, fechamento contábil, exportação ou recuperação automática de glosas: esses recursos não foram entregues neste MVP. O cadastro manual de múltiplas instituições já existe.
+
+Proposta atualizada por ampliação do produto: Pro R$ 79,90 substitui R$ 49,90; institucional R$ 1.990 substitui R$ 1.490. O Pro permite escolher Consultas, Laudos ou ambos, sem obrigar o radiologista a usar Consultas. São preços sugeridos, sem contratação, cobrança ou limites ativos. Fonte dos preços da interface e do PPTX: `web/src/lib/plans.ts`. A referência de sistemas médicos consultada anteriormente é contexto de categoria, não valida esses valores ou equivalência de escopo.
 
 Sugestão de piloto: 5–10 médicos, 30 dias gratuitos de uso controlado após os requisitos de implantação e segurança. Demonstrar agora com seed. Validar Auth, permissões e persistência antes do uso pessoal real. Integração hospitalar exige autorização e homologação próprias. Medir esforço para registrar o dia, entendimento do saldo e disposição a pagar; não anunciar prazo garantido para integração.
 
 ## Por que esse preço?
 
-R$ 49,90 é uma hipótese inicial para um produto focado na visibilidade do repasse; não resulta de pesquisa comprovada de disposição a pagar. É necessário testar com médicos e levantar custo de operação/suporte. A oferta pública de [gestão financeira do iClinic](https://site.iclinic.com.br/funcionalidades/gestao-financeira/) confirma que repasses são uma funcionalidade de sistemas médicos mais amplos; isso é apenas contexto de categoria, não comparação equivalente nem prova de preço para o HonorMed. Referência consultada em 16/10/2026.
+R$ 79,90 é uma hipótese inicial para um produto focado na visibilidade do repasse; não resulta de pesquisa comprovada de disposição a pagar. É necessário testar com médicos e levantar custo de operação/suporte. A oferta pública de [gestão financeira do iClinic](https://site.iclinic.com.br/funcionalidades/gestao-financeira/) confirma que repasses são uma funcionalidade de sistemas médicos mais amplos; isso é apenas contexto de categoria, não comparação equivalente nem prova de preço para o HonorMed. Referência consultada em 16/10/2026.
 
-Exemplo aritmético: 100 assinantes Pro geram R$ 4.990/mês de receita **bruta**, antes de hospedagem, suporte, aquisição, tributos e manutenção. Não é previsão de vendas, margem ou lucro. Os valores institucionais também são sugestões próprias e dependem de escopo e custos.
+Exemplo aritmético: 100 assinantes Pro geram R$ 7.990/mês de receita **bruta**, antes de hospedagem, suporte, aquisição, tributos e manutenção. Não é previsão de vendas, margem ou lucro. Os valores institucionais também são sugestões próprias e dependem de escopo e custos.
 
 Se “valor comercial” significar **preço de venda integral do software**, não há base para um valuation defensável nesta fase. Levantar propriedade intelectual, custo de reposição, esforço restante, contratos, receita recorrente, custos e passivos antes de negociar cessão do produto. Não confundir preço de assinatura com valor do ativo.
 
@@ -56,7 +73,7 @@ Se “valor comercial” significar **preço de venda integral do software**, n�
 - É mais prático registrar uma consulta por vez ou a quantidade ao final do dia?
 - Você já sabe quanto recebe por consulta/convênio ou só descobre no demonstrativo?
 - A competência mostrada corresponde à que você espera? Como funciona o prazo de cada convênio?
-- Você pagaria R$ 49,90/mês por esse acompanhamento? Preferiria acesso custeado pelo hospital?
+- Você pagaria R$ 79,90/mês por esse acompanhamento? Preferiria acesso custeado pelo hospital?
 - Que resultado faria você continuar usando depois do piloto?
 
 ## Antes de oferecer operação real

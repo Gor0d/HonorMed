@@ -3,7 +3,7 @@
 Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de dados, telas e fases.
 
 ## Regras
-- Leia a REVISÃO v2 no topo de `docs/PLANO.md`: produto = controle pessoal do médico (registro manual + recebimentos). Próxima tarefa: `docs/FASE-4-REGISTRO-PESSOAL.md`. Conector MV é opcional/futuro; a Fase 0 só bloqueia o conector.
+- Leia a revisão mais recente no topo de `docs/PLANO.md`: controle pessoal por perfil (Consultas, Laudos ou ambos). A Fase 4 está implementada; `docs/FASE-4-REGISTRO-PESSOAL.md` registra seu escopo. Conector MV é opcional/futuro; a Fase 0 só bloqueia o conector.
 - Oracle MV é **somente leitura**: nunca INSERT/UPDATE/DELETE, nunca produção sem validar em HML (SYS_CONTEXT).
 - LGPD: nunca guardar nome/CPF/iniciais de paciente. Registro manual é por quantidade (sem paciente); `cd_atendimento` só quando vier de importação.
 - Nunca commitar `.env*`, credenciais ou chaves (service role só no conector).
@@ -24,3 +24,8 @@ Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de 
 - conector: não implementado; Fase 0 bloqueia Fase 3. Não acessar Oracle nas Fases 1/2.
 - seed: demonstração local com 140 atendimentos Out/2026 e 70 Nov/2026; veja `README.md`.
 - não commitar `.npm-cache`, `.next`, `node_modules`, relatórios de teste ou `.env*`.
+
+## Roadmap
+Laudos radiológicos foram antecipados por pedido explícito: leia revisão v3. Perfil Somente laudos não exige consultas/convênios. Produção e recebimentos dos módulos não se compensam. Nenhuma imagem, DICOM, texto de laudo ou dado de paciente. Preços propostos em `web/src/lib/plans.ts`, sem cobrança ativa.
+
+Features futuras e plano para cirurgias, internações e demais produções do médico: `docs/ROADMAP.md`.

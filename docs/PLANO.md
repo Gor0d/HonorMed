@@ -1,4 +1,16 @@
-# REVISÃO v2 (16/10/2026) — controle pessoal do médico (prevalece sobre o restante)
+# REVISÃO v3 (16/10/2026) — módulos independentes por perfil
+
+Pedido posterior do usuário: acrescentar Laudos Radiológicos e aumentar o valor comercial. Disponibilizar os perfis Somente consultas, Somente laudos ou Ambos, salvos por médico. Radiologistas não precisam cadastrar consultas/convênios.
+
+- Laudos: produção quantitativa por data/instituição/tipo de exame; tarifa por instituição/tipo, valores conhecidos preservados e preços pendentes permitidos. Tipos personalizáveis para modalidade/região/urgência quando houver diferença financeira.
+- Dashboard radiológico e recebimentos por instituição/mês da produção, completamente separados de Consultas. Mesmo fluxo registrar → prever → receber → conferir, sem identificar pacientes, guardar imagens ou texto de laudo.
+- Cálculos em SQL, RLS em todas as tabelas e views security_invoker. `202610160004_laudos.sql` é uma migration aditiva; sem Oracle.
+- Proposta Pro R$ 79,90/médico/mês (módulos à escolha) e institucional de referência R$ 1.990/mês, centralizadas em `web/src/lib/plans.ts`; implantação de referência mantida em R$ 4.900. Sem cobrança ou limites ativos. Preços sujeitos à validação comercial.
+- Cirurgias, internações, plantões e demais itens de `ROADMAP.md` continuam futuros; somente Laudos foi antecipado por autorização expressa.
+
+---
+
+# REVISÃO v2 (16/10/2026) — controle pessoal do médico
 
 O produto passa a ser uma **ferramenta de controle pessoal**: o médico registra a própria produção e os
 recebimentos, sem depender do sistema administrativo do hospital. A integração com o Soul MV vira
@@ -14,7 +26,7 @@ recebimentos, sem depender do sistema administrativo do hospital. A integração
   e a UI deixa isso visível. O registro pessoal estima e confere; não prova que o hospital faturou ou pagou.
 - **Nome do produto**: **HonorMed** (decidido em 16/10/2026; "Repasse MED" era provisório e conflita com o RepasseMed existente). Centralizar em `web/src/lib/brand.ts`. Pendente: checar INPI (classes 9, 36, 42) e domínio honormed.com.br.
 - Mantém: Next.js + Supabase, RLS por médico, cálculo em SQL, sem dados de paciente, mobile-first.
-- Próxima tarefa do Codex: `docs/FASE-4-REGISTRO-PESSOAL.md`.
+- Próxima tarefa do Codex: `docs/FASE-4-REGISTRO-PESSOAL.md`. Futuro (cirurgias, internações, plantões, etc.): `docs/ROADMAP.md`.
 
 ---
 
