@@ -2,6 +2,8 @@
 
 A Fase 0 bloqueia qualquer conector. As Fases 1/2 usam exclusivamente seed fictício por instrução explícita do usuário.
 
+O fluxo principal agora é o controle pessoal independente, com produção por quantidade e recebimentos informados pelo médico. Esse fluxo não depende da Fase 0; só a integração MV continua bloqueada. Antes de conectar dados hospitalares, definir reconciliação explícita com registros pessoais para não duplicar produção. Não converter registro pessoal em confirmação hospitalar automaticamente.
+
 1. Obter autorização do hospital/TI e validar política de dados na nuvem, retenção e perfis de acesso.
 2. Habilitar HML e conferir `SYS_CONTEXT` antes de mapear tabelas; nunca escrever no Oracle. Entregar `docs/mapeamento-mv.md` e SELECTs validados. Nenhuma consulta foi executada agora.
 3. Mapear prestador, agenda, atendimento, convênio, procedimento, faturamento, glosa e pagamento. Validar vínculo médico/usuário fora da autodeclaração do onboarding.

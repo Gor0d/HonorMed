@@ -1,5 +1,26 @@
 # Validação
 
+## Controle pessoal — atualização de 16/10/2026
+
+- Migrations `202610160002_controle_pessoal.sql` e `202610160003_unificar_producao.sql` aplicadas pelos testes PostgreSQL junto à fundação. A terceira consolida produção no núcleo de atendimentos e recebimentos por local/convênio. Nenhuma conexão com Oracle.
+- SQL/RLS: 19 testes passaram, incluindo quantidade, honorário pendente, preservação de valores históricos, troca de local, recebimento em outro mês, excesso por local/convênio, regras específicas com dedução/glosa/vigência e proteção das novas tabelas/views. Usuário não pode se autodeclarar confirmado pelo hospital.
+- Navegador: 8 testes passaram em 390 × 844 e 1280 × 900 no build de produção. Incluem cadastros pessoais, lançamento sem valor, repetição, stepper, desfazer, configuração de honorário, recebimento parcial por convênio, edição/exclusão, troca de mês, contraste dos temas e visão importada anterior.
+- `npm run test:e2e` executa o build e usa servidor de produção exclusivo em 3100; não reutiliza nem interrompe o dev em 3000. Variável opcional `PLAYWRIGHT_TEST_PORT` permite trocar a porta.
+- Capturas pessoais: `web/test-results/personal-dashboard-mobile.png`, `personal-dashboard-desktop.png` e variantes escuras. Os arquivos são ignorados pelo Git e regenerados pelos testes.
+- As pendências de Auth/Supabase completo, implantação e dispositivo físico continuam válidas. Não foi homologado uso real com dados hospitalares.
+
+### Conferência manual do fluxo pessoal
+
+1. Entre em `/`, confira 24 consultas, 4 sem valor e saldo previsto R$ 1.745,00 em outubro. Novembro tem R$ 510,00 sem recebimento informado.
+2. Em Ajustes, adicione local/convênio. Registre 5 consultas sem honorário: quantidade aumenta e valor fica pendente.
+3. Configure R$ 100 por consulta para esse par: registros pendentes passam a R$ 500. Altere a configuração para R$ 110: os registros conhecidos permanecem R$ 500 e os novos usam R$ 110.
+4. Registre R$ 200 recebidos em novembro, referentes à produção de outubro nesse local. Outubro reduz o saldo desse local para R$ 300; novembro não muda.
+5. Edite a quantidade/recebimento e exclua registros para conferir recálculo. Teste filtros por local/convênio/dia. Não informe pacientes.
+6. Em `/importados`, confira que os totais são independentes, sem somar os lançamentos pessoais.
+7. Com Supabase configurado, faça onboarding sem código MV e repita com dois médicos; nenhum deve ver ou referenciar locais, honorários ou valores do outro.
+
+O registro abaixo preserva os resultados da entrega inicial.
+
 ## Automatizada
 
 `cd web`, `npm test`: PostgreSQL real embarcado executa as migrations. Casos fixo/percentual/dedução/arredondamento/glosa, contagens 140/70, sem regra, datas de vigência e sobreposição. RLS com dois UUIDs, papel não superusuário, views `security_invoker`, bloqueio de leitura, escrita indevida e atualização do outro médico.

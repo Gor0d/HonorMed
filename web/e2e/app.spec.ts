@@ -5,7 +5,7 @@ test("regras CRUD e importação CSV recalculam em SQL", async ({
   page,
   request,
 }, info) => {
-  await page.goto("/");
+  await page.goto("/importados");
   await page.getByRole("button", { name: "Entrar", exact: true }).click();
   await expect(page.getByText("140 consultas na competência")).toBeVisible({
     timeout: 60000,
@@ -29,11 +29,9 @@ test("regras CRUD e importação CSV recalculam em SQL", async ({
   await dialog.locator('[name="valor_honorario"]').fill("100");
   await dialog.getByRole("button", { name: "Salvar regra" }).click();
   await expect(dialog).toHaveCount(0);
-  const rule = page
-    .locator("article.rule")
-    .filter({
-      has: page.getByRole("heading", { name: "Vida Saúde", exact: true }),
-    });
+  const rule = page.locator("article.rule").filter({
+    has: page.getByRole("heading", { name: "Vida Saúde", exact: true }),
+  });
   await expect(rule).toBeVisible();
   await rule.getByRole("button", { name: "Editar", exact: true }).click();
   await dialog.locator('[name="deducao_pct"]').fill("10");
@@ -50,15 +48,13 @@ test("regras CRUD e importação CSV recalculam em SQL", async ({
     .getByRole("button", { name: "Importar", exact: true })
     .click();
   const code = `E2E-${info.project.name}`;
-  await page
-    .locator('input[type="file"]')
-    .setInputFiles({
-      name: "producao.csv",
-      mimeType: "text/csv",
-      buffer: Buffer.from(
-        `cd_atendimento;convenio;data_atendimento;status;valor_consulta\n${code};Unimed;2026-11-03;agendado;180`,
-      ),
-    });
+  await page.locator('input[type="file"]').setInputFiles({
+    name: "producao.csv",
+    mimeType: "text/csv",
+    buffer: Buffer.from(
+      `cd_atendimento;convenio;data_atendimento;status;valor_consulta\n${code};Unimed;2026-11-03;agendado;180`,
+    ),
+  });
   await page
     .getByRole("button", { name: /Validar e importar 1 atendimentos/ })
     .click();
@@ -77,7 +73,7 @@ test("regras CRUD e importação CSV recalculam em SQL", async ({
   await rule.getByRole("button", { name: "Excluir", exact: true }).click();
   await expect(rule).toHaveCount(0);
   const cleanup = await request.post("/api/demo", {
-    headers: { origin: "http://127.0.0.1:3000" },
+    headers: { origin: new URL(page.url()).origin },
     data: {
       table: "atendimentos",
       action: "delete",
@@ -90,7 +86,7 @@ test("regras CRUD e importação CSV recalculam em SQL", async ({
 test("login → dashboard → trocar competência, filtros e tema", async ({
   page,
 }, info) => {
-  await page.goto("/");
+  await page.goto("/importados");
   await page.getByRole("button", { name: "Entrar", exact: true }).click();
   await expect(page.getByText("A receber em outubro de 2026")).toBeVisible({
     timeout: 60000,

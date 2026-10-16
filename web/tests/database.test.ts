@@ -112,7 +112,7 @@ describe("RLS real em PostgreSQL", () => {
       expect(
         (
           await db.query<Record<string, unknown>>(
-            "select * from atendimentos_calculados",
+            "select * from atendimentos_importados_calculados",
           )
         ).rows,
       ).toHaveLength(210);

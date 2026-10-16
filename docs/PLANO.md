@@ -1,4 +1,38 @@
+# REVISÃO v2 (16/10/2026) — controle pessoal do médico (prevalece sobre o restante)
+
+O produto passa a ser uma **ferramenta de controle pessoal**: o médico registra a própria produção e os
+recebimentos, sem depender do sistema administrativo do hospital. A integração com o Soul MV vira
+**opcional e futura** (a Fase 0 só é necessária se formos fazer o conector).
+
+- **Entrada principal**: registro rápido manual ("hoje, 8 consultas Unimed no Hospital X"), sem paciente.
+  Import CSV/XLSX continua como entrada secundária.
+- **Tela inicial**: botão grande **Registrar consultas** + três números: **Produzido · Previsto a receber · Recebido**.
+- **Recebimentos**: o médico registra valor e data quando o hospital paga; a diferença entre previsto e recebido
+  fica sinalizada para conferência.
+- **Locais de atendimento**: um médico pode atender em vários hospitais/clínicas.
+- **Origem do dado**: cada lançamento tem `origem` (`informado_medico` | `importado` | futuro `confirmado_hospital`)
+  e a UI deixa isso visível. O registro pessoal estima e confere; não prova que o hospital faturou ou pagou.
+- **Nome do produto**: **HonorMed** (decidido em 16/10/2026; "Repasse MED" era provisório e conflita com o RepasseMed existente). Centralizar em `web/src/lib/brand.ts`. Pendente: checar INPI (classes 9, 36, 42) e domínio honormed.com.br.
+- Mantém: Next.js + Supabase, RLS por médico, cálculo em SQL, sem dados de paciente, mobile-first.
+- Próxima tarefa do Codex: `docs/FASE-4-REGISTRO-PESSOAL.md`.
+
+---
+
 # Repasse_MED — MVP de repasse médico (consultas ambulatoriais)
+
+## Atualização de produto — controle pessoal do médico (16/10/2026)
+
+Decisão posterior do usuário: priorizar a autonomia do médico, mesmo sem acesso ao administrativo do hospital. Esta decisão substitui a dependência de integração como entrada principal do produto; a Fase 0 continua bloqueando exclusivamente o conector MV.
+
+- Tela inicial simples, com duas ações: Registrar consultas e Registrar recebimento.
+- Registrar quantidade por data, local e convênio, sem identificação de pacientes. Honorário desconhecido não bloqueia o registro.
+- Cadastrar locais, convênios e honorário líquido esperado por consulta. Código de prestador MV opcional no onboarding.
+- Recebimento pessoal vinculado a local e mês de produção, separado da data do pagamento. Sem atribuição automática a consultas específicas.
+- Honorário conhecido fica preservado no lançamento; configurar honorário preenche os registros ainda sem valor. Cálculos e saldo em SQL, RLS por médico em todas as novas tabelas.
+- Dados pessoais informados pelo médico não significam confirmação do hospital. Visão importada mantida em `/importados`, com totais separados para evitar duplicidade.
+- Marca HonorMed centralizada em `web/src/lib/brand.ts`, conforme revisão v2. Sem cobrança e sem implementação/acesso Oracle.
+
+O restante deste documento registra o planejamento original e a visão de integração futura.
 
 ## Context
 Médicos que atendem em um hospital não sabem, durante o mês, quanto vão receber. O MVP mostra,

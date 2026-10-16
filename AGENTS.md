@@ -1,14 +1,17 @@
-# Repasse_MED — instruções para o Codex
+# HonorMed (pasta Repasse_MED) — instruções para o Codex
 
 Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de dados, telas e fases.
 
 ## Regras
-- Siga as fases na ordem. A Fase 0 (mapeamento do Soul MV via MCP `soul-mv-erp-hml`) bloqueia o conector.
+- Leia a REVISÃO v2 no topo de `docs/PLANO.md`: produto = controle pessoal do médico (registro manual + recebimentos). Próxima tarefa: `docs/FASE-4-REGISTRO-PESSOAL.md`. Conector MV é opcional/futuro; a Fase 0 só bloqueia o conector.
 - Oracle MV é **somente leitura**: nunca INSERT/UPDATE/DELETE, nunca produção sem validar em HML (SYS_CONTEXT).
-- LGPD: nunca enviar nome/CPF de paciente ao Supabase; usar `cd_atendimento` e dados financeiros.
+- LGPD: nunca guardar nome/CPF/iniciais de paciente. Registro manual é por quantidade (sem paciente); `cd_atendimento` só quando vier de importação.
 - Nunca commitar `.env*`, credenciais ou chaves (service role só no conector).
 - Cálculo de repasse em SQL (Supabase), auditável; RLS por médico em todas as tabelas.
 - UI: mobile-first, pt-BR (R$, datas), Tailwind + shadcn/ui + Recharts, PWA instalável.
+- Fluxo principal: controle pessoal por quantidade/local/convênio e recebimentos informados pelo médico; código MV opcional. Não apresentar autodeclarações como confirmação hospitalar.
+- `/importados` mantém visão avançada independente; nunca somar automaticamente produção importada e pessoal.
+- Marca central em `web/src/lib/brand.ts`. Migrations novas consolidam locais, quantidade em atendimentos e recebimentos por convênio/local; as views pessoais respeitam RLS das tabelas base.
 
 ## Estrutura
 /web (Next.js) · /supabase (migrations, seed) · /connector (Python) · /docs

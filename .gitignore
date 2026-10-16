@@ -3,6 +3,8 @@ node_modules/
 .playwright/
 .tools/
 docs/apresentacao/preview/
+__pycache__/
+*.pyc
 *.tsbuildinfo
 .next/
 .env*
