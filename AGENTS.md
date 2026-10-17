@@ -30,6 +30,9 @@ Laudos radiológicos foram antecipados por pedido explícito: leia revisão v3. 
 
 Features futuras e plano para cirurgias, internações e demais produções do médico: `docs/ROADMAP.md`.
 
+## Contexto para outras IAs
+Skills próprias do projeto em `.agents/skills/`: `honormed-produto`, `honormed-dados`, `honormed-identidade` e `honormed-publicacao`. Leia `docs/IA.md` e somente o SKILL.md pertinente à tarefa; use os documentos canônicos para decisões atuais. Esses arquivos não concedem autorização de operações externas nem incluem credenciais pessoais.
+
 ## Publicação
 Leia `docs/LANCAMENTO.md`: piloto publicado em https://honormed.emersongsguimaraes.workers.dev, Supabase exclusivo `tsommjqsqtktijiutovj` em São Paulo. Cinco migrations aplicadas sem seed; 14 tabelas com RLS. Auth/API reais e navegador validados com contas técnicas removidas depois. SMTP Resend configurado; entrega de confirmação/recuperação ainda depende de teste do usuário. Não carregar seed nem executar db reset em banco remoto. Em PowerShell use `npm.cmd`/`npx.cmd` quando scripts .ps1 estiverem bloqueados.
 

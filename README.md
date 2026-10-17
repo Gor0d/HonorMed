@@ -1,5 +1,7 @@
 # HonorMed
 
+Contexto portável para assistentes: [guia de IA](docs/IA.md) e skills em [.agents/skills](.agents/skills). Inclui instruções de produto, dados, identidade e publicação, com pontos de entrada para Claude e Copilot; sem credenciais pessoais.
+
 Piloto publicado: **https://honormed.emersongsguimaraes.workers.dev** — Cloudflare Workers + Supabase exclusivo em São Paulo, sem seed e sem Oracle. Auth/API reais, cálculo e isolamento entre médicos testados nos dois módulos; contas técnicas removidas. SMTP Resend configurado como HonorMed <acesso@cforod.com>; conferir a chegada dos e-mails ao criar sua conta. Domínio próprio, termos/privacidade, contratação/cobrança e operação de backups/suporte permanecem pendentes antes de ampliar vendas. Veja [operação e lançamento](docs/LANCAMENTO.md).
 
 Em `/web`, `npm.cmd run build:cloudflare` constrói/verifica e `npm.cmd run deploy:cloudflare` reconstrói/publica. Somente URL e chave pública Supabase no ambiente web: OpenNext serializa variáveis de build. Credenciais SMTP/banco e tokens ficam fora de `/web`. `npm run test:e2e` sempre usa demo isolada, mesmo com configuração real presente. Se `npm run dev` encontrar as variáveis Supabase em `.env.local`, usará esse backend; use um Supabase separado para desenvolvimento com dados reais.
