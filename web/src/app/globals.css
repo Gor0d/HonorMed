@@ -957,6 +957,55 @@ summary > strong {
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: 12px;
 }
+.extension-banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brand-gold);
+  border-radius: 16px;
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.extension-banner-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+.extension-banner-copy {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+.extension-banner-copy h2 {
+  font-size: 19px;
+  margin: 5px 0;
+}
+.extension-banner-copy p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.extension-banner-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.extension-banner-action {
+  text-align: center;
+}
+/* The extension only exists for desktop Chromium browsers. */
+@media (max-width: 767px) {
+  .extension-banner {
+    display: none;
+  }
+}
 @media (min-width: 600px) {
   .hero-badge {
     display: flex;

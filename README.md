@@ -6,7 +6,7 @@ Piloto publicado: **https://honormed.emersongsguimaraes.workers.dev** — Cloudf
 
 Em `/web`, `npm.cmd run build:cloudflare` constrói/verifica e `npm.cmd run deploy:cloudflare` reconstrói/publica. Somente URL e chave pública Supabase no ambiente web: OpenNext serializa variáveis de build. Credenciais SMTP/banco e tokens ficam fora de `/web`. `npm run test:e2e` sempre usa demo isolada, mesmo com configuração real presente. Se `npm run dev` encontrar as variáveis Supabase em `.env.local`, usará esse backend; use um Supabase separado para desenvolvimento com dados reais.
 
-O registro rápido no computador oferece a rota `/registrar` e uma extensão Chromium nesta branch. Consulte o [guia de build e instalação da extensão](extension/README.md) e a [especificação do registro rápido](docs/REGISTRO-RAPIDO.md). A extensão ainda não foi publicada na loja nem instalada em Chrome/Cent Browser físico.
+O registro rápido no computador oferece a rota `/registrar` e uma extensão Chromium no repositório; o app convida o médico, no desktop, a usá-la. Consulte o [guia de build e instalação da extensão](extension/README.md) e a [especificação do registro rápido](docs/REGISTRO-RAPIDO.md). A extensão ainda não foi publicada na loja nem instalada em Chrome/Cent Browser físico.
 
 ## Consultas, Laudos ou ambos
 

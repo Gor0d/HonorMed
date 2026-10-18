@@ -28,6 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PRODUCT_NAME } from "@/lib/brand";
 import { Brand, BrandMark } from "@/components/brand";
+import { ExtensionBanner } from "@/components/extension-banner";
 import { money } from "@/lib/utils";
 import { today } from "@/lib/date";
 import {
@@ -387,6 +388,7 @@ export default function PersonalControl({
             </button>
           </div>
         </header>
+        {page === "Início" && <ExtensionBanner />}
         <div className="personal-context">
           <span className="period-title">
             <span className="live-dot" />

@@ -28,6 +28,7 @@ import { Dialog } from "@/components/personal-control";
 import { Button } from "@/components/ui/button";
 import { PRODUCT_NAME } from "@/lib/brand";
 import { Brand } from "@/components/brand";
+import { ExtensionBanner } from "@/components/extension-banner";
 import { money } from "@/lib/utils";
 import { today } from "@/lib/date";
 import {
@@ -269,6 +270,7 @@ export default function RadiologyControl({
             </button>
           </div>
         </header>
+        {page === "Dashboard" && <ExtensionBanner />}
         <div className="personal-context">
           <span className="period-title">
             <span className="live-dot" />
