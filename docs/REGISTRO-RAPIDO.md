@@ -1,6 +1,6 @@
 # Registro rápido no computador do consultório — especificação
 
-Status: **Etapa 0, especificação para revisão** (17/10/2026). Nenhuma rota, extensão, migration ou publicação foi criada nesta etapa.
+Status: **Etapa 0 aprovada, D1 incorporada** (17/10/2026). A rota e a extensão seguem nas etapas posteriores; nenhuma migration ou publicação foi criada.
 
 ## Objetivo e limites
 
@@ -20,7 +20,7 @@ Não se prevê migration. Se o contrato existente se mostrar insuficiente, parar
 
 ### Registrar Consultas
 
-Data local de hoje por padrão; local, convênio e quantidade inteira de 1 a 1.000. O médico pode ajustar com `+`/`−` ou digitar. Ao salvar, inserir em `producoes_pessoais` com `medico_id` da sessão e `origem` determinada pelo trigger como `informado_medico`. Honorário ausente não impede o registro. Buscar a linha calculada por `id` e mostrar apenas “Consultas registradas: N · Valor previsto: R$ …” ou “Valor pendente”, sempre com a ressalva “Informado por você”.
+Data **local** de hoje por padrão; local, convênio e quantidade inteira de 1 a 1.000. Extrair `today()` dos controles existentes para `web/src/lib/` e reutilizar em `/registrar`; não usar `toISOString().slice(0,10)`, que pode adiantar a data em Brasília à noite. O médico pode ajustar com `+`/`−` ou digitar. Ao salvar, inserir em `producoes_pessoais` com `medico_id` da sessão e `origem` determinada pelo trigger como `informado_medico`. Honorário ausente não impede o registro. Buscar a linha calculada por `id` e mostrar apenas “Consultas registradas: N · Valor previsto: R$ …” ou “Valor pendente”, sempre com a ressalva “Informado por você”.
 
 ### Registrar Laudos
 
@@ -30,19 +30,21 @@ Data local de hoje por padrão; instituição (local), tipo de exame e quantidad
 
 “Repetir último” **preenche** módulo, local, convênio/tipo e quantidade do último lançamento bem-sucedido do usuário; usa a data selecionada (hoje por padrão). Antes de gravar, exige confirmação explícita com os campos visíveis. Nunca salva só por clicar em “Repetir último”. Na rota, pode recuperar a última produção do dataset autenticado; no popup, usa apenas a chave local de metadados do usuário. Se o perfil atual não permite o módulo ou alguma opção foi removida, orientar a selecionar outra, sem gravar.
 
-Após salvar, o popup oferece “Desfazer” somente para o `id` recém-criado, na sessão atual do popup, mediante confirmação. Excluir da mesma interface de escrita. O `id` de desfazer fica em memória enquanto o popup está aberto; não é persistido como histórico financeiro.
+Após salvar, tanto `/registrar` quanto o popup oferecem “Desfazer lançamento” somente para o `id` recém-criado, mediante confirmação, como no app atual. Excluir da mesma interface de escrita. O `id` de desfazer fica em memória enquanto a tela está aberta; não é persistido como histórico financeiro.
 
 ### Sair e expirar
 
 Botão **Sair** sempre visível no popup autenticado. `signOut` revoga a sessão no Supabase quando houver rede e limpa todas as chaves da extensão para aquele usuário, em `chrome.storage.session` e `chrome.storage.local`, inclusive “repetir último”. Mesmo se a rede falhar, o acesso local é bloqueado e o storage é limpo; a falha de revogação remota é informada. A rota usa a saída já existente no app.
 
-**Inatividade: 30 minutos** (`INACTIVITY_MS = 30 * 60 * 1000`, uma constante). Interações reais no popup atualizam `lastActivity`; consultas automáticas ao banco não renovam o prazo. Com o popup aberto, um temporizador encerra a sessão no prazo. Ao reabrir, qualquer leitura de sessão verifica o prazo **antes** de expor dados ou permitir escrita; se passou, bloqueia e faz logout/limpeza. Sem permissão `alarms` e com o popup fechado, o Manifest V3 não oferece execução cronometrada confiável para revogar imediatamente o refresh token no servidor. Portanto, o prazo é aplicado ao próximo acesso; esta limitação precisa ser aceita na revisão de segurança antes da Etapa 2. Não ampliar permissões silenciosamente.
+**D1 — sessão por turno de trabalho:** padrão desmarcado em `chrome.storage.session`, encerrado ao fechar o navegador **ou após 30 min sem uso** (`INACTIVITY_SESSION_MS = 30 * 60 * 1000`). Com “Manter conectado neste computador”, a sessão fica em `chrome.storage.local`, sobrevive ao fechamento e expira após **12 h sem uso** (`INACTIVITY_REMEMBER_MS = 12 * 60 * 60 * 1000`). São duas constantes únicas e nomeadas. Interações reais no popup atualizam `lastActivity`; refresh de token e leituras automáticas não renovam o prazo. Com o popup aberto, um temporizador encerra a sessão no prazo.
+
+Na abertura do popup, verificar o prazo **sincronamente antes de criar o cliente Supabase com a sessão guardada, renderizar opções ou permitir escrita**. Se venceu, limpar primeiro o storage e bloquear a UI; tentar `signOut` em seguida, de forma best effort, sem restaurar o acesso se a rede falhar. Sem permissão `alarms` e com o popup fechado, não há revogação cronometrada confiável no servidor. O refresh token pode continuar válido no servidor até ser usado ou expirar conforme a configuração de sessões do Supabase. Configurar limites de sessão no Supabase poderia mitigar isso no futuro, mas afetaria também o app web; **não alterar configuração remota nesta feature**. O limite lógico é aplicado ao próximo acesso ao popup.
 
 ## Telas em texto
 
 **`/registrar` (desktop primeiro; útil em 390 px):** logo HonorMed · módulo (abas só em “Ambos”) · data · local/instituição · convênio ou tipo de exame · quantidade `[−] [n] [+]` · **Salvar** · **Repetir último** · confirmação após salvar · “Abrir HonorMed” · link “Configurar em Ajustes” quando faltar catálogo. Foco inicial na quantidade; `Enter` salva se válido; `Esc` limpa o formulário. Deve preservar acessibilidade, contraste e marca em `brand.ts`/componentes existentes.
 
-**Popup, desconectado:** logo · e-mail · senha · opção desmarcada “Manter conectado neste computador” · **Entrar** · “Esqueci a senha” · “Criar conta”.
+**Popup, desconectado:** logo · e-mail · senha · opção desmarcada “Manter conectado neste computador”, acompanhada de “Use apenas em computador de uso exclusivo seu. Sai após 12 h sem uso.” · **Entrar** · “Esqueci a senha” · “Criar conta”.
 
 **Popup, conectado:** módulo permitido · data · local/instituição · convênio/tipo · quantidade · **Salvar** · **Repetir último** · confirmação do último registro e “Desfazer” · **Abrir HonorMed** · **Sair** sempre visível. Sem totais, saldos ou recebimentos. Em erro de rede, formulário permanece preenchido e não há fila offline.
 
@@ -52,7 +54,7 @@ Manifest V3: `permissions: ["storage"]`; `host_permissions` contém **somente a 
 
 O build exige `HONORMED_SUPABASE_URL`, `HONORMED_SUPABASE_ANON_KEY` e `HONORMED_APP_URL`; valida formato HTTPS/origens e gera o host exato. Apenas URL e chave **anon pública** do Supabase e URL do app entram no pacote. O verificador de artefatos reprova `.env`, service role, credenciais conhecidas e permissões fora da lista. `extension/dist` e `extension/release` (zip) são ignorados pelo Git. Nada é publicado nesta feature.
 
-Supabase JS terá `detectSessionInUrl: false` e adaptador de storage da extensão. Padrão: `chrome.storage.session`, apagado ao fechar o navegador. A opção explícita “Manter conectado neste computador”, desmarcada, usa `chrome.storage.local`. Ao mudar a opção, selecionar um único storage ativo e apagar a cópia antiga antes de permitir novo uso; não manter refresh token em dois storages. Chaves de sessão e de “repetir último” são associadas ao `user.id`; não usar e-mail como identificador de chave. “Repetir último” guarda **somente** módulo, `local_id`, `convenio_id` ou `tipo_id`, e quantidade; `lastActivity` guarda apenas o horário da última interação. Nunca persistir valores financeiros, saldos ou dados de paciente. Ao trocar de médico no mesmo perfil do navegador, limpar as chaves do anterior.
+Supabase JS terá `detectSessionInUrl: false` e adaptador de storage da extensão. Padrão: `chrome.storage.session`, apagado ao fechar o navegador ou após 30 min sem uso. A opção explícita “Manter conectado neste computador”, desmarcada, usa `chrome.storage.local` e 12 h sem uso. Ao mudar a opção, selecionar um único storage ativo e apagar a cópia antiga antes de permitir novo uso; não manter refresh token em dois storages. Chaves de sessão e de “repetir último” são associadas ao `user.id`; não usar e-mail como identificador de chave. “Repetir último” guarda **somente** módulo, `local_id`, `convenio_id` ou `tipo_id`, e quantidade; `lastActivity` guarda apenas o horário da última interação. Nunca persistir valores financeiros, saldos ou dados de paciente. Ao trocar de médico **no mesmo perfil do navegador**, limpar as chaves do anterior, inclusive preferência de storage, antes de mostrar dados de B.
 
 ## Contrato de dados existente
 
@@ -87,10 +89,10 @@ O SQL preenche o honorário/tarifa conhecida e calcula `valor_previsto`. A aplic
 2. Consultas com e sem honorário e Laudos são gravados por quantidade nas interfaces acima. “Repetir último” exige confirmação. Valor exibido coincide com a view SQL e `NULL` aparece como pendente. Sem mistura entre módulos.
 3. PWA oferece atalhos “Registrar consultas” e “Registrar laudos” com ícones existentes. Service worker não armazena dados financeiros.
 4. Extensão instala descompactada em Chromium de teste; manifest possui somente as permissões autorizadas e origem Supabase exata. Login e links funcionam. Build falha sem variáveis públicas e reprova artefatos inseguros.
-5. Sessão usa `storage.session` por padrão; persistência local só com consentimento. Logout limpa chaves do usuário; expiração bloqueia acesso após 30 minutos. Dois médicos em perfis distintos do navegador não veem opções um do outro.
-6. Unitários: adaptador de storage, expiração e payloads com lista exata de campos. Playwright da extensão intercepta rotas Supabase; cobre login, dois módulos, perfil Somente laudos, falha de rede, logout e expiração, sem Supabase real.
-7. Teste PGlite fixa as colunas usadas de `producoes_pessoais`, `laudos_producao` e views de resultado; falha se o contrato mudar. Inclui RLS A/B significativo e confirma origem e valor vindos do SQL. Nenhuma migration remota, seed remoto, deploy ou publicação na loja.
-8. Verificações por etapa: rota — `npm test`, `npm run build`, `npm run test:e2e` em `/web`; extensão — unitários, build, verificador de artefatos e Playwright isolado; CI — job com valores fictícios. Teste manual posterior: Chrome e Cent Browser no computador real, política de TI, e-mail real, fechamento do navegador e expiração.
+5. Sessão usa `storage.session` por padrão (30 min sem uso, ou fim do navegador); persistência local só com consentimento (12 h sem uso). Logout limpa chaves do usuário. No mesmo perfil do navegador, A sai e B entra sem ler metadados de A, inclusive “repetir último” e preferência de storage.
+6. Unitários: adaptador de storage, expiração e payloads com lista exata de campos. Playwright da extensão intercepta rotas Supabase; cobre login, dois módulos, perfil Somente laudos, falha de rede, logout e expiração, sem Supabase real. Com relógio controlado, 30 min − 1 s e 12 h − 1 s preservam acesso; 30 min + 1 s e 12 h + 1 s bloqueiam e limpam. Respostas automáticas não renovam `lastActivity`.
+7. Teste PGlite fixa as colunas usadas de `producoes_pessoais`, `laudos_producao` e views de resultado; falha se o contrato mudar. Cobre precisamente `insert(...).select('id')` na view com trigger `INSTEAD OF`, seguido de leitura por `id` em `producao_pessoal_calculada`. Inclui RLS A/B significativo e confirma origem e valor vindos do SQL. Nenhuma migration remota, seed remoto, deploy ou publicação na loja.
+8. Verificações por etapa: rota — `npm test`, `npm run build`, `npm run test:e2e` em `/web`, incluindo fuso `America/Sao_Paulo` às 22:30; extensão — unitários, build, verificador de artefatos e Playwright isolado; CI — job com valores fictícios. Teste manual posterior: Chrome e Cent Browser no computador real, política de TI, e-mail real, fechamento do navegador e expiração.
 
 ## Etapas e parada de revisão
 
