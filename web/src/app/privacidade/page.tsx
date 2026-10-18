@@ -5,6 +5,7 @@ import { CONTROLLER_NAME, PRIVACY_UPDATED_AT, SUPPORT_EMAIL } from "@/lib/legal"
 export const metadata: Metadata = {
   title: "Política de privacidade · HonorMed",
   description: "Como o HonorMed e a extensão Registro rápido tratam os dados do médico.",
+  robots: { index: false, follow: false },
 };
 
 export default function PrivacyPage() {
@@ -17,6 +18,7 @@ export default function PrivacyPage() {
         <small>Atualizada em {PRIVACY_UPDATED_AT}</small>
       </div>
       <article className="public-info-card privacy-copy">
+        <p className="legal-draft-note"><strong>Rascunho para revisão do responsável.</strong> Esta versão ainda não foi aprovada nem publicada como política vigente.</p>
         <section>
           <h2>1. Responsável e contato</h2>
           <p>O responsável pelo HonorMed é {CONTROLLER_NAME}. Para suporte, dúvidas sobre privacidade ou pedidos relativos aos seus dados, escreva para <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.</p>

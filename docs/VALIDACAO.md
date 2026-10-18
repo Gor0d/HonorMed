@@ -4,7 +4,7 @@
 
 O titular informou que instalou a extensão descompactada com sua conta real e conseguiu entrar, registrar uma Consulta e um Laudo de teste, desfazer e sair. O navegador usado e o teste de fechamento/expiração ainda precisam ser registrados. Este é um relato de validação manual; não executei operações na conta real. As capturas para a loja em `docs/brand/extension/` foram produzidas separadamente, com Auth/API simulados e dados fictícios.
 
-As páginas `/privacidade` e `/suporte` foram implementadas e passaram no build/E2E local em 390 px e 1280 px; publicação e checagem HTTP permanecem pendentes nesta revisão.
+As páginas `/privacidade`, `/termos` e `/suporte` passaram no build/E2E local em 390 px e 1280 px; os rascunhos jurídicos foram conferidos visualmente em ambos os tamanhos. Política e termos aguardam revisão do responsável; publicação e checagem HTTP permanecem pendentes nesta revisão.
 
 ## Cadastro e recuperação pelo titular — 17/10/2026
 

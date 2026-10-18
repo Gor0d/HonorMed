@@ -2019,6 +2019,7 @@ summary > strong {
 .privacy-copy { display: grid; gap: 30px; }
 .privacy-copy section { max-width: 760px; }
 .privacy-copy code { font-size: 12px; }
+.legal-draft-note { border-left: 3px solid var(--brand-gold); padding: 10px 14px; background: var(--surface-2); }
 .public-info-links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 24px; }
 .support-card { min-height: 220px; }
 .public-info-footer { padding: 10px 0; border-top: 1px solid var(--line); }

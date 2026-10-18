@@ -1,6 +1,6 @@
 # Rascunho da página da extensão na Chrome Web Store
 
-**Status: preparação interna, sem submissão ou publicação na loja.** Em 18/10/2026, o titular informou que instalou a extensão descompactada com a conta dele e conseguiu entrar, registrar uma Consulta e um Laudo de teste, desfazer e sair. Esse resultado é relato do titular; os testes automatizados permanecem isolados e não acessam a conta real. A entrega dos e-mails de cadastro/recuperação já havia sido confirmada em 17/10. A política e o suporte foram preparados no checkout, mas suas URLs só poderão ser usadas na loja depois do deploy e da verificação pública.
+**Status: preparação interna, sem submissão ou publicação na loja.** Em 18/10/2026, o titular informou que instalou a extensão descompactada com a conta dele e conseguiu entrar, registrar uma Consulta e um Laudo de teste, desfazer e sair. Esse resultado é relato do titular; os testes automatizados permanecem isolados e não acessam a conta real. A entrega dos e-mails de cadastro/recuperação já havia sido confirmada em 17/10. A política de privacidade e os termos estão em rascunho para revisão do responsável; não publicar essas páginas como compromisso vigente antes da revisão. As URLs da política e do suporte só poderão ser usadas na loja depois do deploy e da verificação pública.
 
 ## URLs e contato para a listagem
 
@@ -17,7 +17,15 @@ As [capturas de Consultas e Laudos e a peça promocional](brand/extension/README
 
 ## Pacote candidato para envio
 
-Em 18/10/2026, o build de produção gerou `extension/release/HonorMed_Registro_Rapido.zip` (versão `0.1.0`, 95.374 bytes, SHA-256 `EF15F47FA7F2A52FF59439923EC16DE907835A2DF5AA8225205D40194386AFED`). O pacote usa a origem pública do Supabase HonorMed e abre o site publicado. `typecheck`, testes unitários, seis testes E2E com Auth/API simulados e `check:artifacts` passaram. O ZIP é ignorado pelo Git; este hash identifica o candidato local e deve ser conferido de novo antes do upload. Não enviar o ZIP de teste gerado por `test:e2e`.
+Em 18/10/2026, o build de produção gerou `extension/release/HonorMed_Registro_Rapido.zip` (versão `1.0.0`, 95.374 bytes, SHA-256 `BE3C98576FF0F282C53DD04AB6C2594D4134E17EB70646573CEBAF4DD4F146F6`). O pacote usa a origem pública do Supabase HonorMed e abre o site publicado. `typecheck`, testes unitários, seis testes E2E com Auth/API simulados e `check:artifacts` passaram. O ZIP é ignorado pelo Git; este hash identifica o candidato local e deve ser conferido de novo antes do upload. Não enviar o ZIP de teste gerado por `test:e2e`.
+
+## Configuração proposta no painel
+
+- **Conta:** o titular cria a conta de desenvolvedor, conclui o pagamento e a verificação em duas etapas, confirma o e-mail de contato e declara sua condição de comerciante ou não comerciante. A classificação é uma decisão do titular; a loja exige a declaração e pode exibir dados verificados do comerciante. Ver [registro de desenvolvedor](https://developer.chrome.com/docs/webstore/register/) e [FAQ de comerciante](https://developer.chrome.com/docs/webstore/program-policies/trader-verification-faq).
+- **Store listing:** categoria Produtividade, idioma português (Brasil), textos abaixo, duas capturas e peça promocional em `docs/brand/extension/`.
+- **Privacy:** finalidade única, justificativa de `storage` e da origem Supabase, dados de autenticação e produção declarados conforme abaixo, certificações do painel e URL da política revisada e publicada.
+- **Distribution:** **Não listada** para o piloto; qualquer pessoa que receber o link poderá instalar. As mesmas políticas e revisão valem para essa visibilidade. Ver [distribuição](https://developer.chrome.com/docs/webstore/cws-dashboard-distribution).
+- **Revisão:** depois do upload e do preenchimento, conferir cada campo e escolher publicação manual após aprovação, para que o link possa ser testado antes de divulgá-lo aos médicos.
 
 ## Textos propostos
 

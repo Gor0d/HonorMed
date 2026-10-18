@@ -34,4 +34,9 @@ test("privacidade e suporte são públicos e acessíveis pelo site", async ({ pa
   await expect(page.getByRole("link", { name: "acesso@cforod.com" }).first()).toHaveAttribute("href", "mailto:acesso@cforod.com");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: `test-results/support-${info.project.name}.png`, fullPage: true, animations: "disabled" });
+  await page.goto("/termos");
+  await expect(page.getByRole("heading", { name: "Termos de uso" })).toBeVisible();
+  await expect(page.getByText("Rascunho não vigente.")).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: `test-results/terms-${info.project.name}.png`, fullPage: true, animations: "disabled" });
 });
