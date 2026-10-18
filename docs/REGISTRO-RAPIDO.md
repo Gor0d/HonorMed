@@ -1,8 +1,12 @@
 # Registro rápido no computador do consultório — especificação
 
-Status: **Etapa 1 implementada na branch, sem deploy** (17/10/2026). A Etapa 0 foi aprovada e a D1 incorporada; a extensão segue nas etapas posteriores. Nenhuma migration ou publicação foi criada.
+Status: **Etapas 1 e 2 implementadas na branch, sem deploy** (17/10/2026). A Etapa 0 foi aprovada e a D1 incorporada. A extensão tem apenas estrutura, login, sessão e links; **ainda não registra produção**. Nenhuma migration ou publicação foi criada. A Etapa 2 para para revisão antes das escritas da Etapa 3.
 
 Verificação da Etapa 1: `npm test` passou com 27 testes SQL/RLS; `npm run build` passou; `npm run test:e2e` passou com 20 fluxos (12 anteriores e 8 novos, em 390 × 844 e 1280 × 900). A rota usa a demo isolada ou a sessão Supabase do app, o manifesto oferece dois atalhos com ícones da marca e o service worker continua sem cache financeiro. Testes de navegador desta etapa usaram apenas dados fictícios/PGlite; não houve acesso ao Supabase real.
+
+Verificação da Etapa 2: `extension/` contém o popup Manifest V3, adaptador de sessão para `chrome.storage`, build e verificador do pacote. O build com URLs e chave anon **fictícias** produz `dist/` e `release/HonorMed_Registro_Rapido.zip`; os dois diretórios são ignorados pelo Git. `npm.cmd run typecheck` e o build/verificador passaram; o build sem as três variáveis falha. O pacote ainda precisa de teste manual em Chrome/Cent Browser e de testes automatizados de login/expiração na Etapa 3.
+
+Para reproduzir o build em PowerShell, dentro de `extension/`, use `npm.cmd ci`, defina `HONORMED_SUPABASE_URL`, `HONORMED_SUPABASE_ANON_KEY` (chave pública anon, **nunca** service role) e `HONORMED_APP_URL` como variáveis de ambiente, e execute `npm.cmd run typecheck` e `npm.cmd run build`. As URLs devem ser origens HTTPS, sem caminho. O build gera apenas artefatos locais e verifica manifesto, ZIP e credenciais conhecidas. Para abrir o popup pelo teclado, o atalho sugerido é **Alt+Shift+R**; o usuário pode alterá-lo em `chrome://extensions/shortcuts`.
 
 ## Objetivo e limites
 

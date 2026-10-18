@@ -1,0 +1,24 @@
+:root { font-family: Manrope, "Segoe UI", sans-serif; color: var(--ink); background: var(--paper); }
+* { box-sizing: border-box; }
+body { margin: 0; width: 360px; }
+main { padding: 22px; }
+.logo { display: block; width: 184px; height: auto; margin-bottom: 22px; }
+h1 { font-family: "Bricolage Grotesque", "Segoe UI", sans-serif; font-size: 23px; line-height: 1.1; margin: 0 0 8px; }
+.intro, .hint, footer { color: var(--muted); }
+.intro { margin: 0 0 20px; font-size: 13px; }
+form { display: grid; gap: 14px; }
+label { display: grid; gap: 6px; font-size: 12px; font-weight: 700; }
+input:not([type="checkbox"]) { border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); height: 42px; padding: 8px 10px; width: 100%; font: inherit; }
+.remember { display: flex; align-items: center; gap: 8px; }
+.remember input { accent-color: var(--accent); width: 16px; height: 16px; }
+.hint { font-size: 11px; line-height: 1.45; margin: -8px 0 0 24px; }
+button { border: 0; border-radius: 9px; background: var(--accent); color: var(--accent-ink); min-height: 42px; padding: 8px 14px; font: 700 12px Manrope, "Segoe UI", sans-serif; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button.secondary { background: var(--surface); border: 1px solid var(--line); color: var(--ink); }
+button.link { min-height: 32px; padding: 4px 0; background: transparent; color: var(--accent); text-decoration: underline; }
+.links, .actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; }
+#status, #error { font-size: 12px; line-height: 1.5; }
+#error { padding: 10px; border-radius: 8px; color: var(--ink); background: var(--surface-2); }
+#connected p { font-size: 13px; line-height: 1.5; }
+footer { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 12px; font-size: 10px; }
+[hidden] { display: none !important; }
