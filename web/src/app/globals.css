@@ -952,6 +952,40 @@ summary > strong {
 .onboarding form {
   margin-top: 25px;
 }
+.auth-recovery {
+  width: calc(100% - 32px);
+  border-top: 4px solid var(--brand-gold);
+  padding: 32px;
+}
+.auth-recovery-brand {
+  margin-bottom: 30px;
+}
+.auth-recovery > .eyebrow {
+  color: var(--accent);
+}
+.auth-recovery h1 {
+  margin: 10px 0 12px;
+}
+.auth-recovery .button {
+  min-height: 48px;
+}
+.auth-recovery-message {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-size: 13px;
+}
+.auth-recovery-back {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.auth-recovery > p:last-child {
+  margin-top: 20px;
+}
 .crm-fields {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);

@@ -1,5 +1,9 @@
 # Validação
 
+## Cadastro e recuperação pelo titular — 17/10/2026
+
+O titular confirmou no site publicado o recebimento do e-mail de cadastro e do link de recuperação, definiu a própria senha, concluiu o perfil e abriu Consultas e Laudos. Nenhum dado fictício foi carregado na conta publicada. Os [novos modelos visuais dos e-mails](brand/emails/README.md) foram apenas preparados no checkout; a entrega e o fluxo acima ocorreram com os modelos que já estavam configurados no Supabase.
+
 ## Identidade visual publicada — 16/10/2026
 
 - Aprovação do usuário e integração fast-forward de `design/honormed-identity` na main, código 7819384. GitHub Actions da proposta concluído com sucesso: https://github.com/Gor0d/HonorMed/actions/runs/38955176388 (inclui SQL/RLS, build e 12 testes de navegador).

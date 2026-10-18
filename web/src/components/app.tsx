@@ -260,7 +260,7 @@ export default function App({
             : await supabase.auth.signInWithPassword(credentials);
         if (result.error) throw result.error;
         if (!result.data.session) {
-          setNotice("Confira seu e-mail para confirmar o cadastro.");
+          setNotice("Enviamos um link para confirmar seu cadastro. Abra o e-mail para continuar; confira também o spam.");
           return;
         }
         setSigned(true);

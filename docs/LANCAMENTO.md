@@ -1,5 +1,7 @@
 # HonorMed — piloto publicado e operação
 
+Atualização de 17/10/2026: o titular informou que recebeu e confirmou o e-mail de cadastro, recebeu o link de recuperação, definiu uma nova senha, concluiu o perfil e abriu Consultas e Laudos no site publicado. Esta validação cobre a entrega dos e-mails e o fluxo da conta dele; não testa os novos [modelos visuais de e-mail](brand/emails/README.md), ainda não aplicados ao Supabase hospedado.
+
 Revisão: 16/10/2026. Oferta inicial: controle financeiro individual, Consultas e Laudos pelo mesmo preço proposto de R$ 79,90/mês. O médico informa produção e recebimentos; não há confirmação hospitalar automática. Não há cobrança automática, limites de plano ou período de teste implementados.
 
 Identidade visual aprovada e publicada em 16/10/2026: versão Cloudflare `a0f5bc2b-e51c-4e71-87e4-65f9afdb9a11`, código `7819384` integrado à main. Logo H, paleta petróleo/marfim/ouro, login, navegação e PWA atualizados. GitHub Actions da branch aprovado (run 38955176388). Build OpenNext e verificação de credenciais aprovados. Login publicado conferido em 390px/1280px, claro/escuro, sem erros JavaScript ou overflow; símbolos/ícones correspondem aos arquivos aprovados; manifest e service worker atualizados; demo permanece 403. Nenhuma mudança no banco nesta publicação. Kit em `docs/brand`.
@@ -8,7 +10,7 @@ Publicado em **https://honormed.emersongsguimaraes.workers.dev**, Cloudflare Wor
 
 Verificação desta revisão: build Next/OpenNext passou; 27 testes Vitest SQL/RLS passaram; 12 fluxos Playwright locais passaram nos dois tamanhos. Teste adicional com Auth/API reais e navegador no endereço publicado passou em 390px e 1280px: login, onboarding, preferência Laudos, cálculo 8 × R$ 12,50 − R$ 40 = R$ 60, persistência, troca de competência e isolamento A/B de SELECT/INSERT/UPDATE/DELETE. Contas técnicas e todos os seus dados foram removidos. O banco voltou a zero médicos/produção. Security Advisors: nenhum aviso ou erro após a migration 005. Os testes técnicos não substituem a homologação da chegada dos e-mails.
 
-HTTP publicado: login 200 sem dados demo, sem overflow/erro JavaScript em ambas larguras; `/api/demo` 403; manifest, recuperação e offline 200; headers DENY/nosniff presentes. Chave Resend somente na configuração SMTP do Supabase e arquivo local ignorado; nenhuma service role no app. Configuração aplicada via `deploy/production/supabase/config.toml`: confirmação habilitada, senha mínima 8, Site URL e redirect de recuperação exatos, SMTP Resend SSL 465, remetente **HonorMed <acesso@cforod.com>**, domínio verificado. Entrega real de confirmação/recuperação ainda deve ser conferida com a conta do usuário.
+HTTP publicado: login 200 sem dados demo, sem overflow/erro JavaScript em ambas larguras; `/api/demo` 403; manifest, recuperação e offline 200; headers DENY/nosniff presentes. Chave Resend somente na configuração SMTP do Supabase e arquivo local ignorado; nenhuma service role no app. Configuração aplicada via `deploy/production/supabase/config.toml`: confirmação habilitada, senha mínima 8, Site URL e redirect de recuperação exatos, SMTP Resend SSL 465, remetente **HonorMed <acesso@cforod.com>**, domínio verificado. A entrega real estava pendente nesta revisão de 16/10 e foi confirmada pelo titular em 17/10, conforme atualização acima.
 
 ## Resultado da revisão
 
@@ -16,7 +18,7 @@ A arquitetura Next.js + Supabase é adequada ao piloto individual. Migrations ve
 
 Pendências antes de ampliar para clientes pagantes:
 
-- Conferir chegada dos e-mails de cadastro e recuperação, troca de senha e retorno ao aplicativo. Não desativar confirmação para contornar falha no SMTP. Rever limites de envio e antiabuso conforme métricas do piloto.
+- Acompanhar entregabilidade, limites de envio e antiabuso conforme as métricas do piloto. Confirmar novamente cadastro, recuperação e retorno ao aplicativo depois de aplicar novos modelos de e-mail ou trocar o domínio. Manter a confirmação de e-mail habilitada.
 - Consultas também homologadas pela API real: 3 × R$ 50 − R$ 20 = R$ 130; navegador alternou Ambos preservando R$ 130 em Consultas e R$ 60 em Laudos. Complementar com uso assistido pelo médico e PWA em dispositivo físico.
 - Definir domínio próprio e atualizar Site URL/redirects antes de trocar os links enviados por e-mail. O endereço workers.dev serve ao piloto.
 - Disponibilizar termos, privacidade, identificação do fornecedor e canal de suporte; definir procedimento de exportação, exclusão e retenção. Revisar os textos antes de apresentá-los como compromissos contratuais.
