@@ -1,5 +1,11 @@
 # Validação
 
+## Extensão Registro rápido — relato do titular em 18/10/2026
+
+O titular informou que instalou a extensão descompactada com sua conta real e conseguiu entrar, registrar uma Consulta e um Laudo de teste, desfazer e sair. O navegador usado e o teste de fechamento/expiração ainda precisam ser registrados. Este é um relato de validação manual; não executei operações na conta real. As capturas para a loja em `docs/brand/extension/` foram produzidas separadamente, com Auth/API simulados e dados fictícios.
+
+As páginas `/privacidade` e `/suporte` foram implementadas e passaram no build/E2E local em 390 px e 1280 px; publicação e checagem HTTP permanecem pendentes nesta revisão.
+
 ## Cadastro e recuperação pelo titular — 17/10/2026
 
 O titular confirmou no site publicado o recebimento do e-mail de cadastro e do link de recuperação, definiu a própria senha, concluiu o perfil e abriu Consultas e Laudos. Nenhum dado fictício foi carregado na conta publicada. Os [novos modelos visuais dos e-mails](brand/emails/README.md) foram apenas preparados no checkout; a entrega e o fluxo acima ocorreram com os modelos que já estavam configurados no Supabase.

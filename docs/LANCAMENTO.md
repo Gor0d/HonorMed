@@ -1,5 +1,7 @@
 # HonorMed — piloto publicado e operação
 
+Preparação de 18/10/2026: páginas públicas `/privacidade` e `/suporte`, contato `acesso@cforod.com` e artes fictícias da extensão foram implementados nesta branch; **ainda não há confirmação de deploy dessas páginas**. O titular identificou Emerson Gabriel da Silva Guimarães como responsável pela política e relatou teste manual da extensão com sua conta real (login, Consulta, Laudo, desfazer e sair). O navegador físico e o comportamento de fechamento/expiração ainda precisam de registro. O texto da política deve ser conferido na URL publicada antes de usá-la na Chrome Web Store.
+
 Atualização de 17/10/2026: o titular informou que recebeu e confirmou o e-mail de cadastro, recebeu o link de recuperação, definiu uma nova senha, concluiu o perfil e abriu Consultas e Laudos no site publicado. Esta validação cobre a entrega dos e-mails e o fluxo da conta dele; não testa os novos [modelos visuais de e-mail](brand/emails/README.md), ainda não aplicados ao Supabase hospedado.
 
 Revisão: 16/10/2026. Oferta inicial: controle financeiro individual, Consultas e Laudos pelo mesmo preço proposto de R$ 79,90/mês. O médico informa produção e recebimentos; não há confirmação hospitalar automática. Não há cobrança automática, limites de plano ou período de teste implementados.

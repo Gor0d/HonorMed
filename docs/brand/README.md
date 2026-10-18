@@ -12,6 +12,7 @@ Pacote para download: `HonorMed_Marca.zip`, com logos SVG/PNG, ícones e guia PD
 - `web/public/brand/logo-primary.png` e `logo-inverse.png`: versões transparentes em alta resolução para apresentações e divulgação.
 - `web/public/brand/symbol.svg`: símbolo isolado; `symbol-mono.svg`: símbolo em uma cor, via currentColor.
 - `emails/`: modelos HTML e prévias dos e-mails de confirmação e recuperação, mais prévias das páginas públicas de entrada e recuperação. Os modelos de e-mail estão preparados para revisão antes de aplicar ao Supabase hospedado; as mudanças nas páginas ainda não foram publicadas.
+- `extension/`: capturas fictícias de Consultas e Laudos e peça promocional para preparar a listagem da Chrome Web Store; nenhuma imagem usa a conta real.
 - `web/public/icon-192.png` e `icon-512.png`: ícones instaláveis, com geometria dentro da área segura maskable.
 
 ## Paleta e leitura

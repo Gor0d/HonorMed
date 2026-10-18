@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import ProductModules from "@/components/product-modules";
 import PlansPreview from "@/components/plans-preview";
 import { PRODUCT_NAME } from "@/lib/brand";
+import { SUPPORT_EMAIL } from "@/lib/legal";
 import { Brand, BrandMark } from "@/components/brand";
 import { money } from "@/lib/utils";
 import {
@@ -402,6 +403,14 @@ export default function App({
             </p>
           </aside>
         </section>
+        <footer className="login-footer">
+          <span>HonorMed · controle pessoal para médicos</span>
+          <nav aria-label="Informações públicas">
+            <a href="/privacidade">Privacidade</a>
+            <a href="/suporte">Suporte</a>
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+          </nav>
+        </footer>
       </main>
     );
   if (onboarding)

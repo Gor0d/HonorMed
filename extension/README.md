@@ -39,6 +39,8 @@ Após cada novo build de uso, copie novamente os arquivos para a pasta fixa e cl
 
 O login e o registro reais dependem de cadastro/recuperação por e-mail e das pendências do piloto descritas em `docs/LANCAMENTO.md`. Não carregue seed fictício no Supabase de produção. A instalação local, o uso real e a publicação na loja não foram executados por este repositório.
 
+Em 18/10/2026, o titular relatou que o teste manual com a conta dele passou para login, uma Consulta e um Laudo de teste, desfazer e sair. Esse relato não substitui a verificação do pacote final no navegador escolhido nem o teste de fechamento/expiração. As [artes fictícias da loja](../docs/brand/extension/README.md) são geradas após `npm.cmd run test:e2e` com `node scripts/generate-store-assets.mjs`; política, suporte e URLs propostas estão no [rascunho da listagem](../docs/REGISTRO-RAPIDO-LOJA.md). Nenhum ZIP foi enviado à loja.
+
 ## Verificação automatizada
 
 `npm.cmd run typecheck`, `npm.cmd test` e `npm.cmd run test:e2e` usam apenas dados fictícios. O último comando roda fluxos com Supabase simulado e também carrega o pacote de teste como **extensão descompactada real** no Chromium headless. O smoke confirma login, registro de Consulta, `chrome.storage.session` e logout com `scope=local`. O job `extension` em `.github/workflows/verify.yml` executa os mesmos passos no CI. Nenhum teste contata o Supabase de produção.
