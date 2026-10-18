@@ -15,6 +15,10 @@ O responsável identificado pelo titular para a política é **Emerson Gabriel d
 
 As [capturas de Consultas e Laudos e a peça promocional](brand/extension/README.md) estão prontas com dados fictícios. As imagens de listagem têm 1280 × 800 px, a peça pequena tem 440 × 280 px e o ícone de 128 px já vem no ZIP. Foram geradas do popup compilado com Auth/API simulados, sem usar a conta do titular. Revisar as imagens no painel da loja após o upload, inclusive a legibilidade reduzida.
 
+## Pacote candidato para envio
+
+Em 18/10/2026, o build de produção gerou `extension/release/HonorMed_Registro_Rapido.zip` (versão `0.1.0`, 95.374 bytes, SHA-256 `EF15F47FA7F2A52FF59439923EC16DE907835A2DF5AA8225205D40194386AFED`). O pacote usa a origem pública do Supabase HonorMed e abre o site publicado. `typecheck`, testes unitários, seis testes E2E com Auth/API simulados e `check:artifacts` passaram. O ZIP é ignorado pelo Git; este hash identifica o candidato local e deve ser conferido de novo antes do upload. Não enviar o ZIP de teste gerado por `test:e2e`.
+
 ## Textos propostos
 
 **Nome:** HonorMed · Registro rápido
