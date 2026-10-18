@@ -46,7 +46,7 @@ try {
       await page.getByRole("button", { name: "Criar conta" }).waitFor();
       await page.getByRole("link", { name: "Esqueci minha senha" }).waitFor();
       const suffix = theme === "dark" ? `escuro-${name}` : name;
-      await page.screenshot({ path: resolve(output, `previa-pagina-publica-${suffix}.png`), fullPage: true });
+      await page.screenshot({ path: resolve(output, `previa-pagina-publica-${suffix}.png`), fullPage: true, animations: "disabled" });
       await page.close();
     }
   }

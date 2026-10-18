@@ -308,37 +308,37 @@ export default function App({
   if (!signed)
     return (
       <main className="login">
-        <div className="login-story">
+        <section className="login-story public-hero" aria-labelledby="public-hero-title">
           <div className="brand">
             <Brand />
           </div>
-          <span className="eyebrow">O VALOR DO SEU TRABALHO, À VISTA.</span>
-          <h1>
-            Sua rotina tem valor.
+          <span className="eyebrow">CONTROLE PESSOAL PARA MÉDICOS</span>
+          <h1 id="public-hero-title">
+            Sua produção.
             <br />
-            <em>Tenha clareza sobre ele.</em>
+            Seus honorários.
+            <br />
+            <em>Seu controle.</em>
           </h1>
           <p>
-            Consultas ou laudos. Registre o que você realizou e acompanhe seus
-            honorários com autonomia.
+            Registre consultas ou laudos por quantidade, veja o valor previsto
+            com as tarifas que você informou e confira seus recebimentos.
           </p>
-          <div className="login-stat">
-            <span>01 · Registre</span>
-            <span>02 · Acompanhe</span>
-            <span>03 · Confira</span>
+          <a className="public-hero-action" href="#acesso">
+            Começar meu controle <ArrowUpRight size={18} aria-hidden="true" />
+          </a>
+          <div className="public-hero-flow">
+            <span className="public-hero-flow-title">DO REGISTRO À CONFERÊNCIA</span>
+            <ol>
+              <li><span>01</span><strong>Registre</strong><small>Produção por quantidade</small></li>
+              <li><span>02</span><strong>Acompanhe</strong><small>Honorários previstos</small></li>
+              <li><span>03</span><strong>Confira</strong><small>Recebimentos informados</small></li>
+            </ol>
           </div>
-          <div className="brand-composition" aria-hidden="true">
-            <div className="composition-orbit" />
-            <BrandMark />
-            <div className="composition-line">
-              <span /> <span /> <span />
-            </div>
-            <small>SEU TRABALHO TEM VALOR.</small>
-          </div>
-        </div>
-        <section className="card login-form">
+        </section>
+        <section className="card login-form" id="acesso" aria-labelledby="access-title">
           <span className="eyebrow">BEM-VINDO AO {PRODUCT_NAME}</span>
-          <h2>Vamos cuidar dos seus números?</h2>
+          <h2 id="access-title">Vamos cuidar dos seus números?</h2>
           <p className="muted">
             Entre para registrar sua produção e acompanhar seus recebimentos.
           </p>
