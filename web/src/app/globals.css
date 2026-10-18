@@ -952,6 +952,11 @@ summary > strong {
 .onboarding form {
   margin-top: 25px;
 }
+.crm-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 12px;
+}
 @media (min-width: 600px) {
   .hero-badge {
     display: flex;

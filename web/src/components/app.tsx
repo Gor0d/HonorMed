@@ -47,6 +47,35 @@ const visibleNav = nav.filter(
   ([name]) =>
     name !== "Planos" || process.env.NEXT_PUBLIC_PLANS_PREVIEW !== "false",
 );
+const states = [
+  "AC",
+  "AL",
+  "AP",
+  "AM",
+  "BA",
+  "CE",
+  "DF",
+  "ES",
+  "GO",
+  "MA",
+  "MT",
+  "MS",
+  "MG",
+  "PA",
+  "PB",
+  "PR",
+  "PE",
+  "PI",
+  "RJ",
+  "RN",
+  "RS",
+  "RO",
+  "RR",
+  "SC",
+  "SP",
+  "SE",
+  "TO",
+] as const;
 const statuses = [
   "pago",
   "faturado",
@@ -380,6 +409,15 @@ export default function App({
             e.preventDefault();
             const f = new FormData(e.currentTarget);
             await run(async () => {
+              const uf = String(f.get("uf") || "");
+              const numero = String(f.get("crm_numero") || "");
+              if (
+                !states.some((state) => state === uf) ||
+                !/^\d+$/.test(numero)
+              )
+                throw new Error(
+                  "Selecione a UF e informe apenas números no CRM.",
+                );
               const {
                 data: { user },
               } = await supabase!.auth.getUser();
@@ -387,7 +425,7 @@ export default function App({
               const { error } = await supabase!.from("medicos").insert({
                 medico_id: user.id,
                 nome: f.get("nome"),
-                crm: f.get("crm"),
+                crm: `CRM-${uf} ${numero}`,
                 cd_prestador_mv: f.get("codigo") || null,
               });
               if (error) throw error;
@@ -398,10 +436,38 @@ export default function App({
             Nome do médico
             <input name="nome" required />
           </label>
-          <label>
-            CRM / UF
-            <input name="crm" required placeholder="CRM-SP 123456" />
-          </label>
+          <div className="crm-fields">
+            <label>
+              UF do CRM
+              <select name="uf" required defaultValue="">
+                <option value="" disabled>
+                  Selecione
+                </option>
+                {states.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Número do CRM
+              <input
+                name="crm_numero"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]+"
+                required
+                placeholder="123456"
+                onInput={(event) => {
+                  event.currentTarget.value = event.currentTarget.value.replace(
+                    /\D/g,
+                    "",
+                  );
+                }}
+              />
+            </label>
+          </div>
           <label>
             Código de prestador MV (opcional)
             <input name="codigo" pattern="[0-9]+" />
