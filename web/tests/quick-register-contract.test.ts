@@ -41,6 +41,13 @@ it("contrato rápido grava por id e lê valor apenas das views SQL sob RLS", asy
     await db.query("select set_config('request.jwt.claim.sub',$1,false)", [other]);
     expect((await db.query("select id from producao_pessoal_calculada where id=$1", [consultId])).rows).toEqual([]);
     expect((await db.query("select id from laudos_calculados where id=$1", [reportId])).rows).toEqual([]);
+    expect((await db.query("delete from producoes_pessoais where id=$1 returning id", [consultId])).rows).toEqual([]);
+    await db.query("select set_config('request.jwt.claim.sub',$1,false)", [physician]);
+    const undone = await db.query<{ id: string }>("delete from producoes_pessoais where id=$1 returning id", [consultId]);
+    expect(undone.rows).toEqual([{ id: consultId }]);
+    expect((await db.query("select id from producao_pessoal_calculada where id=$1", [consultId])).rows).toEqual([]);
+    expect((await db.query("select id from atendimentos where id=$1", [consultId])).rows).toEqual([]);
+    await db.query("select set_config('request.jwt.claim.sub',$1,false)", [other]);
     await expect(db.query("insert into laudos_producao(medico_id,local_id,tipo_id,data_producao,quantidade) values($1,$2,$3,'2026-10-18',1)", [other, local, tipo])).rejects.toThrow();
   } finally { await db.exec("rollback"); }
 });
