@@ -1,3 +1,9 @@
+# REVISÃO v4 (17/10/2026) — registro rápido no computador
+
+Proposta em especificação: rota enxuta `/registrar` e extensão Manifest V3 para Chrome/Cent Browser, com a mesma conta do médico e os perfis Consultas, Laudos ou Ambos. Registro apenas por quantidade, sem dados de paciente; consultas pela view `producoes_pessoais` e laudos pela tabela `laudos_producao`, com cálculo no SQL e RLS existente. A extensão terá login próprio, sessão temporária por padrão e permissão somente de storage mais a origem Supabase do build. Detalhes e critérios em `docs/REGISTRO-RAPIDO.md`. Esta entrega não altera as fases existentes nem implica publicação da extensão.
+
+---
+
 # REVISÃO v3 (16/10/2026) — módulos independentes por perfil
 
 Pedido posterior do usuário: acrescentar Laudos Radiológicos e aumentar o valor comercial. Disponibilizar os perfis Somente consultas, Somente laudos ou Ambos, salvos por médico. Radiologistas não precisam cadastrar consultas/convênios.

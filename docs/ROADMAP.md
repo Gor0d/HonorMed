@@ -5,6 +5,8 @@ já validado nas consultas: **registrar → prever → receber → conferir**. C
 reaproveita locais, convênios, recebimentos, origem do dado (informado / importado / confirmado) e a regra
 "sem dados de paciente".
 
+Registro rápido no computador (rota `/registrar` e extensão Chromium) está especificado em `REGISTRO-RAPIDO.md` como melhoria transversal; não cria nova fase nem antecipa integração hospitalar.
+
 ## Ordem sugerida
 
 Atualização de 16/10/2026: **Laudos Radiológicos foi antecipado e implementado por pedido explícito**, com perfil exclusivo opcional e controle financeiro próprio. A ordem abaixo permanece como visão das demais evoluções; cirurgias, internações e plantões não foram implementados nesta entrega.
