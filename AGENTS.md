@@ -14,16 +14,19 @@ Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de 
 - Marca central em `web/src/lib/brand.ts`. Migrations novas consolidam locais, quantidade em atendimentos e recebimentos por convênio/local; as views pessoais respeitam RLS das tabelas base.
 
 ## Estrutura
-/web (Next.js) · /supabase (migrations, seed) · /connector (Python) · /docs
+/web (Next.js) · /extension (popup Chromium) · /supabase (migrations, seed) · /connector (Python) · /docs
 
 ## Comandos
 - web (dentro de `/web`): `npm install`, `npm run dev`, `npm run build`, `npm start`
 - SQL/cálculo/RLS (dentro de `/web`): `npm test` (Vitest + PostgreSQL PGlite, sem Oracle)
 - navegador (dentro de `/web`): `npx playwright install chromium`, `npm run test:e2e`
+- extensão (dentro de `/extension`): `npm.cmd ci`, `npm.cmd run typecheck`, `npm.cmd test`, `npm.cmd run test:e2e` e `npm.cmd run check:artifacts`.
+- build de uso da extensão: defina `HONORMED_SUPABASE_URL` (origem HTTPS), `HONORMED_SUPABASE_ANON_KEY` (chave pública anon) e `HONORMED_APP_URL` (origem HTTPS); execute `npm.cmd run build` e `npm.cmd run check:artifacts`. Somente essas URLs e a chave anon entram no pacote; nunca use service role ou qualquer secret. `test:e2e` regrava `dist/` com valores fictícios; reconstrua o pacote de uso depois.
 - Supabase (raiz, Docker ativo): `supabase start`, `supabase db reset`, `supabase status`
 - conector: não implementado; Fase 0 bloqueia Fase 3. Não acessar Oracle nas Fases 1/2.
 - seed: demonstração local com 140 atendimentos Out/2026 e 70 Nov/2026; veja `README.md`.
 - não commitar `.npm-cache`, `.next`, `node_modules`, relatórios de teste ou `.env*`.
+- não versionar `extension/dist/` nem `extension/release/` (ZIP gerado).
 
 ## Roadmap
 Laudos radiológicos foram antecipados por pedido explícito: leia revisão v3. Perfil Somente laudos não exige consultas/convênios. Produção e recebimentos dos módulos não se compensam. Nenhuma imagem, DICOM, texto de laudo ou dado de paciente. Preços propostos em `web/src/lib/plans.ts`, sem cobrança ativa.

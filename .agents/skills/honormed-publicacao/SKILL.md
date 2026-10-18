@@ -16,6 +16,7 @@ Cuidados específicos que mudam a execução:
 - `npm.cmd run deploy:cloudflare` em `/web` reconstrói, verifica artefatos e publica. O verificador cobre credenciais locais conhecidas, não todos os segredos possíveis. Se reprovar o pacote, não contornar a verificação; retirar o segredo do ambiente e reconstruir.
 - Sem R2/cache incremental remoto, o script usa Wrangler diretamente com OPEN_NEXT_DEPLOY, evitando Miniflare local que falhou neste Windows. Se adicionar cache remoto/ISR, revisar essa etapa; não assumir que a mesma exceção continua correta.
 - Backend de produção exige Supabase HTTPS; a demo recebe stub e deve retornar 403. Não habilitar PGlite/seed para contornar erro de autenticação real.
+- Para a extensão Chromium, confira `extension/README.md`: build com URL Supabase, chave anon e URL do app, verificador de artefatos e instalação descompactada de uma cópia fora do repositório. `test:e2e` gera `dist/` fictício; reconstruir o pacote de uso depois. Não publicar na loja sem pedido específico.
 
 Após publicar, conferir a URL real em celular/desktop, login vazio, recursos PWA e demo bloqueada. Não fazer lançamentos financeiros nem criar contas de terceiros para uma checagem visual. Testes remotos com fixtures exigem escopo autorizado, identificação exclusiva e cleanup verificado. Relate separadamente build, CI, publicação e testes realizados; não chamar SMTP de homologado apenas porque sua configuração foi aceita.
 

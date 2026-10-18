@@ -21,11 +21,21 @@ Use apenas as **origens HTTPS**, sem caminhos. A chave anon é pública; não us
 ## Instalação descompactada para validação
 
 1. Gere o pacote com as origens públicas pretendidas e execute `npm.cmd run check:artifacts`.
-2. Abra `chrome://extensions` no Chrome ou a página de extensões equivalente no Cent Browser, ative o modo de desenvolvedor e escolha **Carregar sem compactação** apontando para `extension/dist`.
+2. Copie os arquivos de `dist/` para uma pasta fixa fora do repositório. Por exemplo, em PowerShell dentro de `extension/`:
+
+   ```powershell
+   $extensionDir = Join-Path $env:LOCALAPPDATA 'HonorMed-extensao'
+   New-Item -ItemType Directory -Path $extensionDir -Force | Out-Null
+   Copy-Item -Path '.\dist\*' -Destination $extensionDir -Recurse -Force
+   ```
+
+   Abra `chrome://extensions` no Chrome ou a página de extensões equivalente no Cent Browser, ative o modo de desenvolvedor e escolha **Carregar sem compactação** apontando para `%LOCALAPPDATA%\HonorMed-extensao`.
 3. Confira o nome HonorMed, o ícone e as permissões: somente `storage` e a origem Supabase configurada. O app é aberto em uma aba, sem permissão de leitura de páginas.
 4. Abra o popup pelo ícone ou por **Alt+Shift+R**. O atalho pode ser alterado em `chrome://extensions/shortcuts`.
 5. Entre com uma conta de teste autorizada. Escolha “Manter conectado neste computador” somente em máquina de uso exclusivo. Confira o módulo permitido pelo perfil, registre uma Consulta e um Laudo de teste quando disponíveis, compare os resultados no app e desfaça ambos. Saia pelo popup.
 6. Verifique o encerramento ao fechar o navegador sem “Manter conectado” e os limites de 30 min/12 h sem uso. Repita no Cent Browser no computador do consultório, sujeito à política de TI local.
+
+Após cada novo build de uso, copie novamente os arquivos para a pasta fixa e clique em **Recarregar** na extensão em `chrome://extensions`. `test:e2e` regrava apenas `extension/dist/` com origens fictícias e não deve substituir a cópia instalada.
 
 O login e o registro reais dependem de cadastro/recuperação por e-mail e das pendências do piloto descritas em `docs/LANCAMENTO.md`. Não carregue seed fictício no Supabase de produção. A instalação local, o uso real e a publicação na loja não foram executados por este repositório.
 

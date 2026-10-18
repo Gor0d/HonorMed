@@ -1,18 +1,22 @@
 import { test, expect, chromium } from "@playwright/test";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
 
 const projectUrl = "https://honormed-test.supabase.invalid";
 const userId = "11111111-1111-4111-8111-111111111111";
 const jwt = `${Buffer.from('{"alg":"HS256","typ":"JWT"}').toString("base64url")}.${Buffer.from(JSON.stringify({ sub: userId, role: "authenticated", exp: 2000000000 })).toString("base64url")}.${Buffer.from("fictitious-signature").toString("base64url")}`;
 
-test("S3-1: extensão descompactada real abre, registra consulta e sai só da sessão local", async ({}, testInfo) => {
+test("S3-1: extensão descompactada real abre, registra consulta e sai só da sessão local", async () => {
   const extensionPath = path.resolve("dist");
-  const context = await chromium.launchPersistentContext(testInfo.outputPath("chrome-profile"), {
-    headless: true,
-    channel: "chromium",
-    args: [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`],
-  });
+  const profilePath = await mkdtemp(path.join(tmpdir(), "hm-"));
+  let context: Awaited<ReturnType<typeof chromium.launchPersistentContext>> | undefined;
   try {
+    context = await chromium.launchPersistentContext(profilePath, {
+      headless: true,
+      channel: "chromium",
+      args: [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`],
+    });
     const calls: { method: string; path: string; body: unknown }[] = [];
     await context.route(`${projectUrl}/**`, async (route) => {
       const request = route.request(), url = new URL(request.url());
@@ -58,5 +62,11 @@ test("S3-1: extensão descompactada real abre, registra consulta e sai só da se
     await expect(popup.getByLabel("E-mail")).toBeVisible();
     expect(calls.some((call) => call.method === "POST" && call.path === "/auth/v1/logout?scope=local")).toBe(true);
     expect(await popup.evaluate(async () => Object.keys(await chrome.storage.session.get(null)))).toEqual([]);
-  } finally { await context.close(); }
+  } finally {
+    try {
+      await context?.close();
+    } finally {
+      await rm(profilePath, { recursive: true, force: true });
+    }
+  }
 });
