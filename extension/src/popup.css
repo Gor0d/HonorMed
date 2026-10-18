@@ -9,6 +9,7 @@ h1 { font-family: "Bricolage Grotesque", "Segoe UI", sans-serif; font-size: 23px
 form { display: grid; gap: 14px; }
 label { display: grid; gap: 6px; font-size: 12px; font-weight: 700; }
 input:not([type="checkbox"]) { border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); height: 42px; padding: 8px 10px; width: 100%; font: inherit; }
+select { border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); height: 42px; padding: 8px 10px; width: 100%; font: inherit; }
 .remember { display: flex; align-items: center; gap: 8px; }
 .remember input { accent-color: var(--accent); width: 16px; height: 16px; }
 .hint { font-size: 11px; line-height: 1.45; margin: -8px 0 0 24px; }
@@ -20,5 +21,13 @@ button.link { min-height: 32px; padding: 4px 0; background: transparent; color: 
 #status, #error { font-size: 12px; line-height: 1.5; }
 #error { padding: 10px; border-radius: 8px; color: var(--ink); background: var(--surface-2); }
 #connected p { font-size: 13px; line-height: 1.5; }
+.module-tabs { display: flex; gap: 8px; margin: 0 0 16px; }
+.module-tabs button { flex: 1; }
+.module-tabs button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+#register-form { margin-bottom: 14px; }
+#repeat, #undo { width: 100%; margin-top: 8px; }
+#saved { padding: 10px; border-radius: 8px; background: var(--surface-2); font-size: 13px; line-height: 1.5; margin-top: 12px; }
+#undo-confirm { margin-top: 8px; }
+#undo-confirm button { margin-right: 8px; }
 footer { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 12px; font-size: 10px; }
 [hidden] { display: none !important; }

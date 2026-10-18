@@ -4,6 +4,7 @@ export const INACTIVITY_REMEMBER_MS = 12 * 60 * 60 * 1000;
 
 const ACTIVE_USER = "honormed.activeUserId";
 const LAST_ACTIVITY = "honormed.lastActivity";
+export const SESSION_STORAGE_KEY = "honormed-auth";
 const authKey = (userId: string) => `honormed.auth.${userId}`;
 const area = (mode: StorageMode) => chrome.storage[mode];
 
@@ -43,15 +44,18 @@ export async function checkStartup(now = Date.now()): Promise<Startup> {
 /** Supabase writes are scoped to the authenticated user's ID, not their email. */
 export class ChromeAuthStorage {
   private userId: string | null;
+  private auxiliary = new Map<string, string>();
   constructor(private readonly mode: StorageMode, userId: string | null = null) {
     this.userId = userId;
   }
-  async getItem(_key: string): Promise<string | null> {
+  async getItem(key: string): Promise<string | null> {
+    if (key !== SESSION_STORAGE_KEY) return this.auxiliary.get(key) ?? null;
     if (!this.userId) return null;
     const value = (await area(this.mode).get(authKey(this.userId)))[authKey(this.userId)];
     return typeof value === "string" ? value : null;
   }
-  async setItem(_key: string, value: string): Promise<void> {
+  async setItem(key: string, value: string): Promise<void> {
+    if (key !== SESSION_STORAGE_KEY) { this.auxiliary.set(key, value); return; }
     const session = JSON.parse(value) as { user?: { id?: string } };
     const userId = session.user?.id;
     if (!userId) throw new Error("Sessão sem identificação do usuário.");
@@ -59,7 +63,8 @@ export class ChromeAuthStorage {
     this.userId = userId;
     await area(this.mode).set({ [authKey(userId)]: value, [ACTIVE_USER]: userId });
   }
-  async removeItem(_key: string): Promise<void> {
+  async removeItem(key: string): Promise<void> {
+    if (key !== SESSION_STORAGE_KEY) { this.auxiliary.delete(key); return; }
     if (this.userId) await area(this.mode).remove(authKey(this.userId));
   }
   async touch(now = Date.now()): Promise<void> {

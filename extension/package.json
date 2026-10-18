@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "pretest:e2e": "node scripts/build-test.mjs",
+    "test:e2e": "playwright test",
     "build": "node scripts/build.mjs",
     "check:artifacts": "node scripts/check-artifacts.mjs"
   },
@@ -14,8 +17,10 @@
     "pngjs": "^7.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.56",
     "@types/chrome": "^0.0.287",
-    "esbuild": "^0.25.0",
-    "typescript": "^5.9.0"
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.0",
+    "vitest": "^5.0.5"
   }
 }

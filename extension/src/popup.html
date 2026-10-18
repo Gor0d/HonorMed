@@ -27,7 +27,29 @@
         </div>
       </section>
       <section id="connected" hidden>
-        <p>Conta conectada. Abra o HonorMed para registrar sua produção.</p>
+        <div id="profile-required" hidden>
+          <p>Escolha seu perfil de uso no HonorMed antes de registrar.</p>
+          <button id="choose-profile" type="button">Escolher perfil</button>
+        </div>
+        <div id="register" hidden>
+          <div id="module-tabs" class="module-tabs" hidden>
+            <button id="tab-consultas" type="button" class="secondary">Consultas</button>
+            <button id="tab-laudos" type="button" class="secondary">Laudos</button>
+          </div>
+          <form id="register-form">
+            <label>Data da produção <input id="date" type="date" required /></label>
+            <label id="location-label">Local de atendimento <select id="location" required></select></label>
+            <label id="detail-label">Convênio <select id="detail" required></select></label>
+            <label>Quantidade <input id="quantity" type="number" min="1" max="1000" step="1" inputmode="numeric" required /></label>
+            <button id="save" type="submit">Salvar registro</button>
+          </form>
+          <p id="missing" class="hint" hidden>Cadastre em Ajustes no HonorMed antes de registrar aqui. <button id="settings" type="button" class="link">Abrir Ajustes</button></p>
+          <button id="repeat" type="button" class="secondary" hidden>Repetir último</button>
+          <p id="repeat-confirm" class="hint" hidden>Confira módulo, local, data e quantidade. Clique em “Confirmar repetição e salvar” para criar outro registro.</p>
+          <div id="saved" role="status" hidden></div>
+          <button id="undo" type="button" class="secondary" hidden>Desfazer lançamento</button>
+          <div id="undo-confirm" hidden><p>Desfazer somente o lançamento acima?</p><button id="confirm-undo" type="button">Confirmar desfazer</button><button id="cancel-undo" type="button" class="secondary">Cancelar</button></div>
+        </div>
         <div class="actions">
           <button id="open-app" type="button">Abrir HonorMed</button>
           <button id="logout" type="button" class="secondary">Sair</button>
