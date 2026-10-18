@@ -154,6 +154,8 @@ export default function QuickRegister({ requestedModule }: { requestedModule: Mo
     }
     setRepeatPending(false);
     setSaved({ id, module: active, quantity: count });
+    setQuantity("");
+    quantityRef.current?.focus();
     try {
       const fresh = await fetchData();
       setData(fresh);

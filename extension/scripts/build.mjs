@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const repo = path.resolve(root, "..");
+const { version } = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
 const dist = path.join(root, "dist");
 const release = path.join(root, "release");
 const url = process.env.HONORMED_SUPABASE_URL;
@@ -49,7 +50,7 @@ await mkdir(release, { recursive: true });
 const manifest = {
   manifest_version: 3,
   name: "HonorMed · Registro rápido",
-  version: "0.1.0",
+  version,
   description: "Registre sua produção pessoal por quantidade, sem dados de pacientes.",
   action: { default_popup: "popup.html", default_title: "Registro rápido HonorMed" },
   icons: { 16: "icon-16.png", 48: "icon-48.png", 128: "icon-128.png" },
@@ -68,9 +69,17 @@ const sourceIcon = PNG.sync.read(await readFile(path.join(repo, "web/public/icon
 for (const size of [16, 48, 128]) {
   const icon = new PNG({ width: size, height: size });
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-    const sx = Math.floor(x * sourceIcon.width / size), sy = Math.floor(y * sourceIcon.height / size);
-    const src = (sy * sourceIcon.width + sx) * 4, dst = (y * size + x) * 4;
-    icon.data.set(sourceIcon.data.subarray(src, src + 4), dst);
+    const left = x * sourceIcon.width / size, top = y * sourceIcon.height / size;
+    const right = (x + 1) * sourceIcon.width / size, bottom = (y + 1) * sourceIcon.height / size;
+    const totals = [0, 0, 0, 0];
+    for (let sy = Math.floor(top); sy < Math.ceil(bottom); sy++) {
+      for (let sx = Math.floor(left); sx < Math.ceil(right); sx++) {
+        const weight = (Math.min(sx + 1, right) - Math.max(sx, left)) * (Math.min(sy + 1, bottom) - Math.max(sy, top));
+        for (let channel = 0; channel < 4; channel++) totals[channel] += sourceIcon.data[(sy * sourceIcon.width + sx) * 4 + channel] * weight;
+      }
+    }
+    const area = (right - left) * (bottom - top);
+    for (let channel = 0; channel < 4; channel++) icon.data[(y * size + x) * 4 + channel] = Math.round(totals[channel] / area);
   }
   await writeFile(path.join(dist, `icon-${size}.png`), PNG.sync.write(icon));
 }

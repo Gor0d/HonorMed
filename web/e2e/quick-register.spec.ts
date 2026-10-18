@@ -119,6 +119,10 @@ test("data padrão usa São Paulo às 22:30, Esc limpa e Enter salva", async ({ 
     await expect(page.getByLabel("Data da produção")).toHaveValue("2026-10-17");
     await page.getByLabel("Quantidade", { exact: true }).press("Enter");
     await expect(page.getByText("1 consulta registrada")).toBeVisible();
+    await expect(page.getByLabel("Quantidade", { exact: true })).toHaveValue("");
+    await page.getByLabel("Quantidade", { exact: true }).press("Enter");
+    await expect(page.getByText("1 consulta registrada")).toBeVisible();
+    expect((await load(request)).production.length).toBe(before.production.length + 1);
     produced = (await load(request)).production.find((row) => !before.production.some((old) => old.id === row.id))?.id;
     expect(produced).toBeDefined();
     await page.goto("/?area=ajustes&modulo=consultas");

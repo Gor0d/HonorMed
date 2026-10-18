@@ -71,7 +71,7 @@ async function revokeExpired(raw: string | null) {
       },
     });
     const result = await temporary.auth.setSession({ access_token: session.access_token, refresh_token: session.refresh_token });
-    if (!result.error) await temporary.auth.signOut();
+    if (!result.error) await temporary.auth.signOut({ scope: "local" });
   } catch { /* Local access is already blocked; remote revocation is best effort. */ }
 }
 
@@ -135,7 +135,7 @@ element<HTMLButtonElement>("logout").addEventListener("click", async () => {
   logout.disabled = true;
   showError("");
   let remoteError = false;
-  try { remoteError = Boolean((await client?.auth.signOut())?.error); }
+  try { remoteError = Boolean((await client?.auth.signOut({ scope: "local" }))?.error); }
   catch { remoteError = true; }
   finally {
     stopTimer();
