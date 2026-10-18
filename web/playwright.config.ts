@@ -18,7 +18,7 @@ export default defineConfig({
     timeout: 120000,
   },
   projects: [
-    { name: "mobile", use: { viewport: { width: 390, height: 844 } } },
-    { name: "desktop", use: { viewport: { width: 1280, height: 900 } } },
+    { name: "mobile", use: { viewport: { width: 390, height: 844 }, timezoneId: "America/Sao_Paulo" } },
+    { name: "desktop", use: { viewport: { width: 1280, height: 900 }, timezoneId: "America/Sao_Paulo" } },
   ],
 });

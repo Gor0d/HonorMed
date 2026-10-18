@@ -14,11 +14,15 @@ export default function ProductModules(props: {
   dark: boolean;
   onTheme: () => void;
   onLogout: () => Promise<void>;
+  startInSettings?: boolean;
+  initialModule?: "consultas" | "laudos";
 }) {
   const { data } = props,
     saved = data.preferences[0],
     profile = saved?.perfil_uso || "consultas";
-  const [selected, setSelected] = useState<"consultas" | "laudos">("consultas"),
+  const [selected, setSelected] = useState<"consultas" | "laudos">(
+      props.initialModule || "consultas",
+    ),
     [edit, setEdit] = useState(
       !saved && !data.production.length && !data.radiologyProduction.length,
     ),

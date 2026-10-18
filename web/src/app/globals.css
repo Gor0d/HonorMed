@@ -1730,3 +1730,49 @@ summary > strong {
     letter-spacing: 2px;
   }
 }
+
+/* A small, focused entry point for production on a consultation-room desktop. */
+.quick-page {
+  min-height: 100dvh;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+.quick-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.quick-header .brand-wordmark { color: var(--ink); }
+.quick-link { color: var(--accent); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.quick-card { padding: clamp(20px, 4vw, 40px); }
+.quick-card h1 { margin: 8px 0; }
+.quick-card h2 { margin: 24px 0 16px; }
+.quick-card .muted { margin-bottom: 20px; }
+.quick-tabs { display: inline-flex; gap: 5px; padding: 5px; background: var(--surface-2); border-radius: 12px; }
+.quick-tabs button { border: 0; border-radius: 9px; padding: 9px 18px; color: var(--ink); background: transparent; font-weight: 800; }
+.quick-tabs button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.quick-fields { display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.quick-fields label { font-size: 13px; }
+.quick-fields input, .quick-fields select { height: 48px; font-size: 15px; }
+.quick-fields .quantity-stepper input { min-width: 80px; }
+.quick-fields .quantity-stepper button { height: 48px; min-width: 48px; color: var(--ink); }
+.quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.quick-actions .button { min-height: 48px; }
+.quick-confirm, .quick-empty, .quick-result { background: var(--surface-2); border-radius: 12px; padding: 16px; }
+.quick-empty { display: grid; gap: 8px; }
+.quick-result { display: grid; gap: 7px; margin-top: 22px; }
+.quick-result strong { font: 700 22px var(--display); }
+.quick-result small, .quick-footer { color: var(--muted); }
+.quick-result > .button { justify-self: start; }
+.quick-footer { margin-top: 18px; font-size: 12px; }
+@media (max-width: 599px) {
+  .quick-page { padding: 16px 12px 32px; }
+  .quick-header { align-items: flex-start; }
+  .quick-header .brand { font-size: 17px; }
+  .quick-header .quick-link { font-size: 12px; text-align: right; }
+  .quick-fields { grid-template-columns: 1fr; }
+  .quick-actions .button { flex: 1 1 100%; }
+}

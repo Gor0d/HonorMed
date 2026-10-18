@@ -26,5 +26,19 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "maskable",
       },
     ],
+    shortcuts: [
+      {
+        name: "Registrar consultas",
+        short_name: "Consultas",
+        url: "/registrar?modulo=consultas",
+        icons: [{ src: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+      },
+      {
+        name: "Registrar laudos",
+        short_name: "Laudos",
+        url: "/registrar?modulo=laudos",
+        icons: [{ src: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+      },
+    ],
   };
 }

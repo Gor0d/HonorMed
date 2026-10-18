@@ -1,6 +1,8 @@
 # Registro rápido no computador do consultório — especificação
 
-Status: **Etapa 0 aprovada, D1 incorporada** (17/10/2026). A rota e a extensão seguem nas etapas posteriores; nenhuma migration ou publicação foi criada.
+Status: **Etapa 1 implementada na branch, sem deploy** (17/10/2026). A Etapa 0 foi aprovada e a D1 incorporada; a extensão segue nas etapas posteriores. Nenhuma migration ou publicação foi criada.
+
+Verificação da Etapa 1: `npm test` passou com 27 testes SQL/RLS; `npm run build` passou; `npm run test:e2e` passou com 20 fluxos (12 anteriores e 8 novos, em 390 × 844 e 1280 × 900). A rota usa a demo isolada ou a sessão Supabase do app, o manifesto oferece dois atalhos com ícones da marca e o service worker continua sem cache financeiro. Testes de navegador desta etapa usaram apenas dados fictícios/PGlite; não houve acesso ao Supabase real.
 
 ## Objetivo e limites
 

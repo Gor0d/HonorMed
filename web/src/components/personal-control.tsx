@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { PRODUCT_NAME } from "@/lib/brand";
 import { Brand, BrandMark } from "@/components/brand";
 import { money } from "@/lib/utils";
+import { today } from "@/lib/date";
 import {
   mutate,
   supabase,
@@ -39,10 +40,6 @@ import {
 
 const n = (v: unknown) => Number(v ?? 0);
 const dateLabel = (s: string) => s.slice(0, 10).split("-").reverse().join("/");
-function today() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
 const nav = [
   ["Início", Home],
   ["Produção", List],
@@ -55,6 +52,7 @@ type Props = {
   dark: boolean;
   onTheme: () => void;
   onLogout: () => Promise<void>;
+  startInSettings?: boolean;
 };
 type Editor =
   | {
@@ -148,8 +146,9 @@ export default function PersonalControl({
   dark,
   onTheme,
   onLogout,
+  startInSettings = false,
 }: Props) {
-  const [page, setPage] = useState<string>("Início"),
+  const [page, setPage] = useState<string>(startInSettings ? "Ajustes" : "Início"),
     [month, setMonth] = useState(supabase ? today().slice(0, 7) : "2026-10");
   const [editor, setEditor] = useState<Editor | null>(null),
     [busy, setBusy] = useState(false),

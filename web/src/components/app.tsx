@@ -87,8 +87,12 @@ const date = (s: string) => s.split("-").reverse().join("/");
 
 export default function App({
   mode = "personal",
+  startInSettings = false,
+  initialModule = "consultas",
 }: {
   mode?: "personal" | "imported";
+  startInSettings?: boolean;
+  initialModule?: "consultas" | "laudos";
 }) {
   const [signed, setSigned] = useState(false),
     [ready, setReady] = useState(false),
@@ -419,6 +423,8 @@ export default function App({
   if (mode === "personal")
     return (
       <ProductModules
+        startInSettings={startInSettings}
+        initialModule={initialModule}
         data={data}
         onRefresh={refresh}
         dark={dark}
