@@ -393,6 +393,14 @@ export default function App({
               demonstração, sem autenticação real.
             </p>
           )}
+          <aside className="login-extension-note" aria-label="Extensão de registro rápido">
+            <span>REGISTRO RÁPIDO NO COMPUTADOR</span>
+            <strong>Uma extensão para acompanhar sua rotina.</strong>
+            <p>
+              Lançamentos manuais por quantidade durante o atendimento, sem
+              dados de pacientes. Download pela loja em breve.
+            </p>
+          </aside>
         </section>
       </main>
     );
