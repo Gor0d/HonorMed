@@ -1,93 +1,74 @@
 # HonorMed — guia para apresentar aos médicos
 
-## Está apresentável?
+## Situação em 19/10/2026
 
-**Sim, para demonstração guiada, descoberta comercial e recrutamento de um piloto.** A interface, o fluxo financeiro e os cálculos podem ser demonstrados com dados fictícios. Ainda não está validado para uso operacional com dados reais ou como documento oficial de pagamento.
+O piloto está publicado em https://honormed.emersongsguimaraes.workers.dev. Auth/API Supabase reais, persistência e isolamento entre médicos foram validados tecnicamente no endereço publicado; contas e dados técnicos foram removidos. Há 27 testes SQL/RLS e 12 fluxos Playwright locais aprovados. Essas evidências não são homologação hospitalar nem confirmação de pagamentos.
 
-O registro atualizado contém build aprovado, 27 testes SQL/RLS e 12 testes Playwright em celular e desktop. São evidências do MVP, não homologação hospitalar. Auth/Supabase completo, implantação e instalação em dispositivo físico ainda precisam ser validados. Integração MV e conciliação hospitalar são futuras e não bloqueiam a utilidade do registro pessoal.
+A reunião usa **demonstração local com dados fictícios**. O médico informa a própria produção e os recebimentos; o saldo é uma estimativa pessoal. Consultas e Laudos são módulos independentes. Integração MV é futura e opcional. Nenhum dado de paciente, imagem, DICOM ou texto de laudo entra no fluxo pessoal.
 
-**Posicionamento atual:** autonomia do médico. Ele informa quantidade de consultas, por local/data/convênio, e os recebimentos. Código de prestador é opcional; honorário desconhecido não bloqueia registro. Tudo é identificado como informação pessoal, sem confirmação do hospital. HonorMed vem da revisão v2 e está centralizado em `brand.ts`; disponibilidade de marca/domínio não foi validada.
+Antes de convidar para uso real: conferir entrega dos e-mails de cadastro e recuperação/troca de senha com a conta do usuário; disponibilizar termos, privacidade, identificação do fornecedor e suporte; preparar backup e testar restauração; definir contratação/cobrança externa. Domínio próprio e instalação da PWA em dispositivo físico continuam pendentes; o endereço workers.dev serve ao piloto. Não apresentar trial, cobrança, exportação, SLA ou plano institucional como ativos.
 
-## Material
+## Material e sequência
 
-- `HonorMed_Apresentacao_Medicos.pptx`: 18 slides editáveis e notas de fala. Slides 1–14 para médicos; 15–18 como apêndices para gestão/TI e negociação.
-- `HonorMed_Apresentacao_Medicos.pdf`: versão para compartilhar sem depender de fontes/PowerPoint.
-- A fonte é Segoe UI (já instalada no Windows e no Office), então o PPTX e o PDF ficam iguais. Em Mac, prefira o PDF.
-- Preços são hipóteses propostas, sem aprovação, contrato ativo ou cobrança implementada. A apresentação não altera os planos na aplicação.
+- `HonorMed_Apresentacao_Medicos.pptx`: **19 slides** editáveis com notas. Slides **1–16** para médicos; **17–19** são apêndices de situação, viabilidade e limites.
+- `HonorMed_Apresentacao_Medicos.pdf`: versão para compartilhar sem depender de PowerPoint.
+- Slides novos: **4, Como acessar**, e **16, Piloto**. O antigo apêndice institucional saiu porque não há oferta institucional implementada.
+- Bricolage Grotesque e Manrope não estavam instaladas neste Windows. O PPTX usa **Segoe UI/Segoe UI Semibold**, fontes disponíveis no Windows com Office. O PDF exportado incorpora as fontes usadas. Em outros sistemas, prefira o PDF.
+- Preços são propostas de `web/src/lib/plans.ts`, sem contrato, cobrança, trial ou limites de plano ativos.
 
 ## Roteiro de 10 minutos
 
-Escolha o roteiro conforme o médico. Em **Meu perfil de uso**, selecione Somente consultas, Somente laudos radiológicos ou Ambos. A opção fica salva por usuário. O radiologista não precisa cadastrar consultas ou convênios; abre direto o dashboard de Laudos no próximo acesso.
+1. **Autonomia (slides 1–2):** perguntar como o médico confere os próprios honorários. Explicar que ele registra produção e recebimentos, sem confirmação automática do hospital.
+2. **Acesso (slides 3–4):** mostrar o login com a identidade aprovada. Nesta reunião, abrir a demo local. O endereço publicado é para o cadastro no piloto depois das pendências acima.
+3. **Consultas (slides 5–11):** registrar data, local, convênio e quantidade; mostrar honorário pendente, valores conhecidos, recebimento parcial e mês da produção. Na demo, outubro começa com 24 consultas, 4 sem valor, R$ 2.245,00 produzidos, R$ 500,00 informados como recebidos e R$ 1.745,00 previstos. Mudanças no seed alteram esses valores.
+4. **Perfil e Laudos (slides 12–13):** escolher Somente laudos ou Ambos em Meu perfil de uso. Radiologistas não precisam cadastrar consultas/convênios. Laudos usam instituição e tipo de exame, com tarifas e recebimentos separados de Consultas. O seed de outubro tem 75 laudos, 5 sem tarifa, R$ 1.520,00 conhecidos, R$ 300,00 recebidos e R$ 1.220,00 previstos.
+5. **Preço (slide 14):** Free e Pro são propostas a validar. Pro sugerido em R$ 79,90/médico/mês, Consultas, Laudos ou ambos. Todos os recursos atuais estão liberados; não há cobrança nem bloqueio por plano.
+6. **Aprendizado e piloto (slides 15–16):** perguntar se prefere registrar cada atendimento ou o total do dia. Propor 5–10 médicos por 30 dias de uso assistido, condicionado à preparação operacional. Medir semanalmente uso recorrente, tempo de suporte, falhas, entendimento do saldo e intenção de pagar.
 
-### Para radiologistas
+### Preparar a demo
 
-1. Em Ajustes de Laudos, cadastre uma instituição e um tipo de exame (modalidade/região/urgência quando isso mudar o honorário).
-2. Informe a tarifa líquida por laudo para aquele par instituição/tipo. O mesmo exame pode ter valores diferentes em outra clínica.
-3. Clique **Registrar laudos** e informe data e quantidade. Mostre que, sem tarifa conhecida, os registros ficam salvos com valor pendente.
-4. Confira dashboard e detalhamento por tipo de exame e instituição. Filtre a Produção por instituição, exame e dia.
-5. Registre um pagamento parcial da instituição, indicando mês da produção e data do recebimento. Os valores não quitam consultas ou outras instituições.
-6. Explique que é controle financeiro dos laudos realizados, sem imagens, texto clínico ou pacientes; não é emissão de laudos ou PACS/RIS.
+Na pasta `web`, execute `npm.cmd run dev` **sem `web/.env.local`** e abra `http://127.0.0.1:3000`. Se esse arquivo existir, retire-o temporariamente do caminho por procedimento seguro e restaure-o após a reunião; não copie seu conteúdo para slides ou logs. Sem Supabase configurado, o botão Entrar abre o seed fictício sem autenticação real. O localhost funciona no computador que executa o servidor; projete ou compartilhe a tela. **Nunca carregue seed ou outros dados fictícios no Supabase de produção.**
 
-Seed fictício radiológico: outubro tem 75 laudos, 5 sem honorário, R$ 1.520,00 conhecidos, R$ 300,00 recebidos e R$ 1.220,00 previstos. Novembro tem 10 laudos/R$ 350,00. A demo começa em Consultas; altere o perfil para demonstrar Laudos.
-
-### Para médicos que fazem consultas
-
-1. **Contexto (1 min):** “A ideia é o senhor ter o próprio controle, sem depender de pedir relatório ao administrativo. Hoje vamos usar dados fictícios.”
-2. **Configuração (1 min):** conta/perfil → local e convênio → honorário quando souber. Código MV não é obrigatório.
-3. **Registrar consultas (2 min):** informar data, local, convênio e quantidade, como “8 consultas Unimed hoje”. Mostrar que consultas sem honorário também ficam salvas.
-4. **Acompanhar (2 min):** mostrar produção estimada, recebido e previsto a receber. Abrir Produção e filtrar por local, convênio e dia. Consultas sem valor contam na quantidade, mas ficam fora da soma financeira.
-5. **Recebimento (1 min):** lançar pagamento parcial por local/convênio/mês da produção. Explicar que o dinheiro recebido em novembro pode quitar produção de outubro. Nenhuma consulta é marcada automaticamente como paga.
-6. **Planos (1 min):** apresentar Free/Pro como proposta de lançamento. O MVP atual libera todos os recursos, sem cobrança ou bloqueios por plano.
-7. **Piloto e perguntas (2 min):** entender se ele prefere lançar uma por vez ou o total do dia; convidar interessados e combinar validação controlada após preparar login e operação. Integração com dados hospitalares exige autorização e validações próprias.
-
-Para demonstrar, dentro de `web`, execute `npm.cmd run dev` e abra `http://127.0.0.1:3000`. Sem Supabase configurado, o botão Entrar abre a demonstração sem autenticação real. O endereço localhost só funciona no computador onde o servidor roda; use projeção ou compartilhamento de tela. Não prometer acesso remoto aos médicos antes do deploy.
-
-O banco demonstrativo reinicia ao encerrar e reiniciar o servidor. Mudanças durante a demonstração alteram os números. No controle pessoal, outubro tem 24 consultas, 4 sem valor, R$ 2.245,00 produzidos, R$ 500,00 recebidos e R$ 1.745,00 de saldo previsto. Novembro tem 6 consultas/R$ 510,00. Todos os números são fictícios. A visão anterior permanece separada em `/importados`, com os 140/70 atendimentos originais.
-
-## Proposta comercial sugerida — para aprovar
-
-| Opção | Preço sugerido | Proposta de escopo | Condição |
-|---|---:|---|---|
-| Free | R$ 0 | Um local, mês atual e controle básico no módulo escolhido | Limites ainda não implementados |
-| Pro individual | R$ 79,90/médico/mês | Consultas, Laudos ou ambos; múltiplas instituições e histórico registrado | Sem integração MV automaticamente incluída; cobrança futura |
-| Institucional | Referência de R$ 1.990/mês | Até 50 médicos de uma instituição | Licenciamento institucional, suporte e integrações sujeitos à descoberta e contrato |
-| Implantação institucional | Referência inicial de R$ 4.900 | Configuração, capacitação e escopo inicial acordado | Estimar esforço antes de fechar; customizações e integração fora do escopo devem ser orçadas |
-
-Escolher quem paga: médico **ou** hospital para os acessos cobertos, evitando cobrança duplicada. Não prometer painel administrativo institucional, SLA, integração com múltiplos hospitais, fechamento contábil, exportação ou recuperação automática de glosas: esses recursos não foram entregues neste MVP. O cadastro manual de múltiplas instituições já existe.
-
-Proposta atualizada por ampliação do produto: Pro R$ 79,90 substitui R$ 49,90; institucional R$ 1.990 substitui R$ 1.490. O Pro permite escolher Consultas, Laudos ou ambos, sem obrigar o radiologista a usar Consultas. São preços sugeridos, sem contratação, cobrança ou limites ativos. Fonte dos preços da interface e do PPTX: `web/src/lib/plans.ts`. A referência de sistemas médicos consultada anteriormente é contexto de categoria, não valida esses valores ou equivalência de escopo.
-
-Sugestão de piloto: 5–10 médicos, 30 dias gratuitos de uso controlado após os requisitos de implantação e segurança. Demonstrar agora com seed. Validar Auth, permissões e persistência antes do uso pessoal real. Integração hospitalar exige autorização e homologação próprias. Medir esforço para registrar o dia, entendimento do saldo e disposição a pagar; não anunciar prazo garantido para integração.
-
-## Por que esse preço?
-
-R$ 79,90 é uma hipótese inicial para um produto focado na visibilidade do repasse; não resulta de pesquisa comprovada de disposição a pagar. É necessário testar com médicos e levantar custo de operação/suporte. A oferta pública de [gestão financeira do iClinic](https://site.iclinic.com.br/funcionalidades/gestao-financeira/) confirma que repasses são uma funcionalidade de sistemas médicos mais amplos; isso é apenas contexto de categoria, não comparação equivalente nem prova de preço para o HonorMed. Referência consultada em 16/10/2026.
-
-Exemplo aritmético: 100 assinantes Pro geram R$ 7.990/mês de receita **bruta**, antes de hospedagem, suporte, aquisição, tributos e manutenção. Não é previsão de vendas, margem ou lucro. Os valores institucionais também são sugestões próprias e dependem de escopo e custos.
-
-Se “valor comercial” significar **preço de venda integral do software**, não há base para um valuation defensável nesta fase. Levantar propriedade intelectual, custo de reposição, esforço restante, contratos, receita recorrente, custos e passivos antes de negociar cessão do produto. Não confundir preço de assinatura com valor do ativo.
+O banco demonstrativo reinicia com o servidor; alterações durante a reunião mudam os valores. A visão `/importados` contém os registros fictícios anteriores e permanece separada, sem soma automática com o controle pessoal. O site publicado é https://honormed.emersongsguimaraes.workers.dev para o cadastro do piloto, após concluir as pendências operacionais.
 
 ## Perguntas para os médicos
 
-- O que você usa hoje para conferir o repasse? Qual parte dá mais trabalho?
+- Como você confere hoje o repasse? Qual parte dá mais trabalho?
 - É mais prático registrar uma consulta por vez ou a quantidade ao final do dia?
-- Você já sabe quanto recebe por consulta/convênio ou só descobre no demonstrativo?
-- A competência mostrada corresponde à que você espera? Como funciona o prazo de cada convênio?
-- Você pagaria R$ 79,90/mês por esse acompanhamento? Preferiria acesso custeado pelo hospital?
-- Que resultado faria você continuar usando depois do piloto?
+- Você conhece o honorário por local/convênio ou só descobre no demonstrativo?
+- O mês de produção mostrado corresponde ao período usado em seus pagamentos?
+- O saldo pessoal ajudaria a conferir seus recebimentos? O que faria você continuar usando?
+- A proposta de R$ 79,90/mês faria sentido após o piloto? Que suporte seria necessário?
 
-## Antes de oferecer operação real
+## Limites da conversa comercial
 
-Para o controle pessoal, validar identificação do médico, login real, isolamento, persistência, infraestrutura, recuperação e suporte. Não prometer extrato oficial ou confirmação de pagamentos. Para integração hospitalar, validar fonte oficial do repasse, critério de competência, autorização e tratamento de dados. Implementar e homologar conector somente após a Fase 0, com reconciliação explícita para evitar duplicar consultas pessoais/importadas. Consulte `docs/FASE-3.md`.
+Não prometer integração MV, confirmação hospitalar ou bancária, glosa recuperada automaticamente, exportação, SLA, plano institucional, trial ou cobrança ativa. O cadastro de múltiplos locais/instituições já existe, mas não cria vínculo verificado com elas. A importação CSV/XLSX é uma visão avançada separada e não deve ser somada automaticamente à produção pessoal. A PWA existe, porém a instalação em dispositivo físico não foi validada.
+
+Proposta Free: R$ 0, escopo sugerido de um local e mês atual. Proposta Pro: **R$ 79,90/médico/mês**, Consultas, Laudos ou ambos; múltiplos locais e histórico registrado. Esses limites e a cobrança não estão implementados. Os valores vêm de `web/src/lib/plans.ts` e precisam de validação comercial. A hipótese de preço não resulta de pesquisa comprovada de disposição a pagar.
+
+Integração hospitalar exigiria autorização, descoberta HML e reconciliação explícita para evitar duplicidade. Sem prazo ou preço prometido para isso. Consulte `docs/FASE-3.md` apenas para o planejamento futuro.
 
 ## Regenerar a apresentação
 
-Na raiz do projeto, com Python e as bibliotecas disponíveis:
+Na raiz, instale as dependências **apenas em `.tools/presentation`** e regenere as capturas antes do deck:
 
 ```powershell
-python -m pip install --target .tools/presentation python-pptx Pillow
+Set-Location web
+npm.cmd run test:e2e
+Set-Location ..
+py -3.14 -m pip install --target .tools/presentation python-pptx Pillow
 $env:PYTHONPATH = Join-Path $PWD '.tools/presentation'
-python docs/apresentacao/gerar_apresentacao.py
+py -3.14 docs/apresentacao/gerar_apresentacao.py
 ```
 
-O gerador usa as capturas `web/test-results/personal-dashboard-desktop.png` e `personal-dashboard-mobile.png`, produzidas por `npm run test:e2e`. `slides_base.py` contém os elementos visuais e `gerar_controle_pessoal.py` o conteúdo atualizado; `gerar_apresentacao.py` é o comando de entrada. As notas do apresentador fazem parte do PPTX. Revise os preços antes de distribuir como oferta definitiva.
+As capturas usadas são `web/test-results/personal-dashboard-desktop.png`, `personal-dashboard-mobile.png` e `radiology-dashboard-desktop.png`, mais `docs/brand/login-390.png` e `login-1280.png`. `slides_base.py` lê as cores de `web/src/lib/brand.ts` e `web/src/app/globals.css`; `gerar_controle_pessoal.py` contém os textos; `gerar_apresentacao.py` é a entrada. As notas ficam no PPTX.
+
+PDF exportado **do PPTX gerado** com LibreOffice 26.8.1 nesta máquina (saída temporária para evitar reutilizar o PDF anterior):
+
+```powershell
+New-Item -ItemType Directory -Force .tools/presentation/pdf | Out-Null
+& 'C:\Program Files\LibreOffice\program\soffice.com' -env:UserInstallation=file:///C:/Projetos/HonorMed/.tools/lo-profile3 --headless --convert-to pdf --outdir .tools/presentation/pdf docs/apresentacao/HonorMed_Apresentacao_Medicos.pptx
+Copy-Item -LiteralPath .tools/presentation/pdf/HonorMed_Apresentacao_Medicos.pdf -Destination docs/apresentacao/HonorMed_Apresentacao_Medicos.pdf -Force
+```
+
+Renderize cada página do PDF para revisão de texto, contraste, logo e capturas antes de distribuir. Nunca inclua credenciais, e-mails de contas técnicas ou dados reais.
