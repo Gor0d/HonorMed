@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
+.first-use { margin: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); display: grid; gap: 14px; }
+.first-use ol { display: flex; flex-wrap: wrap; gap: 12px 20px; padding: 0; margin: 0; list-style: none; font-size: 12px; }
+.first-use li span { color: var(--accent); font-weight: 800; }
+.register-shortcut { background: var(--accent); color: var(--accent-ink); border-radius: 12px; font-weight: 700; }
 .account-controls { display: grid; gap: 16px; }
 .account-ack { display: flex; flex-direction: row; align-items: center; }
 .account-ack input { width: 20px; height: 20px; flex-shrink: 0; }
