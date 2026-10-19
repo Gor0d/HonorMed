@@ -7,6 +7,8 @@ import RadiologyControl from "@/components/radiology-control";
 import PlansPreview from "@/components/plans-preview";
 import { mutate, type Dataset } from "@/lib/data";
 import { Brand } from "@/components/brand";
+import Link from "next/link";
+import FirstUse from "@/components/first-use";
 type Profile = "consultas" | "laudos" | "ambos";
 export default function ProductModules(props: {
   data: Dataset;
@@ -85,6 +87,12 @@ export default function ProductModules(props: {
           )}
         </div>
         <div className="header-actions">
+          <Link
+            className="button register-shortcut"
+            href={`/registrar?modulo=${active}`}
+          >
+            Registrar
+          </Link>
           <Button
             variant="ghost"
             onClick={() => {
@@ -102,6 +110,7 @@ export default function ProductModules(props: {
           )}
         </div>
       </div>
+      {!plans && <FirstUse data={data} module={active} />}
       {plans ? (
         <main className="main">
           <PlansPreview />
