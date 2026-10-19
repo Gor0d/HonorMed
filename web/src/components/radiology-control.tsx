@@ -27,6 +27,7 @@ import {
 import { Dialog } from "@/components/personal-control";
 import { Button } from "@/components/ui/button";
 import { PRODUCT_NAME } from "@/lib/brand";
+import AccountControls from "@/components/account-controls";
 import { Brand } from "@/components/brand";
 import { ExtensionBanner } from "@/components/extension-banner";
 import { money } from "@/lib/utils";
@@ -623,6 +624,7 @@ export default function RadiologyControl({
         )}
         {page === "Ajustes" && (
           <>
+            <AccountControls onDeleted={onLogout} />
             <section className="card personal-setup">
               <h2>1. Instituições onde você lauda</h2>
               <p className="muted">

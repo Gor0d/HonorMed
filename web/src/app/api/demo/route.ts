@@ -78,6 +78,33 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Origem inválida." }, { status: 403 });
   try {
     const { table, action, values, id } = await request.json();
+    if (table === "__conta") {
+      if (
+        id ||
+        !["exportar_meus_dados", "excluir_minha_conta"].includes(action)
+      )
+        throw new Error("Operação de conta inválida.");
+      const conn = await db();
+      const result = await conn.transaction(async (tx) => {
+        await tx.exec("set local role authenticated");
+        await tx.query("select set_config('request.jwt.claim.sub',$1,true)", [
+          physician,
+        ]);
+        return action === "exportar_meus_dados"
+          ? (
+              await tx.query<{ dados: unknown }>(
+                "select public.exportar_meus_dados() as dados",
+              )
+            ).rows[0].dados
+          : (await tx.query("select public.excluir_minha_conta($1)", [
+              values?.confirmacao,
+            ]),
+            { ok: true });
+      });
+      return NextResponse.json(result, {
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
     const columns: Record<string, string[]> = {
       preferencias_produto: ["perfil_uso"],
       laudos_tipos: ["id", "nome"],

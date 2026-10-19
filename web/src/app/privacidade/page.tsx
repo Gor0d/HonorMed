@@ -45,7 +45,7 @@ export default function PrivacyPage() {
         </section>
         <section>
           <h2>6. Conservação e segurança</h2>
-          <p>Os dados da conta e os registros são mantidos enquanto a conta estiver ativa ou enquanto forem necessários para oferecer o serviço e atender obrigações aplicáveis. Um pedido de encerramento ou exclusão é analisado após confirmação da identidade; informações que precisem ser conservadas por obrigação legal ou defesa de direitos podem permanecer pelo período necessário. A exclusão da conta não é automática no aplicativo.</p>
+          <p>Os dados da conta e os registros são mantidos enquanto a conta estiver ativa. Em Ajustes, a funcionalidade de exportação e exclusão permite baixar os registros de aplicação e solicitar a remoção da própria conta mediante confirmação explícita. Essa funcionalidade está em preparação e depende de publicação e aplicação da migration correspondente. A exclusão remove os dados ativos e o acesso na mesma operação; cópias exportadas, backups e registros técnicos dos fornecedores não são apagados imediatamente. Os prazos de retenção operacional e o procedimento de restauração ainda precisam ser definidos e testados antes da ampliação comercial.</p>
           <p>As comunicações com o serviço usam HTTPS. O banco aplica políticas de acesso por médico, e a extensão não contém chave administrativa. Nenhum sistema elimina todos os riscos; informe ao contato acima qualquer suspeita de acesso indevido.</p>
         </section>
         <section>

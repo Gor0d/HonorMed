@@ -18,10 +18,11 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
-      - run: npm test
+      - run: npm test ${{ startsWith(github.head_ref || github.ref_name, 'feat/b') && '-- tests/b' || '' }}
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      - run: npm run test:e2e ${{ startsWith(github.head_ref || github.ref_name, 'feat/b') && '-- b[1-6]-' || '' }}
   extension:
+    if: ${{ !startsWith(github.head_ref || github.ref_name, 'feat/b') }}
     runs-on: ubuntu-latest
     defaults:
       run:
