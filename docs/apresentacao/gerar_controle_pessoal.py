@@ -10,16 +10,17 @@ def three(kicker,title,subtitle,cards,footnote,note,highlight=None):
 
 def main():
     s=base('Autonomia para quem cuida','',dark=True)
-    text(s,BRAND,LEFT,1.35,8,1.1,64,WHITE,False,DISPLAY,spacing=1.0,after=0)
-    text(s,'Sua produção. Seus recebimentos.\nSeu próprio controle.',LEFT,2.85,8.6,1.4,30,SOFT,False,DISPLAY,spacing=1.05,after=4)
-    text(s,'Registre a produção do dia e acompanhe os honorários\nsem depender de acesso ao administrativo.',LEFT,4.6,8.4,1.0,18,SOFT,after=4)
-    pill(s,LEFT,6.0,4.7,.46,'DEMONSTRAÇÃO DO MVP  ·  CONTROLE PESSOAL',GREEN,WHITE,11)
+    logo(s,True,LEFT,1.25,5.2)
+    text(s,'Sua produção. Seus honorários.\nSeu controle.',LEFT,2.85,8.6,1.4,30,LIGHT_ON_DARK,False,DISPLAY,spacing=1.05,after=4)
+    text(s,'Registre a produção do dia e acompanhe os honorários\nsem depender de acesso ao administrativo.',LEFT,4.6,8.4,1.0,18,LIGHT_ON_DARK,after=4)
+    box(s,LEFT,5.73,.82,.04,GOLD,radius=False)
+    pill(s,LEFT,6.0,4.7,.46,'PILOTO PUBLICADO  ·  DEMO COM DADOS FICTÍCIOS',GREEN,WHITE,11)
     for i,label in enumerate(['REGISTRAR','PREVER','CONFERIR']):
         y=2.35+i*1.15
-        box(s,9.3,y,3.5,.95,GREEN if i==1 else '12332C',line=None if i==1 else GREEN,round_=.5)
-        text(s,f'{i+1}',9.6,y+.24,.5,.5,24,SOFT,False,DISPLAY,after=0)
-        text(s,label,10.15,y+.3,2.5,.4,17,WHITE,True,after=0)
-    notes(s,'Versão atualizada: HonorMed, com Consultas e Laudos independentes. Controle pessoal, não extrato oficial. Todos os dados são fictícios. Disponibilidade comercial da marca ainda não foi validada. Slides 1–14 para médicos; 15–18 como apêndices.')
+        box(s,9.3,y,3.5,.95,GREEN if i==1 else ui_color('surface-2'),line=None if i==1 else GREEN,round_=.5)
+        text(s,f'{i+1}',9.6,y+.24,.5,.5,24,LIGHT_ON_DARK if i==1 else INK,False,DISPLAY,after=0)
+        text(s,label,10.15,y+.3,2.5,.4,17,WHITE if i==1 else INK,True,after=0)
+    notes(s,'HonorMed com Consultas e Laudos independentes. Controle pessoal, não extrato oficial. Capturas e demonstração usam dados fictícios. O piloto público já está no Cloudflare; Auth/API reais foram validados tecnicamente. Disponibilidade comercial da marca ainda não foi validada. Slides 1–16 para médicos; 17–19 como apêndices.')
 
     three('O valor para o médico','Seu controle começa com o que você já sabe.','Uma ferramenta simples para registrar a rotina e acompanhar seus próprios números.',[
         ('01 / REGISTRAR','Sem planilha','Anote uma consulta ou a quantidade do dia, por local e convênio.'),
@@ -36,11 +37,18 @@ def main():
         box(s,x+.25,y+.25,.5,.5,GREEN,round_=.5);text(s,num,x+.25,y+.34,.5,.4,16,WHITE,True,after=0,align=2)
         text(s,title,x+.92,y+.31,2.85,.4,18,INK,False,DISPLAY,after=0)
         text(s,body,x+.28,y+.98,3.45,.8,14,MUTED,after=0)
-    notes(s,'Na demo local o botão Entrar não autentica, apenas abre seed. Auth Supabase está implementado mas ainda precisa validação do stack completo. Onboarding não exige vínculo ao MV.')
+    notes(s,'Na demo local o botão Entrar não autentica, apenas abre seed fictício. No site publicado, Auth e API Supabase reais foram validados tecnicamente com contas temporárias, removidas depois. A entrega de e-mails de confirmação e recuperação ainda depende de teste do usuário. Onboarding não exige vínculo ao MV.')
+
+    s=base('Como acessar','Demonstração local e cadastro no piloto.','Na reunião: demo fictícia · piloto: honormed.emersongsguimaraes.workers.dev')
+    box(s,.55,2.48,5.25,4.39,WHITE,line=LINE)
+    screenshot(s,ROOT/'docs/brand/login-390.png',2.25,2.59,1.72,3.97)
+    box(s,6.05,2.48,6.72,4.39,WHITE,line=LINE)
+    screenshot(s,ROOT/'docs/brand/login-1280.png',6.22,2.55,6.38,4.30)
+    notes(s,'As capturas do login mostram a identidade aprovada, com dados fictícios ou campos vazios. Abrir a demonstração local com npm.cmd run dev em web, sem web/.env.local. O site publicado é para cadastro no piloto somente após verificar e-mails, termos/privacidade e os demais requisitos operacionais. Nunca carregar seed na produção.')
 
     s=base('Painel pessoal','Duas ações. Seus números em primeiro lugar.','Captura real do MVP · outubro de 2026 · dados fictícios.')
-    box(s,LEFT-.06,2.44,7.72,4.26,WHITE,line=LINE,round_=.03)
-    screenshot(s,ROOT/'web/test-results/personal-dashboard-desktop.png',LEFT,2.5,7.6,4.14)  # tall capture: top 720px keeps header, hero and KPI row
+    box(s,LEFT-.06,2.24,7.72,4.62,WHITE,line=LINE,round_=.03)
+    screenshot(s,ROOT/'web/test-results/personal-dashboard-desktop.png',LEFT,2.3,7.6,4.5)
     for i,(title,body) in enumerate([('Registrar consultas','Quantidade do dia, local e convênio.'),('Registrar recebimento','Valor recebido e mês da produção.'),('Acompanhar o saldo','Produção conhecida menos recebimentos, por local.')]):
         y=2.55+i*1.45
         text(s,f'{i+1}',8.65,y,.5,.5,24,GREEN,False,DISPLAY,after=0)
@@ -90,12 +98,12 @@ def main():
         'Não pedir dados de pacientes para configurar. Não afirmar vínculo verificado com hospital por ter cadastrado um local. Sem honorário o registro pessoal já funciona.')
 
     s=base('No celular e no computador','O seu controle acompanha a sua rotina.','Quatro áreas: Início, Produção, Recebimentos e Ajustes.')
-    box(s,.9,2.45,3,4.45,INK,round_=.1);screenshot(s,ROOT/'web/test-results/personal-dashboard-mobile.png',1.03,2.65,2.74,4.05)
+    box(s,.9,2.45,3,4.45,DEEP,round_=.1);screenshot(s,ROOT/'web/test-results/personal-dashboard-mobile.png',1.42,2.57,1.96,4.22)
     text(s,'No celular',4.7,2.75,7.6,.6,28,GREEN,False,DISPLAY,after=0)
     text(s,'Registre a produção ao final do dia\ne consulte seus números em poucos toques.',4.7,3.4,7.6,1.0,20,INK,after=4)
     text(s,'No computador',4.7,5.05,7.6,.6,28,GREEN,False,DISPLAY,after=0)
     text(s,'Filtre registros e confira os valores\npor local, convênio e data.',4.7,5.7,7.6,1,20,INK,after=4)
-    notes(s,'PWA e temas implementados. Instalação no dispositivo físico ainda não foi validada. Para consultar dados é necessária conexão. Não há controle financeiro offline. Localhost é acessível apenas no computador do servidor, sem deploy público.')
+    notes(s,'PWA e temas implementados. Instalação no dispositivo físico ainda não foi validada. Para consultar dados é necessária conexão. Não há controle financeiro offline. Existe deploy público no endereço honormed.emersongsguimaraes.workers.dev; a demonstração desta reunião roda localmente com dados fictícios.')
 
     three('Perfil de uso','Seu trabalho define o que aparece.','O médico escolhe os módulos que fazem sentido para sua rotina.',[
         ('CONSULTAS','Atendimento clínico','Produção por local e convênio, honorários e recebimentos de consultas.'),
@@ -105,8 +113,8 @@ def main():
         'Mostrar Meu perfil de uso e selecionar Somente laudos. Recarregar a página para demonstrar persistência. A preferência é de experiência, não autorização clínica ou assinatura.',highlight=1)
 
     s=base('Laudos radiológicos','Da instituição ao dashboard, sem planilhas.','Captura real do módulo de Laudos · dados fictícios de outubro de 2026.')
-    box(s,LEFT-.06,2.44,7.72,4.26,WHITE,line=LINE,round_=.03)
-    screenshot(s,ROOT/'web/test-results/radiology-dashboard-desktop.png',LEFT,2.5,7.6,4.14)
+    box(s,LEFT-.06,2.24,7.72,4.62,WHITE,line=LINE,round_=.03)
+    screenshot(s,ROOT/'web/test-results/radiology-dashboard-desktop.png',LEFT,2.3,7.6,4.5)
     for i,(title,body) in enumerate([('Tarifa por instituição','O mesmo exame pode ter valores diferentes em cada clínica.'),('Registro por quantidade','Data, instituição, tipo de exame e total de laudos.'),('Recebimento próprio','Pagamento de laudos não reduz saldo de Consultas.')]):
         y=2.55+i*1.45;text(s,f'{i+1}',8.65,y,.5,.5,24,GREEN,False,DISPLAY,after=0)
         text(s,title,9.2,y+.05,3.6,.45,19,INK,False,DISPLAY,after=0);text(s,body,9.2,y+.55,3.6,.8,15,MUTED,after=0)
@@ -122,23 +130,21 @@ def main():
         ('01 / ENTENDER','Como você atende?','Um local ou vários? Faz sentido registrar o total ao final do dia?'),
         ('02 / DEMONSTRAR','Uma rotina completa','Registrar consultas → acompanhar produção → informar recebimento.'),
         ('03 / VALIDAR','O que faltou?','Foi simples? O saldo ajudou? O que faria você continuar usando?')],
-        'Proposta de piloto: 5–10 médicos, 30 dias de uso controlado após a validação técnica.',
-        'Demonstre com dados fictícios agora. Uso pessoal real depende de validar login, permissões e operação. Integração hospitalar exige autorização própria e descoberta HML. Não condicionar a utilidade do registro pessoal a existir um conector.')
+        'Piloto assistido proposto: 5–10 médicos, 30 dias, após concluir as pendências operacionais.',
+        'Demonstre com dados fictícios agora. Auth, API e RLS reais já foram validados tecnicamente. Uso pessoal real aguarda homologação de e-mails, termos/privacidade, backup/restauração, suporte, contratação e PWA físico. Integração hospitalar exige autorização própria e descoberta HML.')
+
+    s=base('Piloto · convite condicionado','30 dias para aprender com a rotina real.','Endereço publicado: honormed.emersongsguimaraes.workers.dev')
+    card(s,.55,2.55,3.95,'5–10 médicos','Acompanhamento assistido, com Consultas, Laudos ou ambos.','PARTICIPANTES')
+    card(s,4.68,2.55,3.95,'30 dias','Observar uso recorrente e dificuldade para registrar a produção.','PERÍODO')
+    card(s,8.81,2.55,3.95,'Medir e ajustar','Tempo de suporte, falhas, entendimento do saldo e intenção de pagar.','APRENDIZADO')
+    text(s,'Convite ao uso real após testar e-mails e concluir termos, privacidade e preparação operacional.',LEFT,5.93,12.2,.7,15,MUTED)
+    notes(s,'O endereço público já funciona e Auth/API reais foram validados com contas técnicas removidas. Antes de convidar médicos, testar entrega de confirmação e recuperação/troca de senha com a conta do usuário; preparar termos, privacidade, suporte, backup/restauração e contratação/cobrança externa. Domínio próprio e PWA em dispositivo físico continuam pendentes; o endereço workers.dev serve ao piloto. Não anunciar trial ou cobrança ativa. Medir semanalmente uso recorrente, tempo de suporte, falhas, entendimento do saldo e intenção de pagar.')
 
     s=base('Apêndice · situação atual','Demonstrável hoje. Validações antes de operar.','A atualização prioriza autonomia do médico e mantém integração como possibilidade futura.')
     card(s,.55,2.6,5.98,'Disponível no MVP','Quantidade por local/convênio; honorário pendente; produção; recebimento parcial; correções; filtros; cálculo SQL.','CONTROLE PESSOAL')
-    card(s,6.75,2.6,5.98,'Antes da operação real','Validar Auth/Supabase hospedado, implantação, segurança operacional, suporte e uso em dispositivo físico.','PRÓXIMAS VALIDAÇÕES')
-    text(s,'Build aprovado · 27 testes SQL/RLS · 12 testes de navegador · sem conexão Oracle.',LEFT,5.95,12.2,.5,15,GREEN,False,DISPLAY)
-    notes(s,'Resultado em 16/10/2026. Testes SQL usam PostgreSQL PGlite com papel autenticado e RLS. Não há homologação hospitalar, confirmação bancária nem trilha contábil completa. A visão importada é separada para evitar duplicação; não há conciliação automática.')
-
-    s=base('Apêndice · proposta institucional','O hospital pode custear o acesso dos médicos.','Uma proposta futura condicionada ao escopo e à descoberta técnica.')
-    box(s,.55,2.8,7.45,3.8,GREEN)
-    text(s,'REFERÊNCIA COMERCIAL · SUJEITA À APROVAÇÃO',.85,3.1,6.8,.5,13,WHITE,True)
-    text(s,f'{brl(INSTITUTIONAL_PRICE)}/mês',.85,3.88,6.7,.8,38,WHITE,False,DISPLAY)
-    text(s,'Até 50 médicos de uma instituição.\nImplantação inicial sugerida: R$ 4.900.',.85,5.0,6.7,1.1,20,WHITE)
-    text(s,'Definir antes de contratar',8.45,3.0,4.2,.7,23,GREEN,False,DISPLAY)
-    text(s,'• Escopo e custos\n• Integração e autorização\n• Suporte e disponibilidade\n• Quem paga os acessos',8.45,4.0,4.1,2.3,18,MUTED)
-    notes(s,'Sugestões anteriores mantidas como hipótese. Não há licença institucional ou painel administrativo implementados. Evitar dupla cobrança individual/institucional. Integração MV/customizações devem ser orçadas após descoberta HML, sem compromisso implícito de entrega por esse valor.')
+    card(s,6.75,2.6,5.98,'Antes do uso real','E-mails; termos/privacidade; backup e restauração; contratação/cobrança; PWA físico. Domínio próprio a definir.','PENDÊNCIAS DO PILOTO')
+    text(s,'Piloto publicado · Auth/API reais testados · 27 testes SQL/RLS · 12 fluxos E2E.',LEFT,5.95,12.2,.5,15,GREEN,False,DISPLAY)
+    notes(s,'Resultado em 16/10/2026. Auth/API reais e isolamento A/B foram validados no endereço publicado; contas técnicas removidas. Os testes locais usam PGlite. O SMTP está configurado, mas a entrega de confirmação e recuperação depende de teste do usuário. Faltam termos/privacidade, domínio próprio, backup/restauração, contratação/cobrança e PWA em dispositivo físico. Não há homologação hospitalar ou confirmação bancária.')
 
     three('Apêndice · viabilidade','Validar utilidade antes de fixar preços.','O valor está em autonomia, organização e clareza do próprio controle.',[
         ('USO REAL','Vale registrar?','Medir frequência, dificuldade e tempo para lançar o total do dia.'),
