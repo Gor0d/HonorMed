@@ -1,67 +1,33 @@
-import { PLANS } from "@/lib/plans";
+﻿import { PLANS } from "@/lib/plans";
 import { money } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
 export default function PlansPreview() {
   return (
-    <section>
+    <section aria-label="Proposta individual">
       <div className="plans-intro">
         <span className="eyebrow">SEU PERFIL, SEU CONTROLE</span>
         <h2>Consultas, Laudos ou ambos.</h2>
         <p className="muted">
-          Proposta comercial atualizada. Você escolhe os módulos; radiologistas
-          não precisam usar Consultas. Sem cobrança ativa no MVP.
+          Uma proposta para o médico acompanhar sua própria produção e seus
+          recebimentos.
         </p>
       </div>
-      <div className="plan-grid">
-        {[
-          {
-            name: "Free",
-            price: money(PLANS.free),
-            items: [
-              "Um local de atendimento",
-              "Mês atual",
-              "Controle básico no módulo escolhido",
-            ],
-          },
-          {
-            name: "Pro",
-            price: money(PLANS.pro) + "/mês",
-            items: [
-              "Consultas, Laudos ou ambos",
-              "Múltiplos locais e tipos de exame",
-              "Produção, recebimentos e histórico registrado",
-            ],
-          },
-        ].map((p) => (
-          <article
-            className={"card plan " + (p.name === "Pro" ? "featured" : "")}
-            key={p.name}
-          >
-            <span className="eyebrow">{p.name}</span>
-            <h2>
-              {p.name === "Pro" ? "Seu controle completo" : "Para conhecer"}
-            </h2>
-            <strong>{p.price}</strong>
-            <ul>
-              {p.items.map((i) => (
-                <li key={i}>✓ {i}</li>
-              ))}
-            </ul>
-            <Button disabled>
-              {p.name === "Pro"
-                ? "Preço proposto · sem cobrança"
-                : "MVP com recursos liberados"}
-            </Button>
-          </article>
-        ))}
-      </div>
+      <article className="card plan featured">
+        <span className="eyebrow">Individual · preço proposto</span>
+        <h2>Seu controle pessoal</h2>
+        <strong>{money(PLANS.individual)}/mês por médico</strong>
+        <ul>
+          <li>Consultas e Laudos pelo mesmo preço</li>
+          <li>Múltiplos locais, honorários e tipos de exame</li>
+          <li>Produção, recebimentos informados e histórico</li>
+        </ul>
+        <Button disabled>Proposta em validação · sem cobrança ativa</Button>
+      </article>
       <p className="footnote">
-        Plano institucional sugerido: {money(PLANS.institutional)}/mês para até{" "}
-        {PLANS.institutionalDoctors} médicos, com implantação inicial de
-        referência de {money(PLANS.setup)} sujeita a escopo. Integração
-        hospitalar não está automaticamente incluída. Preços, limites e
-        contratação ainda serão validados; não são tarifas de laudos ou garantia
-        de retorno.
+        Não há contratação, trial ou limites por plano no aplicativo. Equipes,
+        clínicas e instituições estão no roadmap, sem oferta disponível.
+        Integração hospitalar não está incluída.
       </p>
     </section>
   );

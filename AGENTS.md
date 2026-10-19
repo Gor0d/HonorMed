@@ -2,6 +2,8 @@
 
 Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de dados, telas e fases.
 
+Estado vigente resumido em `docs/ESTADO-ATUAL.md`. Revisões antigas separadas em `docs/historico/`; não usar preços/escopo históricos como oferta atual. B1–B6 estão preparados em PRs, sem aplicação remota/publicação nesta sequência.
+
 ## Regras
 - Leia a revisão mais recente no topo de `docs/PLANO.md`: controle pessoal por perfil (Consultas, Laudos ou ambos). A Fase 4 está implementada; `docs/FASE-4-REGISTRO-PESSOAL.md` registra seu escopo. Conector MV é opcional/futuro; a Fase 0 só bloqueia o conector.
 - Oracle MV é **somente leitura**: nunca INSERT/UPDATE/DELETE, nunca produção sem validar em HML (SYS_CONTEXT).
@@ -20,6 +22,7 @@ Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de 
 - web (dentro de `/web`): `npm install`, `npm run dev`, `npm run build`, `npm start`
 - SQL/cálculo/RLS (dentro de `/web`): `npm test` (Vitest + PostgreSQL PGlite, sem Oracle)
 - navegador (dentro de `/web`): `npx playwright install chromium`, `npm run test:e2e`
+- seção B sem carregar seed (dentro de `/web`): `npm.cmd test -- tests/b` e `npm.cmd run test:e2e -- 'b[1-6]-'`. Fixtures mínimas de migrations, sem `db reset`; E2E em 390px/1280px com build isolado. Sob restrição de seed, não executar a suíte demonstrativa legada. No Windows, o Playwright precisa poder encerrar seu próprio processo de servidor para retornar código zero.
 - extensão (dentro de `/extension`): `npm.cmd ci`, `npm.cmd run typecheck`, `npm.cmd test`, `npm.cmd run test:e2e` e `npm.cmd run check:artifacts`.
 - build de uso da extensão: defina `HONORMED_SUPABASE_URL` (origem HTTPS), `HONORMED_SUPABASE_ANON_KEY` (chave pública anon) e `HONORMED_APP_URL` (origem HTTPS); execute `npm.cmd run build` e `npm.cmd run check:artifacts`. Somente essas URLs e a chave anon entram no pacote; nunca use service role ou qualquer secret. `test:e2e` regrava `dist/` com valores fictícios; reconstrua o pacote de uso depois.
 - Supabase (raiz, Docker ativo): `supabase start`, `supabase db reset`, `supabase status`
@@ -29,7 +32,7 @@ Leia `docs/PLANO.md` antes de qualquer tarefa: contexto, arquitetura, modelo de 
 - não versionar `extension/dist/` nem `extension/release/` (ZIP gerado).
 
 ## Roadmap
-Laudos radiológicos foram antecipados por pedido explícito: leia revisão v3. Perfil Somente laudos não exige consultas/convênios. Produção e recebimentos dos módulos não se compensam. Nenhuma imagem, DICOM, texto de laudo ou dado de paciente. Preços propostos em `web/src/lib/plans.ts`, sem cobrança ativa.
+Laudos radiológicos foram antecipados por pedido explícito; escopo vigente em `docs/PLANO.md` e revisões anteriores em `docs/historico/`. Perfil Somente laudos não exige consultas/convênios. Produção e recebimentos dos módulos não se compensam. Nenhuma imagem, DICOM, texto de laudo ou dado de paciente. Preço individual proposto em `web/src/lib/plans.ts`, sem cobrança ativa ou oferta institucional disponível.
 
 Features futuras e plano para cirurgias, internações e demais produções do médico: `docs/ROADMAP.md`.
 
