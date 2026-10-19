@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import PilotMetricsControls from "@/components/pilot-metrics";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/personal-control";
 import {
@@ -52,7 +53,7 @@ export default function AccountControls({
     }
   }
   return (
-    <section className="card account-controls">
+    <><PilotMetricsControls /><section className="card account-controls">
       <h2>Seus dados e sua conta</h2>
       <p className="muted caption">
         Exporte os dados dos dois módulos, configurações e registros importados.
@@ -174,6 +175,6 @@ export default function AccountControls({
           </form>
         </Dialog>
       )}
-    </section>
+    </section></>
   );
 }

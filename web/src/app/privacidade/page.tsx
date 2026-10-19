@@ -31,6 +31,7 @@ export default function PrivacyPage() {
         </section>
         <section>
           <h2>3. Para que usamos os dados</h2>
+          <p>As métricas opcionais do piloto começam desativadas. Se você concordar em Ajustes, contamos por dia e resumimos por semana os dias com registro, o número de lançamentos e erros de gravação. Não coletamos valores, quantidades atendidas, instituições, convênios, tipos de exame ou texto livre nessas métricas. Elas ficam vinculadas à sua conta para permitir isolamento, exportação e exclusão. Ao desativar, os contadores ativos são apagados; isso não afeta sua produção ou os recursos disponíveis. A funcionalidade ainda depende de publicação da migration correspondente.</p>
           <p>Usamos esses dados para criar e proteger sua conta, registrar Consultas e Laudos por quantidade, apresentar previsões com os valores que você configurou, permitir a conferência dos recebimentos e responder a pedidos de suporte. Os registros pessoais são informações fornecidas por você; não representam confirmação de faturamento ou pagamento pelo hospital.</p>
         </section>
         <section>

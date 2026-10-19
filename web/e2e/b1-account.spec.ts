@@ -51,6 +51,7 @@ test("exportar os dois módulos, cancelar e excluir somente a própria conta", a
             return data;
           }
           const body = route.request().postDataJSON();
+          if(body.table === "__metricas") return (await db.query<{data:unknown}>("select estado_metricas_piloto() data")).rows[0].data;
           if (body.table !== "__conta")
             throw new Error("Operação não prevista no teste");
           if (body.action === "exportar_meus_dados") {
@@ -90,7 +91,7 @@ test("exportar os dois módulos, cancelar e excluir somente a própria conta", a
       Buffer.concat(chunks).toString(),
     ) as AccountExport;
     expect(Object.keys(exported.dados).sort()).toEqual(
-      [...accountTables].sort(),
+      [...accountTables,"piloto_preferencias","piloto_contadores"].sort(),
     );
     for (const records of Object.values(exported.dados))
       expect(records.every((record) => record.medico_id === accountA)).toBe(

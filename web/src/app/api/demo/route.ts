@@ -78,10 +78,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Origem inválida." }, { status: 403 });
   try {
     const { table, action, values, id } = await request.json();
-    if (table === "__conta") {
+    if (table === "__conta" || table === "__metricas") {
       if (
         id ||
-        !["exportar_meus_dados", "excluir_minha_conta"].includes(action)
+        !(table === "__conta" ? ["exportar_meus_dados", "excluir_minha_conta"] : ["estado_metricas_piloto", "definir_metricas_piloto"]).includes(action)
       )
         throw new Error("Operação de conta inválida.");
       const conn = await db();
@@ -90,6 +90,8 @@ export async function POST(request: NextRequest) {
         await tx.query("select set_config('request.jwt.claim.sub',$1,true)", [
           physician,
         ]);
+        if(action === "estado_metricas_piloto") return (await tx.query<{dados:unknown}>("select public.estado_metricas_piloto() as dados")).rows[0].dados;
+        if(action === "definir_metricas_piloto") {await tx.query("select public.definir_metricas_piloto($1)",[values?.ativar]);return {ok:true};}
         return action === "exportar_meus_dados"
           ? (
               await tx.query<{ dados: unknown }>(

@@ -21,9 +21,9 @@ it("exporta todas as tabelas próprias e preserva cálculo e isolamento do outro
         "select exportar_meus_dados() data",
       )
     ).rows[0].data;
-    expect(Object.keys(data.dados).sort()).toEqual([...accountTables].sort());
-    for (const rows of Object.values(data.dados)) {
-      expect(rows.length).toBeGreaterThan(0);
+    expect(Object.keys(data.dados).sort()).toEqual([...accountTables,"piloto_preferencias","piloto_contadores"].sort());
+    for (const [table,rows] of Object.entries(data.dados)) {
+      if(accountTables.includes(table))expect(rows.length).toBeGreaterThan(0);
       expect(rows.every((row) => row.medico_id === accountA)).toBe(true);
     }
     expect(

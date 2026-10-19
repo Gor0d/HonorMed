@@ -1,5 +1,7 @@
 # HonorMed — piloto publicado e operação
 
+Preparação B4 em 19/10/2026: contadores opt-in e agregação semanal em SQL, sem conteúdo financeiro, com RLS, exportação e exclusão por conta. Ver `METRICAS-PILOTO.md`. Não aplicado remotamente nem publicado; política continua rascunho para revisão.
+
 Preparação B3 em 19/10/2026: feedback no app e na extensão aponta para suporte e prepara mensagem sem anexos de conta/finanças. Sem envio automático, tabela ou mudança financeira. Ver `FEEDBACK.md`; ainda sem deploy ou distribuição da extensão.
 
 Preparação B2 em 19/10/2026: checklist de início por módulo e atalho Registrar persistente, descritos em `PRIMEIRO-USO.md`. Estado derivado dos dados existentes, sem alteração financeira ou migration vazia. Ainda sem deploy; meta de dois minutos pendente de medição com usuários.

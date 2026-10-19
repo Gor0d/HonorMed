@@ -1,0 +1,11 @@
+# Métricas opcionais — B4
+
+Desativadas por padrão. O médico escolhe em Ajustes, nos dois módulos; uma falha na gravação não muda o estado apresentado como confirmado. A revogação remove os contadores ativos, sem tocar em produção/recebimentos. Não há fornecedor de analytics, cookies adicionais ou rastreamento de páginas.
+
+SQL mantém apenas consentimento por médico e contadores por dia: número de lançamentos novos e erros de gravação. A view/RPC agrega por semana e conta dias com registro. Um lançamento de quantidade 20 conta como um evento, não 20 atendimentos. O dia é o dia de coleta do banco; não copia a data financeira da produção. Não há valores, locais, convênios, tipos de exame, paciente, conteúdo de erro ou texto livre. Inserts de Consultas e Laudos, inclusive pela extensão, são contados nos triggers somente após opt-in; não se coleta retrospectivamente. Edição, exclusão e desfazer não reduzem o contador, que mede ações de registro e não saldo de produção.
+
+Erros são contados quando o caminho `mutate` do web recebe falha; é enviado apenas o nome do RPC, sem a mensagem ou o payload financeiro. Falhas de rede anteriores a uma resposta e outros caminhos/erros da extensão não são medidos integralmente. Os contadores são sinais de uso, não trilha de auditoria ou garantia de completude. Usuários podem repetir pedidos do próprio contador; não usar como base de cobrança ou avaliação clínica.
+
+RLS permite somente leitura própria. Escrita ocorre por funções/triggers com search_path vazio; o titular vem de auth.uid, sem parâmetro de terceiro. Locks serializam revogação e coleta. Exportação da conta inclui as duas novas tabelas; exclusão remove por cascata. Não existe painel global, acesso institucional ou privilégio novo de administrador para ler dados dos médicos. Agregação geral do piloto, se necessária, exige desenho e autorização próprios.
+
+Migration aditiva `202610190002_pilot_metrics.sql`, ainda não aplicada remotamente. Nenhum cálculo financeiro foi alterado. Validação local: testes SQL de ausência de coleta, opt-in, agregação, revogação, RLS A/B, escrita bloqueada, exportação/exclusão e UI em 390px/1280px. Fixtures mínimas, sem seed. A política foi atualizada como rascunho; revisão do responsável, retenção de backups e homologação real continuam pendentes. Sem deploy ou credenciais nesta tarefa.
