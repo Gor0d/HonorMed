@@ -1,5 +1,7 @@
 # HonorMed — piloto publicado e operação
 
+Preparação B5 em 19/10/2026: [runbooks](runbooks/README.md) de backup/restauração, domínio, incidente e rotação de chaves. Somente documentação; nenhum backup remoto, teste de restauração, alteração de DNS ou acesso a credenciais executado. Retenção, RPO/RTO e ensaio hospedado permanecem pendentes.
+
 Preparação B4 em 19/10/2026: contadores opt-in e agregação semanal em SQL, sem conteúdo financeiro, com RLS, exportação e exclusão por conta. Ver `METRICAS-PILOTO.md`. Não aplicado remotamente nem publicado; política continua rascunho para revisão.
 
 Preparação B3 em 19/10/2026: feedback no app e na extensão aponta para suporte e prepara mensagem sem anexos de conta/finanças. Sem envio automático, tabela ou mudança financeira. Ver `FEEDBACK.md`; ainda sem deploy ou distribuição da extensão.
