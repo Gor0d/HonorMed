@@ -62,7 +62,12 @@ test("login, consultas, repetição, desfazer e logout local", async ({ page }) 
   await page.getByRole("button", { name: "Criar conta" }).click();
   expect(await page.evaluate(() => (window as any).__lastTab)).toBe("https://honormed-test.invalid");
   await login(page);
-  await page.screenshot({ path: "test-results/popup-register.png", fullPage: true });
+  await page.getByLabel("Data da produção").fill("2026-10-18");
+  await page.screenshot({ path: "test-results/popup-consultas.png", fullPage: true });
+  await page.getByRole("button", { name: "Laudos" }).click();
+  await expect(page.getByLabel("Tipo de exame")).toBeVisible();
+  await page.screenshot({ path: "test-results/popup-laudos.png", fullPage: true });
+  await page.getByRole("button", { name: "Consultas" }).click();
   await page.getByLabel("Quantidade").fill("2");
   await page.getByRole("button", { name: "Salvar registro" }).click();
   await expect(page.getByText(/Valor previsto: R\$\s*170,00/)).toBeVisible();

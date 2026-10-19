@@ -58,6 +58,8 @@ Na abertura do popup, verificar o prazo **sincronamente antes de criar o cliente
 
 **`/registrar` (desktop primeiro; útil em 390 px):** logo HonorMed · módulo (abas só em “Ambos”) · data · local/instituição · convênio ou tipo de exame · quantidade `[−] [n] [+]` · **Salvar** · **Repetir último** · confirmação após salvar · “Abrir HonorMed” · link “Configurar em Ajustes” quando faltar catálogo. Foco inicial na quantidade; `Enter` salva se válido; `Esc` limpa o formulário. Deve preservar acessibilidade, contraste e marca em `brand.ts`/componentes existentes.
 
+**Banner no app (desktop, a partir de 768 px):** no Início de Consultas e no Dashboard de Laudos, convite “Registre na hora, enquanto atende”. Com `EXTENSION_STORE_URL` vazio em `web/src/lib/brand.ts`, informa “Download pela loja em breve” e abre `/registrar`; preenchido, o botão vira “Instalar extensão” e abre a loja. “Agora não” oculta o banner naquele navegador (`localStorage`, sem dados financeiros). Oculto no celular, onde a extensão não existe. Não sugere integração com o hospital.
+
 **Popup, desconectado:** logo · e-mail · senha · opção desmarcada “Manter conectado neste computador”, acompanhada de “Use apenas em computador de uso exclusivo seu. Sai após 12 h sem uso.” · **Entrar** · “Esqueci a senha” · “Criar conta”.
 
 **Popup, conectado:** módulo permitido · data · local/instituição · convênio/tipo · quantidade · **Salvar** · **Repetir último** · confirmação do último registro e “Desfazer” · **Abrir HonorMed** · **Sair** sempre visível. Sem totais, saldos ou recebimentos. Em erro de rede, formulário permanece preenchido e não há fila offline.

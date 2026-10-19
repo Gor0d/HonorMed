@@ -1,5 +1,15 @@
 # Validação
 
+## Extensão Registro rápido — relato do titular em 18/10/2026
+
+O titular informou que instalou a extensão descompactada com sua conta real e conseguiu entrar, registrar uma Consulta e um Laudo de teste, desfazer e sair. O navegador usado e o teste de fechamento/expiração ainda precisam ser registrados. Este é um relato de validação manual; não executei operações na conta real. As capturas para a loja em `docs/brand/extension/` foram produzidas separadamente, com Auth/API simulados e dados fictícios.
+
+As páginas `/privacidade`, `/termos` e `/suporte` passaram no build/E2E local em 390 px e 1280 px; os rascunhos jurídicos foram conferidos visualmente em ambos os tamanhos. Política e termos aguardam revisão do responsável; publicação e checagem HTTP permanecem pendentes nesta revisão.
+
+## Cadastro e recuperação pelo titular — 17/10/2026
+
+O titular confirmou no site publicado o recebimento do e-mail de cadastro e do link de recuperação, definiu a própria senha, concluiu o perfil e abriu Consultas e Laudos. Nenhum dado fictício foi carregado na conta publicada. Os [novos modelos visuais dos e-mails](brand/emails/README.md) foram apenas preparados no checkout; a entrega e o fluxo acima ocorreram com os modelos que já estavam configurados no Supabase.
+
 ## Identidade visual publicada — 16/10/2026
 
 - Aprovação do usuário e integração fast-forward de `design/honormed-identity` na main, código 7819384. GitHub Actions da proposta concluído com sucesso: https://github.com/Gor0d/HonorMed/actions/runs/38955176388 (inclui SQL/RLS, build e 12 testes de navegador).

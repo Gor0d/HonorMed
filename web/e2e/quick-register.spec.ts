@@ -17,7 +17,20 @@ test("registro de consultas usa o valor SQL, repete com confirmação e desfaz",
   try {
     await page.goto("/");
     await page.getByRole("button", { name: "Entrar", exact: true }).click();
-    await page.goto("/registrar?modulo=consultas");
+    const banner = page.getByRole("heading", { name: "Registre na hora, enquanto atende" });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    if (info.project.name === "mobile") {
+      await expect(banner).toBeHidden();
+      await page.goto("/registrar");
+    } else {
+      await expect(banner).toBeVisible();
+      await expect(page.getByText(/Download pela loja em breve\./)).toBeVisible();
+      await page.screenshot({ path: `test-results/extension-banner-${info.project.name}.png`, fullPage: true });
+      await page.getByRole("button", { name: "Ativar tema escuro" }).click();
+      await page.screenshot({ path: `test-results/extension-banner-dark-${info.project.name}.png`, fullPage: true });
+      await page.getByRole("link", { name: "Abrir registro rápido" }).click();
+      await expect(page).toHaveURL(/\/registrar$/);
+    }
     await expect(page.getByRole("heading", { name: "Registrar consultas" })).toBeVisible();
     await page.getByLabel("Data da produção").fill("2026-10-20");
     await page.getByLabel("Local de atendimento").selectOption(fee.local_id);
@@ -75,7 +88,24 @@ test("consulta sem honorário fica pendente e formulário mantém valores até s
   }
 });
 
-test("perfil somente laudos ignora atalho de consultas e exibe cálculo SQL", async ({ page, request }) => {
+test("banner da extensão aparece no desktop, some no celular e lembra Agora não", async ({ page }, info) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Entrar", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Registrar consultas" }).first()).toBeVisible();
+  const banner = page.getByRole("heading", { name: "Registre na hora, enquanto atende" });
+  if (info.project.name === "mobile") {
+    await expect(banner).toBeHidden();
+    return;
+  }
+  await expect(banner).toBeVisible();
+  await page.getByRole("button", { name: "Agora não" }).click();
+  await expect(banner).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Registrar consultas" }).first()).toBeVisible();
+  await expect(banner).toHaveCount(0);
+});
+
+test("perfil somente laudos ignora atalho de consultas e exibe cálculo SQL", async ({ page, request }, info) => {
   const before = await load(request);
   const preference = before.preferences[0];
   let produced: string | undefined;
@@ -83,6 +113,9 @@ test("perfil somente laudos ignora atalho de consultas e exibe cálculo SQL", as
     await change(request, "preferencias_produto", "update", { perfil_uso: "laudos" }, preference.id);
     await page.goto("/");
     await page.getByRole("button", { name: "Entrar", exact: true }).click();
+    const banner = page.getByRole("heading", { name: "Registre na hora, enquanto atende" });
+    if (info.project.name === "mobile") await expect(banner).toBeHidden();
+    else await expect(banner).toBeVisible();
     await page.goto("/registrar?modulo=consultas");
     await expect(page.getByRole("heading", { name: "Registrar laudos" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Consultas", exact: true })).toHaveCount(0);

@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/data";
 import { Button } from "@/components/ui/button";
+import { Brand } from "@/components/brand";
 
 export default function RecoverPassword() {
   const [recovery, setRecovery] = useState(false);
@@ -57,10 +59,16 @@ export default function RecoverPassword() {
     }
   }
   return (
-    <main className="onboarding card">
+    <main className="onboarding card auth-recovery">
+      <div className="auth-recovery-brand"><Brand /></div>
+      <span className="eyebrow">ACESSO À SUA CONTA</span>
       <h1>{recovery ? "Escolha sua nova senha" : "Recuperar senha"}</h1>
-      <p>O link de recuperação é enviado ao e-mail da sua conta.</p>
-      {message && <p role="status">{message}</p>}
+      <p className="muted">
+        {recovery
+          ? "Defina uma nova senha para voltar ao seu controle pessoal."
+          : "Enviaremos um link para o e-mail da sua conta HonorMed."}
+      </p>
+      {message && <p className="auth-recovery-message" role="status">{message}</p>}
       {!supabase ? (
         <p>Recuperação disponível no ambiente com autenticação configurada.</p>
       ) : (
@@ -100,7 +108,7 @@ export default function RecoverPassword() {
         </form>
       )}
       <p>
-        <a href="/">Voltar para entrar</a>
+        <Link className="auth-recovery-back" href="/">← Voltar para entrar</Link>
       </p>
     </main>
   );
