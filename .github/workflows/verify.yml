@@ -22,7 +22,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e ${{ startsWith(github.head_ref || github.ref_name, 'feat/b') && '-- b[1-6]-' || '' }}
   extension:
-    if: ${{ !startsWith(github.head_ref || github.ref_name, 'feat/b') }}
+    if: ${{ !startsWith(github.head_ref || github.ref_name, 'feat/b') || startsWith(github.head_ref || github.ref_name, 'feat/b3-') }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -38,5 +38,5 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      - run: npm run test:e2e ${{ startsWith(github.head_ref || github.ref_name, 'feat/b3-') && '-- b3-feedback.spec.ts' || '' }}
       - run: npm run check:artifacts

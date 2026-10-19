@@ -1,5 +1,7 @@
 # HonorMed — piloto publicado e operação
 
+Preparação B3 em 19/10/2026: feedback no app e na extensão aponta para suporte e prepara mensagem sem anexos de conta/finanças. Sem envio automático, tabela ou mudança financeira. Ver `FEEDBACK.md`; ainda sem deploy ou distribuição da extensão.
+
 Preparação B2 em 19/10/2026: checklist de início por módulo e atalho Registrar persistente, descritos em `PRIMEIRO-USO.md`. Estado derivado dos dados existentes, sem alteração financeira ou migration vazia. Ainda sem deploy; meta de dois minutos pendente de medição com usuários.
 
 Preparação B1 em 19/10/2026: exportação JSON/CSV e exclusão da própria conta implementadas em branch específica, com migration aditiva, RLS e confirmação no SQL. Ver `CONTA-E-DADOS.md`. Não houve deploy, chamada ao Supabase remoto, carregamento de seed ou alteração de credenciais. A implementação ainda depende de aplicação futura da migration e homologação Auth remota autorizada.

@@ -87,6 +87,7 @@ export default function ProductModules(props: {
           )}
         </div>
         <div className="header-actions">
+          <Link className="text-button" href="/suporte">Feedback</Link>
           <Link
             className="button register-shortcut"
             href={`/registrar?modulo=${active}`}

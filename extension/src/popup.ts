@@ -11,6 +11,9 @@ const status = element<HTMLDivElement>("status");
 const login = element<HTMLElement>("login");
 const connected = element<HTMLElement>("connected");
 const errorBox = element<HTMLParagraphElement>("error");
+element<HTMLButtonElement>("feedback").addEventListener("click", () => {
+  void chrome.tabs.create({ url: new URL("/suporte", __HONORMED_APP_URL__).href });
+});
 const loginForm = element<HTMLFormElement>("login-form");
 let client: SupabaseClient | null = null;
 let storage: ChromeAuthStorage | null = null;
