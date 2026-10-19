@@ -269,5 +269,9 @@ export async function mutate(
             })
           : q.insert(stamped);
   const { error } = await query;
-  if (error) throw error;
+  if (error) {
+    // No message, financial payload or category is sent; SQL checks opt-in.
+    void supabase.rpc("registrar_erro_piloto").then(() => undefined, () => undefined);
+    throw error;
+  }
 }
