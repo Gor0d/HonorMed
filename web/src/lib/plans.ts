@@ -1,8 +1,5 @@
-// Commercial proposal only; no billing or feature restrictions are activated.
+// Oferta individual proposta. Sem cobrança, trial ou bloqueio por plano.
+// Propostas antigas em docs/historico não são ofertas disponíveis.
 export const PLANS = {
-  free: 0,
-  pro: 79.9,
-  institutional: 1990,
-  setup: 4900,
-  institutionalDoctors: 50,
-};
+  individual: 79.9,
+} as const;

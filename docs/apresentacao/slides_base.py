@@ -21,8 +21,7 @@ def ui_color(name):
     value = re.search(rf'--{name}:\s*#([0-9a-fA-F]{{3,6}})', _light).group(1).upper()
     return ''.join(c*2 for c in value) if len(value) == 3 else value
 _plans=(ROOT/'web/src/lib/plans.ts').read_text(encoding='utf-8')
-PRO_PRICE=Decimal(re.search(r'\bpro:\s*([\d.]+)',_plans).group(1))
-INSTITUTIONAL_PRICE=Decimal(re.search(r'\binstitutional:\s*([\d.]+)',_plans).group(1))
+PRO_PRICE=Decimal(re.search(r'\bindividual:\s*([\d.]+)',_plans).group(1))
 def brl(value): return 'R$ '+f'{value:,.2f}'.replace(',','_').replace('.',',').replace('_','.')
 OUT = ROOT / 'docs' / 'apresentacao'
 OUT.mkdir(parents=True, exist_ok=True)

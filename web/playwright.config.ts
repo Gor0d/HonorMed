@@ -12,7 +12,7 @@ export default defineConfig({
       HONORMED_REQUIRE_SUPABASE: "false",
       VERCEL: "",
     },
-    command: `npm run start -- --port ${port}`,
+    command: `node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port ${port}`,
     url: `http://127.0.0.1:${port}`,
     reuseExistingServer: false,
     timeout: 120000,

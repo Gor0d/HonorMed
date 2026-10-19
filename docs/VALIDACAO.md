@@ -1,5 +1,17 @@
 # Validação
 
+## Seção B1–B6 — 19/10/2026, somente local
+
+- `npm.cmd test -- tests/b`: **11 testes aprovados**. Fixture mínima PGlite carrega migrations, não `seed.sql`. Exportação de todas as tabelas da conta, RLS A/B, permissões, confirmação/exclusão/rollback, CSV seguro, primeiro uso e feedback; métricas desativadas por padrão, consentimento, revogação, isolamento, exportação e exclusão. Saldos pessoais SQL de Consultas/Laudos preservados.
+- Build Next/TypeScript isolado de `pretest:e2e` aprovado. Nenhum build/deploy Cloudflare executado.
+- Playwright `b[1-6]-`: **10 cenários aprovados em 390px/1280px**, saída zero (25,9 s). GET/RPC interceptados, B1 executa SQL real em PGlite; demais cenários usam respostas fictícias. Nenhum seed carregado ou Supabase hospedado acessado. Verificou conta, checklist, feedback, métricas e oferta individual, incluindo ausência de overflow.
+- Execuções restritas anteriores aprovaram cenários, mas travaram no encerramento do servidor Windows; foram interrompidas. A execução final permitiu ao Playwright encerrar seu próprio servidor e terminou com código zero. Não representa uma falha de RLS ou de cenário ignorada.
+- B3: typecheck da extensão e teste Playwright de abertura do suporte nas duas larguras aprovados. A build da extensão usada nos testes é fictícia e não deve ser distribuída.
+- B5: procedimentos de backup/restauração, domínio, incidente e chaves revisados; nenhum procedimento externo executado. Nenhuma migration vazia para tarefas de interface/documentação; migrations aditivas somente em B1 e B4.
+- B6: preço de `plans.ts`, tela e deck alinhados na proposta individual R$ 79,90/mês; versões anteriores separadas. PPTX regenerado (10 slides), PDF exportado localmente do PPTX e renderização dos dez slides conferida visualmente. Sem capturas dependentes de seed, dados reais ou referência a participantes.
+
+Pendências: revisão/merge dos PRs em ordem, aplicação futura autorizada das duas migrations, Auth hospedado/revogação em outros dispositivos, aprovação legal/retenção, restauração real, distribuição da extensão, PWA físico e medição de primeiro registro em menos de dois minutos. B7 depende de decisão de cobrar; B8 de validação de regras reais. Sem deploy, Supabase remoto, carregamento de seed ou leitura/alteração de credenciais nesta entrega.
+
 ## Extensão Registro rápido — relato do titular em 18/10/2026
 
 O titular informou que instalou a extensão descompactada com sua conta real e conseguiu entrar, registrar uma Consulta e um Laudo de teste, desfazer e sair. O navegador usado e o teste de fechamento/expiração ainda precisam ser registrados. Este é um relato de validação manual; não executei operações na conta real. As capturas para a loja em `docs/brand/extension/` foram produzidas separadamente, com Auth/API simulados e dados fictícios.
