@@ -1,0 +1,110 @@
+name: Monitor HonorMed
+# Scheduled checks of the published pilot. Read-only: no deploy, no database
+# writes and no credentials besides the public Supabase anon key (optional
+# repository variable SUPABASE_ANON_KEY). Failures open or update one issue per
+# check; the issue is closed automatically when the check passes again.
+on:
+  schedule:
+    - cron: "17 */2 * * *" # site health, every 2 hours
+    - cron: "40 11 * * 1" # dependencies and tests, Mondays 08:40 (Brasília)
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+env:
+  SITE_URL: https://honormed.emersongsguimaraes.workers.dev
+  SUPABASE_URL: https://tsommjqsqtktijiutovj.supabase.co
+  GH_TOKEN: ${{ github.token }}
+jobs:
+  site:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '17 */2 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check published site and Supabase
+        id: check
+        env:
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+        run: |
+          failures=()
+          code() { curl -s -o /dev/null -w '%{http_code}' --retry 2 --retry-delay 10 --max-time 20 "$@"; }
+          expect() { # path expected-status
+            local got; got=$(code "$SITE_URL$1")
+            [ "$got" = "$2" ] || failures+=("$1 respondeu $got (esperado $2)")
+          }
+          for path in / /registrar /privacidade /termos /suporte /recuperar-senha /manifest.webmanifest /offline.html; do
+            expect "$path" 200
+          done
+          expect /api/demo 403
+          body=$(curl -s --max-time 20 "$SITE_URL/")
+          grep -q "HonorMed" <<<"$body" || failures+=("/ não contém a marca HonorMed")
+          grep -qi "dados fict" <<<"$body" && failures+=("/ exibe dados de demonstração")
+          headers=$(curl -s -D - -o /dev/null --max-time 20 "$SITE_URL/" | tr -d '\r')
+          grep -qi '^x-frame-options: *deny' <<<"$headers" || failures+=("cabeçalho X-Frame-Options DENY ausente")
+          grep -qi '^x-content-type-options: *nosniff' <<<"$headers" || failures+=("cabeçalho X-Content-Type-Options nosniff ausente")
+          if [ -n "$SUPABASE_ANON_KEY" ]; then
+            got=$(code -H "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/auth/v1/health")
+            [ "$got" = "200" ] || failures+=("Supabase Auth health respondeu $got")
+          else
+            got=$(code "$SUPABASE_URL/auth/v1/health")
+            [ "$got" = "401" ] || [ "$got" = "200" ] || failures+=("Supabase respondeu $got (gateway indisponível?)")
+          fi
+          if [ ${#failures[@]} -gt 0 ]; then
+            printf -- '- %s\n' "${failures[@]}" > report.md
+            cat report.md
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Site e Supabase OK"
+            echo "failed=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Open, update or close issue
+        if: always() && steps.check.outcome == 'success'
+        env:
+          TITLE: "Monitor: site HonorMed com falha"
+          FAILED: ${{ steps.check.outputs.failed }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          number=$(gh issue list -R "$GITHUB_REPOSITORY" --state open --search "in:title \"$TITLE\"" --json number,title --jq ".[] | select(.title == \"$TITLE\") | .number" | head -1)
+          if [ "$FAILED" = "true" ]; then
+            { echo "Falhas em $(date -u '+%Y-%m-%d %H:%M UTC'):"; echo; cat report.md; echo; echo "Execução: $RUN_URL"; } > body.md
+            if [ -n "$number" ]; then gh issue comment "$number" -R "$GITHUB_REPOSITORY" -F body.md
+            else gh issue create -R "$GITHUB_REPOSITORY" -t "$TITLE" -F body.md; fi
+            exit 1
+          elif [ -n "$number" ]; then
+            gh issue close "$number" -R "$GITHUB_REPOSITORY" -c "Recuperado em $(date -u '+%Y-%m-%d %H:%M UTC'). Execução: $RUN_URL"
+          fi
+
+  weekly:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '40 11 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Tests and dependency audit
+        id: check
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          status=0
+          (cd web && npm ci && npm test) 2>&1 | tail -20 | tee -a report.txt || status=1
+          (cd web && npm audit --omit=dev --audit-level=high) 2>&1 | tail -20 | tee -a report.txt || status=1
+          (cd extension && npm ci && npm test) 2>&1 | tail -20 | tee -a report.txt || status=1
+          (cd extension && npm audit --omit=dev --audit-level=high) 2>&1 | tail -20 | tee -a report.txt || status=1
+          exit $status
+      - name: Open, update or close issue
+        if: always()
+        env:
+          TITLE: "Monitor: testes ou dependências com falha"
+          FAILED: ${{ steps.check.outcome == 'failure' }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          number=$(gh issue list -R "$GITHUB_REPOSITORY" --state open --search "in:title \"$TITLE\"" --json number,title --jq ".[] | select(.title == \"$TITLE\") | .number" | head -1)
+          if [ "$FAILED" = "true" ]; then
+            { echo "Verificação semanal falhou em $(date -u '+%Y-%m-%d'). Últimas linhas:"; echo; echo '```'; tail -60 report.txt; echo '```'; echo; echo "Execução: $RUN_URL"; } > body.md
+            if [ -n "$number" ]; then gh issue comment "$number" -R "$GITHUB_REPOSITORY" -F body.md
+            else gh issue create -R "$GITHUB_REPOSITORY" -t "$TITLE" -F body.md; fi
+            exit 1
+          elif [ -n "$number" ]; then
+            gh issue close "$number" -R "$GITHUB_REPOSITORY" -c "Verificação semanal voltou a passar. Execução: $RUN_URL"
+          fi
